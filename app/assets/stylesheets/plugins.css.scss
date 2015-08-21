@@ -1,0 +1,31 @@
+.plugins {
+	table {
+		border-collapse: collapse;
+	}
+
+	table tr td {
+		padding: 5px;
+		vertical-align: top;
+	}
+
+	.list_info {
+		width: 70%;
+		dl {
+			margin: 0;
+		}
+		dt {
+			color: #244;
+			font-weight: bold;
+			font-size: larger;
+		}
+		dd {
+			margin: 0;
+		}
+	}
+	.list_line_even {
+		background: red;
+	}
+	
+}
+
+
