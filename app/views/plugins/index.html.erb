@@ -3,21 +3,18 @@
 <h1>Listing Plugins</h1>
 
 <table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
     <% @plugins.each do |plugin| %>
-      <tr>
-        <td><%= link_to 'Show', plugin %></td>
-        <td><%= link_to 'Edit', edit_plugin_path(plugin) %></td>
-        <td><%= link_to 'Destroy', plugin, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+      <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
+	<td class="list_info">
+		<dd><%= truncate(strip_tags(plugin.info), length: 80) %></dd>
+	</td>
+	<td class="list_actions">
+        <%= link_to 'Show', plugin %><br/>
+        <%= link_to 'Edit', edit_plugin_path(plugin) %><br/>
+        <%= link_to 'Destroy', plugin, method: :delete, data: { confirm: 'Are you sure?' } %>
+      	</td>
+	</tr>
     <% end %>
-  </tbody>
 </table>
 
 <br>
