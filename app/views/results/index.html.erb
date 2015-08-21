@@ -7,6 +7,7 @@
 		<th>result_type_id</th>
 		<th>result</th>
 		<th>file_name</th>
+		<th>job_id</th>
 	</tr>
     <% @results.each do |result| %>
       <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
@@ -18,6 +19,9 @@
 	</td>
 	<td class="list_file_name">
 		<%= result.fname %>
+	</td>
+	<td class="list_job_id">
+		<%= result.job.id %>
 	</td>
 	<td class="list_actions">
         <%= link_to 'Show', result %><br/>
