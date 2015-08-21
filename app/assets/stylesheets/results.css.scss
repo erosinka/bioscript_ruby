@@ -1,0 +1,41 @@
+.results {
+	table {
+		border-collapse: collapse;
+	}
+
+	table tr td {
+		padding: 5px;
+		vertical-align: top;
+	}
+
+	.list_result {
+		width: 10%;
+	}
+
+	.list_path {
+		width: 10%;
+	}
+
+	.list_file_name {
+		width: 10%;
+	}
+
+	.list_result_type_id {
+		width: 10%;
+	}
+
+	.list_actions {
+		font-size: x-small;
+		text-align: right;
+		padding-left: lem;
+	}
+	.list_line_even {
+		background: AntiqueWhite;
+	}
+
+	.list_line_odd {
+		background: BurlyWood;
+	}
+}
+
+	

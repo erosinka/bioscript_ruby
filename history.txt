@@ -1,0 +1,1000 @@
+   53  rake swisspalm:update_booleans
+   54  sh lib/tasks/update_booleans.sh
+   55  pg_dump swisspalm > /data/epfl/bbcf/dumps/pg/150814_swisspalm_v1.sql
+   56  createdb swisspalm_v1
+   57  psql  -f /data/epfl/bbcf/dumps/pg/150814_swisspalm_v1.sql swisspalm_v1
+   58  emacs config/database.yml 
+   59  sudo /sbin/serivce httpd reload
+   60  sudo /sbin/service httpd reload
+   61  sudo /sbin/service httpd restart
+   62  top
+   63  su bbcfadmin
+   64  sudo su
+   65  cd /srv/genrep
+   66  less /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+   67  du  /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+   68  less /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+   69  cd /srv/genrep/
+   70  emacs lib/tasks/find_exon_mapping.rake
+   71  rake genrep:find_exon_mapping --trace
+   72  emacs lib/tasks/find_exon_mapping.rake
+   73  less /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+   74  tail -1000 /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa  | less
+   75  tail -1000 /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa | less
+   76  less /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+   77  emacs /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+   78  cp /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta
+   79  emacs lib/tasks/find_exon_mapping.rake
+   80  rake genrep:find_exon_mapping --trace
+   81  emacs lib/tasks/find_exon_mapping.rake
+   82  rake genrep:find_exon_mapping --trace
+   83  emacs lib/tasks/find_exon_mapping.rake
+   84  rake genrep:find_exon_mapping --trace
+   85  emacs lib/tasks/find_exon_mapping.rake
+   86  rake genrep:find_exon_mapping --trace
+   87  emacs lib/tasks/find_exon_mapping.rake
+   88  vi /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+   89  du /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+   90  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+   91  rake genrep:find_exon_mapping --trace
+   92  less /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+   93  emacs lib/tasks/find_exon_mapping.rake
+   94  rake genrep:find_exon_mapping --trace
+   95  ssh bbcf-serv02
+   96  sudo /sbin/service httpd reload
+   97  sudo /sbin/service httpd start
+   98  cd /srv/genrep/
+   99  less /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  100  emacs lib/tasks/find_exon_mapping.rake
+  101  rake genrep:find_exon_mapping --trace
+  102  cd /srv/gen
+  103  cd /srv/genrep/
+  104  ls
+  105  emacs lib/tasks/find_exon_mapping.rake
+  106  cd /srv/genrep
+  107  top
+  108  ls -halt  /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  109  top
+  110  less /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  111  ls /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  112  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  113  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  114  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+  115  less /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa
+  116  tail -100 /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa
+  117  grep -R ENSMUSE00000415044 /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  118  grep -R ENSMUSE00000415044 /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+  119  emacs lib/tasks/find_exon_mapping.rake
+  120  rake genrep:find_exon_mapping --trace
+  121  emacs lib/tasks/find_exon_mapping.rake
+  122  rake genrep:find_exon_mapping --trace
+  123  mv /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/ /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_old
+  124  mkdir /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp
+  125  emacs lib/tasks/find_exon_mapping.rake
+  126  nohup rake genrep:find_exon_mapping --trace 2>&1 >log/find_exon_mapping.log &
+  127  tail log/find_exon_mapping.log 
+  128  top
+  129  tail log/find_exon_mapping.log 
+  130  tail -100 log/find_exon_mapping.log 
+  131  emacs lib/tasks/find_exon_mapping.rake
+  132  nohup rake genrep:find_exon_mapping --trace 2>&1 >log/find_exon_mapping.log &
+  133  tail -100 log/find_exon_mapping.log 
+  134  emacs lib/tasks/find_exon_mapping.rake
+  135  nohup rake genrep:find_exon_mapping --trace 2>&1 >log/find_exon_mapping.log &
+  136  emacs .bashrc
+  137  exit
+  138  cd /srv/swisspalm
+  139  ls
+  140  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+  141  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  142  top
+  143  pwd
+  144  cd ../genrep/
+  145  emacs lib/tasks/find_exon_mapping.rake
+  146  tail log/find_exon_mapping.log 
+  147  emacs lib/tasks/find_exon_mapping.rake
+  148  rake genrep:find_exon_mapping --trace
+  149  emacs lib/tasks/find_exon_mapping.rake
+  150  rake genrep:find_exon_mapping --trace
+  151  emacs lib/tasks/find_exon_mapping.rake
+  152  rake genrep:find_exon_mapping --trace
+  153  vim lib/tasks/find_exon_mapping.rake
+  154  tail -100 log/find_exon_mapping.log 
+  155  vim app/views/proteins/index.html.erb
+  156  ls
+  157  pwd
+  158  ls bs
+  159  ls bs/bs
+  160  ls bs
+  161  ls bs/bs
+  162  cd /srv/genrep
+  163  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.fa 
+  164  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  165  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.fa 
+  166  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+  167  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  168  emacs lib/tasks/find_exon_mapping.rake
+  169  psql swisspalm
+  170  psql genrep
+  171  emacs lib/tasks/find_exon_mapping.rake
+  172  ps -ef | grep ruby
+  173  kill -9 11912
+  174  top
+  175  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+  176  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.f
+  177  ls
+  178  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+  179  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/
+  180  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f416
+  181  top
+  182  emacs lib/tasks/find_exon_mapping.rake
+  183  cp /data/epfl/bbcf/glibc/glibc/lib/libc-2.14.so ~/.rvm/rubies/ruby-2.2.2/lib/
+  184  cp /data/epfl/bbcf/glibc/glibc-17/lib/libc-2.17.so ~/.rvm/rubies/ruby-2.2.2/lib/
+  185  ls ~/.rvm/rubies/ruby-2.2.2/lib/
+  186  passenger-install-apache2-module 
+  187  rvm 2.2.2
+  188  passenger-install-apache2-module 
+  189  emacs ~/.bashrc
+  190  passenger-install-apache2-module 
+  191  export PATH=/data/epfl/bbcf/glibc/merged/lib:/home/rvmuser/.rvm/gems/ruby-2.2.2/bin:/home/rvmuser/.rvm/gems/ruby-2.2.2@global/bin:/home/rvmuser/.rvm/rubies/ruby-2.2.2/bin:/home/rvmuser/.rvm/bin:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin::/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/rvmuser/bin
+  192  passenger-install-apache2-module
+  193  emacs rvm do gem install passenger --version= 4.0.0
+  194  rvm do gem install passenger --version= 4.0.0
+  195  rvm 2.2.2 do gem install passenger --version= 4.0.0
+  196  rvm install 2.0
+  197  rvm 2.0.0 do gem install passenger
+  198  rvm 2.2.2 do gem install passenger --version 4.0.0
+  199  rvm 2.2.2 do gem install passenger --version 4.0.57
+  200  rvm 2.2.2 do gem uninstall passenger
+  201  passenger-install-apache2-module
+  202  rvm use2.2.2 
+  203  rvm use 2.2.2 
+  204  passenger-install-apache2-module
+  205  history | grep mkmf.loh
+  206  history | grep mkmf.log
+  207  find -R /Home/rvmuser/.rvm/gems/ruby-2.2.2/gems/passenger-4.0.57/ -iname *.log
+  208  find -r /Home/rvmuser/.rvm/gems/ruby-2.2.2/gems/passenger-4.0.57/ -iname *.log
+  209  find /Home/rvmuser/.rvm/gems/ruby-2.2.2/gems/passenger-4.0.57/ -iname *.log
+  210  find /Home/rvmuser/.rvm/gems/ruby-2.2.2/gems/ -iname mkmf.log
+  211  emacs /Home/rvmuser/.rvm/gems/ruby-2.2.2/gems/passenger-4.0.57/buildout/ruby/ruby-2.2.2-x86_64-linux/mkmf.log
+  212  rvm 2.0 do gem uninstall passenger
+  213  rvm list
+  214  rvm 2.0.0-p643
+  215  rvm list
+  216  rvm 2.0.0 do gem list
+  217  rvm 2.0.0 do gem install passenger
+  218  rvm 2.0.0-p643 do gem install passenger
+  219  passenger-install-apache2-module
+  220  emacs /etc/httpd/conf/httpd.conf
+  221  sudo emacs /etc/httpd/conf/httpd.conf
+  222  sudo /sbin/service httpd reload
+  223  sudo /sbin/service httpd start
+  224  sudo /sbin/service httpd reload
+  225  rvm 2.0.0-p643 do gem install rails
+  226  cd ~/
+  227  ls
+  228  du -sh *
+  229  rm glibc-2.1*
+  230  rm -rf glibc-2.1*
+  231  rvm 2.0.0-p643 do gem install rails
+  232  sudo emacs /etc/httpd/conf.d/bbcf-serv03.conf
+  233  sudo /sbin/service httpd reload
+  234  sudo /sbin/service httpd restart
+  235  sudo grep -R passenger /etc/httpd/conf.d/
+  236  sudo grep -R passenger /etc/httpd/
+  237  emacs /etc/httpd/conf/httpd.conf
+  238  sudo emacs /etc/httpd/conf/httpd.conf
+  239  sudo /sbin/service httpd restart
+  240  ls /srv/bbcftools/
+  241  cd /srv/bbcftools/
+  242  ls -halt /srv/bbcftools
+  243  cd /srv/
+  244  ls
+  245  cd bioscript/
+  246  ls
+  247  cd ..
+  248  ls
+  249  sudo /sbin/service httpd reload
+  250  ssh bbcf-serv02
+  251  sudo /sbin/service httpd reload
+  252  grep -R "Resource temporarily unavailable" /home/fdavid/bbcfutils
+  253  grep -R "Resource temporarily" /home/fdavid/bbcflib
+  254  grep -R "Resource temporarily" /home/fdavid/bbcfutils
+  255  top
+  256  ps -ef | grep run_jobs
+  257  kill -9 1259055
+  258  ps -ef | grep python
+  259  kill -9 1239034 1249993 2010805 2231022 3433656 3618796 
+  260  history | grep job
+  261  cd /srv/htsstation/
+  262  nohup htsstation:run_jobs --trace RAILS_ENV=production 2>&1 > log/run_jobs_81.log &
+  263  nohup rake htsstation:run_jobs --trace RAILS_ENV=production 2>&1 > log/run_jobs_81.log &
+  264  top
+  265  kill -9 3433658
+  266  kill -9 3403716 3374721
+  267  top
+  268  cd /srv/bioscript
+  269  emacs Gemfile
+  270  bundle install
+  271  rvm 2.0.0-p643
+  272  bundle install
+  273  sudo /sbin/service httpd restart
+  274  sudo yum install nodejs
+  275  sudo /sbin/service httpd restart
+  276  emacs Gemfile
+  277  bundle install
+  278  sudo /sbin/service httpd restart
+  279  emacs Gemfile
+  280  bundle install
+  281  emacs Gemfile
+  282  bundle install
+  283  sudo /sbin/service httpd reload
+  284  sudo cp /data/epfl/bbcf/glibc/glibc/lib/libc-2.14.so  /lib64/
+  285  sudo /sbin/service httpd restart
+  286  rm  /lib64/libc-2.14.so 
+  287  sudo rm  /lib64/libc-2.14.so 
+  288  emacs ~/.bashrc
+  289  echo $PATH
+  290  echo $LD_LIBRARY_PATH
+  291  export LD_LIBRARY_PATH=/data/epfl/bbcf/glibc/glibc/lib/:$LD_LIBRARY_PATH
+  292  sudo /sbin/service httpd restart
+  293  pwd
+  294  cd /srv/
+  295  cd bioscript/
+  296  ls
+  297  rvm install 1.9.3
+  298  rvm install 1.9.3-p448
+  299  rvm install 1.9.3
+  300  rvm list
+  301  rvm install 1.9.3
+  302  rvm get head
+  303  rvm install 1.9.3
+  304  rvm install 1.9.3-p194
+  305  exit
+  306  ps -ef | 6765
+  307  ps -ef | grep 6765
+  308  kill -9 3735695
+  309  kill -9 3735697
+  310  ps -ef | grep 3735697
+  311  ps -ef | grep 6772
+  312  kill -9 3734935 3734937
+  313  top
+  314  emacs lib/tasks/find_exon_mapping.rake
+  315  ssh bbcf-serv03
+  316  rvm install 1.9.3
+  317  rvm reload
+  318  rvm install 1.9.3
+  319  rvm 1.9.3 do gem install passenger
+  320  rvm 1.9.3-p551 do gem install passenger
+  321  rvm 1.9.3-p551 do gem install rails
+  322  passenger-install-apache2-module 
+  323  export PATH=/data/epfl/bbcf/glibc/merged/lib:/home/rvmuser/.rvm/gems/ruby-2.2.2/bin:/home/rvmuser/.rvm/gems/ruby-2.2.2@global/bin:/home/rvmuser/.rvm/rubies/ruby-2.2.2/bin:/home/rvmuser/.rvm/bin:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin::/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/rvmuser/bin
+  324  export PATH=/data/epfl/bbcf/glibc/merged/lib:/home/rvmuser/.rvm/gems/ruby-1.9.3-p551/bin:/home/rvmuser/.rvm/gems/ruby-1.9.3-p551@global/bin:/home/rvmuser/.rvm/rubies/ruby-2.2.2/bin:/home/rvmuser/.rvm/bin:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin::/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/rvmuser/bin
+  325  passenger-install-apache2-module 
+  326  export PATH=/home/rvmuser/.rvm/gems/ruby-1.9.3-p551/bin:/home/rvmuser/.rvm/gems/ruby-1.9.3-p551@global/bin:/home/rvmuser/.rvm/rubies/ruby-2.2.2/bin:/home/rvmuser/.rvm/bin:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin::/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/rvmuser/bin
+  327  passenger-install-apache2-module 
+  328  export PATH=/home/rvmuser/.rvm/gems/ruby-1.9.3-p551/bin:/home/rvmuser/.rvm/gems/ruby-1.9.3-p551@global/bin:/home/rvmuser/.rvm/rubies/ruby-1.9.3-p551/bin:/home/rvmuser/.rvm/bin:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin::/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/rvmuser/bin
+  329  passenger-install-apache2-module 
+  330  ruby -v
+  331  emacs ~/.bashrc
+  332  exit
+  333  cd /srv/genrep/
+  334  less /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  335  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  336  psql genrep
+  337  emacs lib/tasks/find_exon_mapping.rake
+  338  rvm 1.9.3-p551
+  339  export PATH=/home/rvmuser/.rvm/gems/ruby-1.9.3-p551/bin:/home/rvmuser/.rvm/gems/ruby-1.9.3-p551@global/bin:/home/rvmuser/.rvm/rubies/ruby-1.9.3-p551/bin:/home/rvmuser/.rvm/bin:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin::/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/rvmuser/bin
+  340  passenger-install-apache2-module 
+  341  rvm 2.0.0
+  342  rvm 2.0.0-p653
+  343  rvm list
+  344  rvm 2.0.0-p643
+  345  export PATH=/data/epfl/bbcf/glibc/merged/lib:/home/rvmuser/.rvm/gems/ruby-2.2.2/bin:/home/rvmuser/.rvm/gems/ruby-2.2.2@global/bin:/home/rvmuser/.rvm/rubies/ruby-2.2.2/bin:/home/rvmuser/.rvm/bin:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin::/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/rvmuser/bin
+  346  passenger-install-apache2-module 
+  347  export PATH=/home/rvmuser/.rvm/gems/ruby-2.2.2/bin:/home/rvmuser/.rvm/gems/ruby-2.2.2@global/bin:/home/rvmuser/.rvm/rubies/ruby-2.2.2/bin:/home/rvmuser/.rvm/bin:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin::/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/rvmuser/bin
+  348  passenger-install-apache2-module 
+  349  exit
+  350  passenger-install-apache2-module 
+  351  rvm 2.0.0-p643
+  352  passenger-install-apache2-module 
+  353  history
+  354  emacs ~/.bashrc
+  355  source /mnt/common/epfl/etc/bbcf_bashrc e
+  356  passenger-install-apache2-module e
+  357  exit
+  358  emacs /etc/httpd/conf.d/bbcftools.conf
+  359  sudo emacs /etc/httpd/conf.d/bbcftools.conf
+  360  emacs lib/tasks/find_exon_mapping.rake
+  361  cd /srv/genrep/
+  362  emacs lib/tasks/find_exon_mapping.rake
+  363  emacs lib/tasks/find_exon_mapping.rake~ 
+  364  emacs lib/tasks/find_exon_mapping.rake
+  365  nohup rake genrep:find_exon_mapping --trace 2>&1 >log/find_exon_mapping.log &
+  366  ps -ef | grep ruby
+  367  tail log/find_exon_mapping.log 
+  368  tail -100 log/find_exon_mapping.log 
+  369  emacs /local/srv/genrep/lib/tasks/find_exon_mapping.rake
+  370  rake genrep:find_exon_mapping --trace
+  371  emacs /local/srv/genrep/lib/tasks/find_exon_mapping.rake
+  372  rake genrep:find_exon_mapping --trace
+  373  emacs /local/srv/genrep/lib/tasks/find_exon_mapping.rake
+  374  rake genrep:find_exon_mapping --trace
+  375  emacs /local/srv/genrep/lib/tasks/find_exon_mapping.rake
+  376  rake genrep:find_exon_mapping --trace
+  377  emacs Gemfile
+  378  cd ../swisspalm
+  379  emacs Gemfile
+  380  gem list | grep theruby
+  381  emacs config/database.yml 
+  382  ls
+  383  ruby -v
+  384  rvm 2.0.0-p643
+  385  ruby -v
+  386  ls
+  387  cd /srv
+  388  ls
+  389  ls bioscript/
+  390  rails new bioscript
+  391  cd bioscript
+  392  emacs Gemfile 
+  393  bundle install
+  394  sudo emacs /etc/httpd/conf.d/bbcf-serv03.conf 
+  395  cd /srv/bbcftools/
+  396  ls
+  397  sudo emacs /etc/httpd/conf.d/bbcf-serv03.conf 
+  398  sudo /sbin/service httpd reload
+  399  sudo /sbin/service httpd restart
+  400  sudo emacs /etc/httpd/conf.d/swisspalm.con
+  401  sudo emacs /etc/httpd/conf/httpd.conf
+  402  ls
+  403  ln -s /srv/bioscript/public/ /srv/bbcftools/bioscript
+  404  cd /srv/bbcftools/
+  405  s
+  406  ls
+  407  sudo /sbin/service httpd reload
+  408  cd ../bioscript/
+  409  emacs Gemfile
+  410  bundle install
+  411  sudo /sbin/service httpd reload
+  412  emacs Gemfile
+  413  sudo /sbin/service httpd reload
+  414  bundle install
+  415  sudo /sbin/service httpd reload
+  416  emacs Gemfile
+  417  bundle install
+  418  sudo /sbin/service httpd restart
+  419  emacs /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/execjs-2.6.0/lib/execjs/runtimes.rb:
+  420  emacs /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/execjs-2.6.0/lib/execjs/runtimes.rb
+  421  pwd
+  422  ls
+  423  ls config
+  424  vim config/database.yml 
+  425  sudo /sbin/service httpd reload
+  426  vim config/database.yml 
+  427  vim Gemfile
+  428  yum list glibc
+  429  echo $LD_LIBRARY_PATH
+  430  find / -name libpq.so.5
+  431  sudo find / -name libpq.so.5
+  432  ps
+  433  kill -9 31399
+  434  ls /usr/pgsql-9.1/
+  435  ls /usr/pgsql-9.1/lib/
+  436  ls /usr/lib64/libpq
+  437  ls /usr/pgsql-9.1/
+  438  ls /usr/pgsql-9.1/lib/
+  439  ls /usr/pgsql-9.1/lib/libpq.so.5
+  440  ln -s /usr/pgsql-9.1/lib/libpq.so.5 /usr/lib64/libpq.so.5
+  441  ls /software/lib64/
+  442  rvm
+  443  sudo emacs /etc/httpd/conf.d/bbcftools.conf
+  444  ssh svitsrv25.epfl.ch
+  445  ls
+  446  cd /srv/genrep/
+  447  emacs lib/tasks/find_exon_mapping.rake
+  448  history | grep rake 
+  449  rake genrep:find_exon_mapping --trace
+  450  echo $LD_LIBRARY_PATH
+  451  echo $PATH
+  452  emacs ~/.bashrc
+  453  emacs ~/.bashrc~
+  454  mv ~/.bashrc~ ~/.bashrc
+  455  exit
+  456  ssh bbcf-serv02
+  457  emacs ~/.bashrc
+  458  export PATH=/home/rvmuser/.rvm/gems/ruby-1.9.3-p551/bin:/home/rvmuser/.rvm/gems/ruby-1.9.3-p551@global/bin:/home/rvmuser/.rvm/rubies/ruby-1.9.3-p551/bin:/home/rvmuser/.rvm/bin:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin::/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/rvmuser/bin
+  459  rvm 1.9.3-p551
+  460  rvm use 1.9.2-p180
+  461  ruby -v
+  462  rvm use 1.9.3-p551
+  463  export PATH=/home/rvmuser/.rvm/gems/ruby-1.9.3-p551/bin:/home/rvmuser/.rvm/gems/ruby-1.9.3-p551@global/bin:/home/rvmuser/.rvm/rubies/ruby-1.9.3-p551/bin:/home/rvmuser/.rvm/bin:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin::/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/rvmuser/bin
+  464  passenger-install-apache2-module 
+  465  find /home/rvmuser/.rvm/rubies/ruby-1.9.3-p551/lib -iname mkmf.conf 
+  466  find /home/rvmuser/.rvm/rubies/ruby-1.9.3-p551 -iname mkmf.conf 
+  467  find /home/rvmuser/.rvm/rubies -iname mkmf.conf 
+  468  find -r /home/rvmuser/.rvm/rubies -iname mkmf.conf 
+  469  find /home/rvmuser/.rvm/rubies -iname=mkmf.conf 
+  470  find /home/rvmuser/.rvm/rubies -name mkmf.log
+  471  find /home/rvmuser/.rvm/rubies/ruby-1.9.3-p551/lib -iname mkmf.log 
+  472  find /home/rvmuser/.rvm/rubies/ruby-1.9.3-p551 -iname mkmf.log 
+  473  find /home/rvmuser/.rvm/rubies -iname mkmf.log 
+  474  find /home/rvmuser/.rvm/ -iname mkmf.log 
+  475  find /home/rvmuser/.rvm/ -iname mkmf.log | grep passenger
+  476  less /home/rvmuser/.rvm/gems/ruby-1.9.3-p551/gems/passenger-5.0.15/buildout/ruby/ruby-1.9.3-x86_64-linux/mkmf.log 
+  477  export LD_LIBRARY_PATH=/data/epfl/bbcf/glibc/glibc/lib/:$LD_LIBRARY_PATH
+  478  ls
+  479  passenger-install-apache2-module 
+  480  echo $LD_LIBRARY_PATH
+  481  export LD_LIBRARY_PATH=/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/lib
+  482  passenger-install-apache2-module 
+  483  rvm 1.9.3-p551 do gem install passenger --version 4.0.0
+  484  rvm 1.9.3-p551 do gem install passenger --version 4.0.5
+  485  passenger-install-apache2-module 
+  486  rvm 1.9.3-p551 do gem uninstall passenger
+  487  passenger-install-apache2-module 
+  488  ssh bbcf-serv03
+  489  rvm 1.9.3-p551
+  490  passenger-install-apache2-module e
+  491  export PATH=/home/rvmuser/.rvm/gems/ruby-2.2.2/bin:/home/rvmuser/.rvm/gems/ruby-2.2.2@global/bin:/home/rvmuser/.rvm/rubies/ruby-2.2.2/bin:/home/rvmuser/.rvm/bin:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin::/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/rvmuser/bin
+  492  passenger-install-apache2-module e
+  493  rvm 2.0.0-p643
+  494  rvm use 2.0.0-p643
+  495  rvm get stable --auto-dotfiles
+  496  rvm 2.0.0-p643
+  497  passenger-install-apache2-module
+  498  export PATH=/home/rvmuser/.rvm/gems/ruby-2.2.2/bin:/home/rvmuser/.rvm/gems/ruby-2.2.2@global/bin:/home/rvmuser/.rvm/rubies/ruby-2.2.2/bin:/home/rvmuser/.rvm/bin:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin::/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/rvmuser/bin
+  499  passenger-install-apache2-module
+  500  export PATH=/home/rvmuser/.rvm/gems/ruby-2.0.0-p643/bin:/home/rvmuser/.rvm/gems/ruby-2.0.0-p643@global/bin:/home/rvmuser/.rvm/rubies/ruby-2.0.0-p643/bin:/home/rvmuser/.rvm/bin:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin::/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/rvmuser/bin
+  501  passenger-install-apache2-module
+  502  rm /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/passenger-5.0.15/buildout/support-binaries/.nfs000000005300ba3f00000032 
+  503   accepted
+  504  The tool you want is lsof, which stands for list open files.
+  505  It has a lot of options, so check the man page, but if you want to see all open files under a directory:
+  506  lsof +D /path
+  507  lsof +D /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/passenger-5.0.15/buildout/support-binaries/.nfs000000005300ba3f00000032
+  508  lsof +D /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/passenger-5.0.15/buildout/support-binaries
+  509  lsof  /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/passenger-5.0.15/buildout/support-binaries/
+  510  lsof  /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/passenger-5.0.15/buildout/support-binaries/.nfs000000005300ba3f00000032 
+  511  umount /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/passenger-5.0.15/buildout/support-binaries/.nfs000000005300ba3f00000032
+  512  lsof +D /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/passenger-5.0.15/buildout/support-binaries
+  513  lsof +D /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/passenger-5.0.15/buildout/support-binaries/.nfs000000005300ba3f00000032 
+  514  lsof
+  515  lsof | grep nfs
+  516  lsof | grep nfs000000005300ba3f00000032 
+  517  lsof | grep 000000005300ba3f00000032 
+  518  ls /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/passenger-5.0.15/buildout/support-binaries/.nfs000000005300ba3f00000032 
+  519  ls -halt
+  520  ls /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/passenger-5.0.15/buildout/support-binaries/.nfs000000005300ba3f00000032 
+  521  top
+  522  /sbin/service httpd stop
+  523  sudo /sbin/service httpd stop
+  524  ls /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/passenger-5.0.15/buildout/support-binaries/.nfs000000005300ba3f00000032 
+  525  passenger-install-apache2-module
+  526  rvm 1.9.3-p551
+  527  passenger-install-apache2-module
+  528  rvm 1.9.3-p551 do gem install passenger
+  529  passenger-install-apache2-module
+  530  echo $PATH
+  531  rvm 2.0.0-p643
+  532  echo $PATH
+  533  rvm 1.9.3-p551
+  534  export PATH=/home/rvmuser/.rvm/gems/ruby-2.0.0-p643/bin:/home/rvmuser/.rvm/gems/ruby-2.0.0-p643@global/bin:/home/rvmuser/.rvm/rubies/ruby-2.0.0-p643/bin:/home/rvmuser/.rvm/bin:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/mnt/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin::/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/rvmuser/bin
+  535  passenger-install-apache2-module
+  536  sudo /sbin/service httpd start
+  537  emacs /etc/httpd/conf.d/swisspalm.conf 
+  538  emacs /etc/httpd/conf.d/bbcf-serv03.conf
+  539  sudo emacs /etc/httpd/conf.d/bbcf-serv03.conf
+  540  sudo /sbin/service httpd reload
+  541  sudo emacs /etc/httpd/conf.d/bbcf-serv03.conf
+  542  echo $LD_LIBRARY_PATH
+  543  sudo emacs /etc/httpd/conf.d/bbcf-serv03.conf
+  544  sudo /sbin/service httpd reload
+  545  sudo emacs /etc/httpd/conf.d/bbcf-serv03.conf
+  546  echo $PATH
+  547  sudo emacs /etc/httpd/conf.d/bbcf-serv03.conf
+  548  sudo /sbin/service httpd reload
+  549  cd /srv/bioscript/
+  550  emacs Gemfile
+  551  bundle install
+  552  rails -v
+  553  ruby -v
+  554  rvm 2.0.0-p551 do gem install pg --version 0.14
+  555  rvm 2.0.0-p551
+  556  rvm 2.0.0-p551 do gem install pg --version 0.14
+  557  rvm 2.0.0-p643 do gem install pg --version 0.14
+  558  echo $LD_LIBRARY_PATH
+  559  rvm 2.0.0-p643
+  560  rvm 2.0.0-p643 do gem install pg --version 0.14
+  561  rvm 2.0.0-p643 do gem list | grep pg
+  562  rvm 2.0.0-p643 do gem install pg --version 0.14
+  563  emacs /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/extensions/x86_64-linux/2.0.0/pg-0.14.0/gem_make.out
+  564  /home/rvmuser/.rvm/rubies/ruby-2.0.0-p643/bin/ruby -r ./siteconf20150817-26947-1m3zvsj.rb extconf.rb
+  565  sudo yum install postgresql-devel
+  566  sudo yum list postgresql
+  567  psql -v
+  568  psql --version
+  569  sudo yum install postgresql-devel
+  570  rvm 2.0.0-p643 do gem install pg --version 0.14
+  571  history | grep find
+  572  find /Home/rvmuser/.rvm/gems/ruby-2.2.2/gems/ -iname mkmf.log | grep pg
+  573  find /Home/rvmuser/.rvm/gems -iname mkmf.log | grep pg
+  574  find /Home/rvmuser/.rvm/ -iname mkmf.log | grep pg
+  575  less /Home/rvmuser/.rvm/gems/ruby-2.0.0-p643/extensions/x86_64-linux/2.0.0/pg-0.14.0/mkmf.log
+  576  locate pg_config
+  577  rvm 2.0.0-p643 do gem install pg --version 0.14 --with-pg-config=/usr/pgsql-9.1/bin/pg_config
+  578  rvm 2.0.0-p643 do gem install pg --version 0.14 --- -with-pg-config=/usr/pgsql-9.1/bin/pg_config
+  579  rvm 2.0.0-p643 do gem install pg --version 0.14 -- --with-pg-config=/usr/pgsql-9.1/bin/pg_config
+  580  bundle install
+  581  rvm 2.0.0-p643 do gem list | grep pg
+  582  emacs Gemfile
+  583  sudo /sbin/service httpd reload
+  584  emacs   /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/activerecord-4.2.3/lib/active_record/connection_adapters/connection_specification.rb
+  585  emacs   /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/activerecord-4.2.3/lib/active_record/connection_adapters/postgresql_adapter.rb 
+  586  sudo /sbin/service httpd reload
+  587  rails generate scaffold Dummy
+  588  emacs db/bioscript.sql
+  589  psql bioscript
+  590  emacs db/bioscript.sql
+  591  emacs app/views/dummies/_form.html.erb 
+  592  emacs app/views/dummies/index.
+  593  emacs app/views/dummies/index.html.erb 
+  594  vi app/views/dummies/index.html.erb 
+  595  fg
+  596  vi app/views/dummies/index.html.erb 
+  597  rm db/migrate/20150817175821_create_dummies.rb 
+  598  emacs app/controllers/dummies_controller.rb 
+  599  emacs   /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/activerecord-4.2.3/lib/active_record/connection_adapters/postgresql_adapter.rb 
+  600  rails console
+  601  emacs   /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/activerecord-4.2.3/lib/active_record/connection_adapters/postgresql_adapter.rb 
+  602  rails console
+  603  cd /srv/genrep
+  604  rake genrep:find_exon_mapping --trace
+  605  emacs /local/srv/genrep/lib/tasks/find_exon_mapping.rak
+  606  emacs /local/srv/genrep/lib/tasks/find_exon_mapping.rake
+  607  psql genrep
+  608  rake genrep:find_exon_mapping --trace
+  609  cd /srv/genrep/
+  610  rake genrep:find_exon_mapping --trace
+  611  ls
+  612  exit
+  613  ls
+  614  cd /srv
+  615  ls
+  616  cp biorepo/db/rename.sql 
+  617  cp biorepo/db/rename.sql ~/
+  618  exit
+  619  psql genrep
+  620  cd rvm
+  621  cd /srv
+  622  ls
+  623  ls $HOME
+  624  vim /home/rvmuser/rename.sql 
+  625  cd /srv/bioscript/
+  626  ls
+  627  vim rename.sql
+  628  ls
+  629  psql htsstation
+  630  ls
+  631  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  632  top
+  633  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  634  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.*
+  635  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  636  cd /srv/genrep/
+  637  emacs /local/srv/genrep/lib/tasks/find_exon_mapping.rake
+  638  top
+  639  emacs /local/srv/genrep/lib/tasks/find_exon_mapping.rake
+  640  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+  641  tail /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+  642  tail -100 /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+  643  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  644  top
+  645  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  646  tail /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+  647  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+  648  emacs /local/srv/genrep/lib/tasks/find_exon_mapping.rake
+  649  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+  650  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/251fb5451eac220c459d419874582a3f4165e697.tmp.fa 
+  651  emacs /local/srv/genrep/lib/tasks/find_exon_mapping.rake
+  652  ls
+  653  cd /srv/
+  654  cd bioscript/
+  655  ls
+  656  emacs db/bioscript.sql
+  657  emacs   /home/rvmuser/.rvm/gems/ruby-2.0.0-p643/gems/activerecord-4.2.3/lib/active_record/connection_adapters/postgresql_adapter.rb 
+  658  psql bioscript
+  659  rails console
+  660  rvm 2.0.0-p643
+  661  rails console
+  662  rails destroy scaffold Dummy
+  663  emacs db/bioscript.sql
+  664  psql bioscript
+  665  ssh bbcf-serv02
+  666  ssh bbcf-serv01
+  667  less ~/rename.sql 
+  668  cd public/
+  669  s
+  670  ls
+  671  cd ..
+  672  ls
+  673  emacs config/routes.rb 
+  674  rm app/controllers/dummies_controller.rb~ 
+  675  emacs app/views/layouts/application.html.erb 
+  676  grep -R 'Welcome aboard' ./
+  677  grep -R 'Welcome' ./
+  678  grep -R 'Welcome' ~/.rvm/rubies/ruby-2.0.0-p643/
+  679  grep -R 'Welcome' ~/.rvm/rubies/
+  680  grep -R 'Welcome' ~/.rvm/gems
+  681  grep -R 'Welcome aboard' ~/.rvm/gems
+  682  grep -R 'Welcome aboard' ~/.rvm/
+  683  ps
+  684  emacs config/routes.rb 
+  685  ls
+  686  ls config
+  687  ls
+  688  vim config.ru 
+  689  emacs config/config.yml
+  690  emacs /srv/genrep/config/config.yml
+  691  emacs /srv/genrep/config/initializers/load_config.rb 
+  692  emacs /srv/genrep/config/config.yml
+  693  emacs config/config.yml
+  694  ls $HOME
+  695  ls /home/rvmuser/biorepo 
+  696  vim /home/rvmuser/biorepo 
+  697  vim /home/rvmuser/rename.sql 
+  698  ls
+  699  ls ..
+  700  ls
+  701  ls db/
+  702  ls db/bioscript.sql
+  703  vim db/bioscript.sql
+  704  pgsql bioscript
+  705  psql bioscript
+  706  git config --global add user.name "rosinska"
+  707  git config --global --add user.name "rosinska"
+  708  git config --global --add user.email "lrosinskaya@gmail.com"
+  709  git config --global --list
+  710  Ñ‹
+  711  ls
+  712  ls -a
+  713  vim .gitignore 
+  714  git init
+  715  git add .
+  716  git status
+  717  git commit -m "first"
+  718  git status
+  719  git branch
+  720  ls
+  721  ls app/
+  722  ls app/controllers/
+  723  ls app/controllers/concerns/
+  724  ls app/models/
+  725  ls app/models/concerns/
+  726  psql bioscript
+  727  \d
+  728  psql bioscript
+  729  ls
+  730  ls 
+  731  ls ~/
+  732  top
+  733  top
+  734  ls -halt /data/epfl/bbcf/genrep/
+  735  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/
+  736  emacs /local/srv/genrep/lib/tasks/find_exon_mapping.rak
+  737  psql swisspalm
+  738  top
+  739  cd /srv/genrep
+  740  emacs lib/tasks/find_exon_mapping.rake
+  741  top
+  742  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta
+  743  ls
+  744  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta
+  745  top
+  746  cd /srv/genrep/
+  747  emacs lib/tasks/find_exon_mapping.rake
+  748  rake genrep:find_exon_mapping --trace
+  749  emacs lib/tasks/find_exon_mapping.rake
+  750  rake genrep:find_exon_mapping --trace
+  751  emacs lib/tasks/find_exon_mapping.rake
+  752  rake genrep:find_exon_mapping --trace
+  753  emacs lib/tasks/find_exon_mapping.rake
+  754  rake genrep:find_exon_mapping --trace
+  755  emacs lib/tasks/find_exon_mapping.rake
+  756  rake genrep:find_exon_mapping --trace
+  757  emacs lib/tasks/find_exon_mapping.rake
+  758  rake genrep:find_exon_mapping --trace
+  759  emacs lib/tasks/find_exon_mapping.rake
+  760  nohup rake genrep:find_exon_mapping --trace 2>&1 > log/find_exon_mapping.log &
+  761  emacs lib/tasks/find_exon_mapping.rake
+  762  ps -ef | grep find
+  763  kill -9 11203
+  764  emacs lib/tasks/find_exon_mapping.rake
+  765  rake genrep:find_exon_mapping --trace
+  766  emacs lib/tasks/find_exon_mapping.rake
+  767  rake genrep:find_exon_mapping --trace
+  768  emacs lib/tasks/find_exon_mapping.rake
+  769  rake genrep:find_exon_mapping --trace
+  770  nohup rake genrep:find_exon_mapping --trace 2>&1 > log/find_exon_mapping.log &
+  771  top
+  772  ls /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/
+  773  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/bb27b89826b88823423282438077cdb836e1e6e5.tmp.fa 
+  774  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/bb27b89826b88823423282438077cdb836e1e6e5.tmp.fa 
+  775  ls
+  776  cd /srv/bioscript
+  777  pgsql bioscript
+  778  postgresql bioscript
+  779  pg bioscript
+  780  pgsql bioscript
+  781  psql bioscript
+  782  make clean
+  783  clear
+  784  ls
+  785  vim rename.sql 
+  786  ls
+  787  cd /srv/bioscript/
+  788  ls
+  789  ls app/
+  790  vim rename.sql
+  791  ls
+  792  ls /srv/bioscript/
+  793  pwd
+  794  quit
+  795  exit
+  796  clear
+  797  cd /srv/bioscript/
+  798  ls
+  799  ls -a
+  800  vim rename.sql
+  801  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta
+  802  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/bb27b89826b88823423282438077cdb836e1e6e5.tmp.fa 
+  803  top
+  804  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/bb27b89826b88823423282438077cdb836e1e6e5.tmp.fa 
+  805  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta
+  806  cd /srv/genrep/
+  807  emacs lib/tasks/find_exon_mapping.rake
+  808  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta
+  809  top
+  810  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta
+  811  top
+  812  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta
+  813  psql genrep
+  814  ls
+  815  pwd
+  816  cd /srv/swisspalm
+  817  ls
+  818  sl
+  819  ls
+  820  emacs app/views/proteins/index.html.erb
+  821  emacs config/config.yml
+  822  emacs config/routes.rb
+  823  emacs config/config.yml
+  824  emacs app/views/proteins/index.html.erb
+  825  emacs app/views/proteins/_index.html.erb
+  826  emacs app/views/proteins/index.html.erb
+  827  emacs app/assets/stylesheets/swisspalm.css
+  828  top
+  829  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta
+  830  top
+  831  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/
+  832  ls -alt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/
+  833  tail -100  /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+  834  grep  ENSMUSE00000832113  /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+  835  grep ENSMUSE00000785690  /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/251fb5451eac220c459d419874582a3f4165e697.fa 
+  836  top
+  837  ls
+  838  ps
+  839  emacs ~/.bash_history
+  840  exit
+  841  cd /srv/bioscript/
+  842  vim rename.sql 
+  843  top
+  844  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/
+  845  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/
+  846  top
+  847  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/
+  848  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/
+  849  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/
+  850  ls -alt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/
+  851  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/
+  852  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta
+  853  cd /srv/swisspalm
+  854  emacs app/controllers/application_controller.rb
+  855  emacs app/controllers/proteins_controller.rb
+  856  cd /srv/bioscript/
+  857  ls
+  858  dropdb bioscript
+  859  psql -l
+  860  ls
+  861  ps
+  862  dropdb bioscript
+  863  pgsql
+  864  psql
+  865  psql bioscript
+  866  kill =9 1558
+  867  kill -9 1558
+  868  ps
+  869  psql
+  870  psql bioscript
+  871  sudo postgresql restart
+  872  sudo /postgresql restart
+  873  sudo /etc/init.d/postgresql restart
+  874  psql
+  875  psql bioscript
+  876  dropdb bioscript
+  877  createdb bioscript
+  878  ls /epdf/data
+  879  ls /epfl/data
+  880  ls /epfl
+  881  ls /data/epfl/bbcf/
+  882  ls /data/epfl/bbcf/dumps/
+  883  ls /data/epfl/bbcf/dumps/pg/
+  884  ls /data/epfl/bbcf/dumps/pg/150811_bs.sql
+  885  psql -f /data/epfl/bbcf/dumps/pg/150811_bs.sql bioscript
+  886  psql
+  887  psql bioscript
+  888  ls
+  889  psql -f rename.sql bioscript
+  890  vim rename.sql 
+  891  psql -f rename.sql bioscript
+  892  vim rename.sql 
+  893  psql -f rename.sql bioscript
+  894  vim rename.sql 
+  895  dropdb bioscript
+  896  createdb bioscript
+  897  psql -f /data/epfl/bbcf/dumps/pg/150811_bs.sql bioscript
+  898  psql -f rename.sql bioscript
+  899  vim rename.sql 
+  900  psql -f rename.sql bioscript > output.txt
+  901  ls
+  902  vim output.txt 
+  903  psql -f rename.sql bioscript |cat >> output.txt
+  904  ls
+  905  vim output.txt 
+  906  cat psql -f rename.sql bioscript >  output.txt
+  907  cat 'psql -f rename.sql bioscript' >  output.txt
+  908  psql -f rename.sql bioscipt
+  909  psql -f rename.sql bioscript
+  910  dropdb bioscirpt
+  911  dropdb bioscript
+  912  createdb bioscirpt
+  913  rm output.txt 
+  914  psql -f /data/epfl/bbcf/dumps/pg/150811_bs.sql bioscript
+  915  dropdb bioscirpt
+  916  createdb bioscript
+  917  psql -f /data/epfl/bbcf/dumps/pg/150811_bs.sql bioscript
+  918  psql -f rename.sql bioscript > output.txt
+  919  dropdb bioscript
+  920  createdb bioscript
+  921  psql -f /data/epfl/bbcf/dumps/pg/150811_bs.sql bioscript
+  922  psql -f rename.sql bioscript
+  923  dropdb bioscript
+  924  createdb bioscript
+  925  psql -f /data/epfl/bbcf/dumps/pg/150811_bs.sql bioscript
+  926  psql -f rename.sql bioscript
+  927  dropdb bioscript
+  928  createdb bioscript
+  929  psql -f /data/epfl/bbcf/dumps/pg/150811_bs.sql bioscript
+  930  psql -f rename.sql bioscript
+  931  psql bioscript
+  932  cd /srv/bioscript/
+  933  psql bioscript
+  934  ls
+  935  cd /srv/bioscript/
+  936  vim rename.sql 
+  937  ls
+  938  ls app/
+  939  ls app/controllers/application_controller.rb 
+  940  rails generate scaffold Task
+  941  rvm 2.0.0-p643
+  942  rails generate scaffold Task
+  943  ls app/controllers/
+  944  vim app/controllers/tasks_controller.rb 
+  945  rails generate scaffold Plugin
+  946  vim app/controllers/plugins_controller.rb 
+  947  psql bioscript
+  948  ls
+  949  rm db/migrate/20150820151*
+  950  vim app/controllers/plugins_controller.rb 
+  951  pwd
+  952  ls
+  953  cd config/initializers/mime_types.rb 
+  954  vim config/initializers/mime_types.rb 
+  955  sudo /sbin/service httpd reload
+  956  vim app/controllers/plugins_controller.rb 
+  957  vim ../swisspalm/app/controllers/proteins_controller.rb
+  958  vim app/controllers/plugins_controller.rb 
+  959  sudo /sbin/service httpd restart
+  960  vim app/controllers/plugins_controller.rb 
+  961  vim app/views/plugins/index.
+  962  vim app/views/plugins/index.html.erb 
+  963  vim app/models/plugin.rb 
+  964  rails console
+  965  vim config/initializers/mime_types.rb 
+  966  rails console
+  967  emacs app/assets/stylesheets/application.css 
+  968  top
+  969  ls -alt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/
+  970  psql genrep
+  971  ls -alt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/
+  972  cd /srv/swisspalm
+  973  ls
+  974  mkdir /data/epfl/bbcf/swisspalm_built/
+  975  du -sh /data/epfl/bbcf/swisspalm
+  976  ls
+  977  ls /data/epfl/bbcf/swisspalm_built/
+  978  ls /data/epfl/bbcf/swisspalm
+  979  ls
+  980  ls /data/epfl/bbcf/swisspalm
+  981  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/
+  982  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/
+  983  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta_tmp/
+  984  top
+  985  psql genrep
+  986  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/
+  987  cd /srv/swisspalm
+  988  emacs app/views/proteins/
+  989  emacs app/views/proteins/index.html.erb
+  990  grep -r Ajax app/views/proteins/
+  991  grep -r ajax app/views/proteins/
+  992  emacs app/views/proteins/show.html.erb
+  993  emacs app/views/layouts/application.html.erb
+  994  scp app/assets/images/loading.gif fdavid@sd-31322.dedibox.fr:
+  995  emacs app/assets/stylesheets/application.css
+  996  emacs app/assets/stylesheets/swisspalm.css
+  997  top
+  998  ls -halt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/
+  999  ls -alt /data/epfl/bbcf/genrep/nr_assemblies/exons_fasta/
+ 1000  cd /srv/bioscript/
+ 1001  vim app/views/plugins/_form.html.erb 
+ 1002  ls db
+ 1003  ls app/
+ 1004  ls app/helpers/
+ 1005  ls app/models/
+ 1006  ls app/models/concerns/
+ 1007  ls app/assets/
+ 1008  ls app/views/
+ 1009  ls app/views/layouts/
+ 1010  vim app/models/plugin.rb 
+ 1011  vim app/assets/stylesheets/plugins.scss 
+ 1012  vim app/assets/stylesheets/
+ 1013  vim app/assets/stylesheets/plugins.css.scss
+ 1014  git status
+ 1015  git add .
+ 1016  git status
+ 1017  git commit -m "scaffold plugin job task"
+ 1018  git branch
+ 1019  git status
+ 1020  git log
+ 1021  git branch new list_plugins
+ 1022  git checkout -b list_plugins
+ 1023  git branch
+ 1024  vim app/views/layouts/application.html.erb 
+ 1025  vim app/views/plugins/index.html.erb 
+ 1026  vim app/assets/stylesheets/plugins.css.scss
+ 1027  git add .
+ 1028  git status
+ 1029  git add .
+ 1030  git rm app/views/plugins/.index.html.erb.swp
+ 1031  gi add .
+ 1032  git add .
+ 1033  git commit -m "list plugins"
+ 1034  rails generate scaffold Result
+ 1035  rvm 2.0.0-p643
+ 1036  rails generate scaffold Result
+ 1037  pwd
+ 1038  ls app/db
+ 1039  ls
+ 1040  ls app/
+ 1041  ls db/
+ 1042  ls db/migrate/
+ 1043  vim db/migrate/20150821125000_create_results.rb 
+ 1044  rm db/migrate/20150821125000_create_results.rb 
+ 1045  ls /local/rvmuser/srv/bioscript/
+ 1046  ls /local/rvmuser/srv/bioscript/config
+ 1047  ls /local/rvmuser/srv/bioscript/config.ru 
+ 1048  vim /local/rvmuser/srv/bioscript/config.ru 
+ 1049  vim /local/rvmuser/srv/bioscript/config/routes.rb
+ 1050  sudo /sbin/service httpd restart
+ 1051  history
+ 1052  history > history.txt
