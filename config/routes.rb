@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :result_types
   resources :jobs
   resources :results
   resources :plugins
