@@ -20,10 +20,6 @@
 	    <dd><%= raw @h_plugin_infos[plugin_id]['description'] %></dd>
     </td>
 	<td class="list_actions">
-        <%#= link_to 'Description', plugin, :pop_up => ['Description', 'height=600, width=600'] %> <br/>
-
-        <%= link_to "Description", plugin, :onclick => "window.open(this.href,'create_company', 'height=600, width=600');return false;"  %><br/>
-        <%#= link_to "Description", plugin, :onclick => 'return openPopup(this);' %><br/>
         <%= link_to 'Show', plugin %><br/>
         <%= link_to 'Edit', edit_plugin_path(plugin) %><br/>
         <%= link_to 'Destroy', plugin, method: :delete, data: { confirm: 'Are you sure?' } %>

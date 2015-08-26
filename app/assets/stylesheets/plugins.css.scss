@@ -1,4 +1,12 @@
 .plugins {
+
+    h1 {
+        margin: 0;
+        font: 150%, sans-serif;
+        color: #226;
+        padding-bottom: 0.5em;
+        border-bottom: 3px dotted #77d;
+    }
 	table {
 		border-collapse: collapse;
 	}
@@ -23,9 +31,12 @@
 		}
 	}
 	.list_line_even {
-		background: green;
+		background: Lavender;
 	}
 	
+	.list_line_odd {
+		background: Beige;
+	}
 }
 
 

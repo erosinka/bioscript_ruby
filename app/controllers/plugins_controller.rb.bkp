@@ -5,18 +5,22 @@ class PluginsController < ApplicationController
   # GET /plugins
   # GET /plugins.json
   def index
-    @plugins = (admin?) ? Plugin.all : Plugin.where(:deprecated => false)
-#   @plugins.reject!{|e| e.deprecated == true} if !admin?
+    @plugins = Plugin.all
+
+    @plugin_infos = []
+    @plugins.each do |p|
+      @plugin_infos.push(p.info_content)
+    end
 
     @h_plugins = {}
     @h_plugin_infos = {}
-    
-    @plugins.each do |p|
+     @plugins.each do |p|
       @h_plugins[p.id]=p
       @h_plugin_infos[p.id] = p.info_content
     end
-    
-    @sorted_plugin_ids = @h_plugin_infos.keys.sort{|a, b| @h_plugin_infos[a]['title'] <=> @h_plugin_infos[b]['title']}
+    @sorted_plugin_ids = @h_plugin_infos.keys.sort{|a, b| @h_plugin_infos[a][:title] <=> @h_plugin_infos[b][:title]}
+
+
     #@plugins_sorted_by_title = @h_plugin_infos.sort_by{|k, v| v[:title]}
 
     respond_to do |format|
@@ -46,7 +50,6 @@ class PluginsController < ApplicationController
 
     respond_to do |format|
       if @plugin.save
-       # format.js
         format.html { redirect_to @plugin, notice: 'Plugin was successfully created.' }
         format.json { render :show, status: :created, location: @plugin }
       else
