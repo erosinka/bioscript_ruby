@@ -1,4 +1,22 @@
+<% if notice %>
 <p id="notice"><%= notice %></p>
+<% end %>
 
+
+<%# @plugin.each do |p|%>
+<td class="title">
+        <dd><%= raw @info_content['title'] %></dd>
+    </td>
+    <td class="group">
+        <dd><%= raw @info_content['path'][0] %></dd>
+    </td>
+    <td class="description">
+        <dd><%= raw @info_content['description'] %></dd>
+    </td>
+
+    <td class="version">
+        <dd><%= @info_content['meta']['version'] %></dd>
+    </td>
+<%# end %>
 <%= link_to 'Edit', edit_plugin_path(@plugin) %> |
 <%= link_to 'Back', plugins_path %>

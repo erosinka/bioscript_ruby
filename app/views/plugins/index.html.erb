@@ -4,35 +4,80 @@
 
 <h1>Listing Plugins</h1>
 
-<table>
+<table id='list_plugins' class='std_table'>
+<thead>
+    <tr>
+    <% if admin? %>
+        <th>ID</th>
+    <% end %>
+        <th>Title </th>
+        <th>Section </th>
+        <th>Description </th>
+        <th>Link</th>
+    <% if !admin? %>
+        <th>Actions</th>
+       <% end %>
+    </tr>
+</thead>
+
+<tbody>
     <% @sorted_plugin_ids.each do |plugin_id| %>
     <%# plugin_id = @sorted_plugin_ids[i] %>
     <% plugin = @h_plugins[plugin_id] %>
-      <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
-
-    <td class="Group">
-        <dd><%= raw @h_plugin_infos[plugin_id]['path'][0] %></dd>
-    </td>
+   <!-- <tr class="<%#= cycle('list_line_odd', 'list_line_even') %>">
+-->  
+<tr> 
+    <% if admin? %>
+        <td><%= plugin_id %></td>
+    <% end %>
     <td class="title">
         <dd><%= raw @h_plugin_infos[plugin_id]['title'] %></dd>
+    </td>
+    <td class="group">
+        <dd><%= raw @h_plugin_infos[plugin_id]['path'][0] %></dd>
     </td>
     <td class="description">
 	    <dd><%= raw @h_plugin_infos[plugin_id]['description'] %></dd>
     </td>
-	<td class="list_actions">
-        <%#= link_to 'Description', plugin, :pop_up => ['Description', 'height=600, width=600'] %> <br/>
-
-        <%= link_to "Description", plugin, :onclick => "window.open(this.href,'create_company', 'height=600, width=600');return false;"  %><br/>
-        <%#= link_to "Description", plugin, :onclick => 'return openPopup(this);' %><br/>
+    <td class="link">
         <%= link_to 'Show', plugin %><br/>
+    </td>
+    <% if !admin? %>
+	    <td class="list_actions">
+
+        <%#= link_to "Description", plugin, :onclick => "window.open(this.href,'create_company', 'height=600, width=600');return false;"  %>
+        <%#= link_to "Description", plugin, :onclick => 'return openPopup(this);' %>
         <%= link_to 'Edit', edit_plugin_path(plugin) %><br/>
         <%= link_to 'Destroy', plugin, method: :delete, data: { confirm: 'Are you sure?' } %>
       	</td>
+    <% end %>
 	</tr>
     <% end %>
+</tbody>
 </table>
 
 <br>
-
+<% if !admin? %>
 <%= link_to 'New Plugin', new_plugin_path %>
+<% end %>
 
+<script type="text/javascript">
+    //<![CDATA[
+
+jQuery(document).ready(function() {
+    /* Build the DataTable with third column using our custom sort functions */
+    var oTable = jQuery('#list_plugins').dataTable( {
+        fixedHeader: true,
+        "oLanguage": {
+            "sSearch": "Search all columns:"
+        },
+       "order": [[1, "asc"]], 
+       "sDom": 'Wfrt',
+        "iDisplayLength": <%= @plugins.size %>
+        });
+
+}
+);
+
+//]]>
+</script>

@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   resources :result_types
   resources :jobs
   resources :results
-  resources :plugins
+  resources :plugins do
+    member do
+      get 'build_form'
+    end
+  end
   resources :tasks
 
   # The priority is based upon order of creation: first created -> highest priority.

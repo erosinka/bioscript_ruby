@@ -1,2 +1,2 @@
 development:
-  plugin_code_url: http://toto
+  plugin_path: /srv/bsPlugins/

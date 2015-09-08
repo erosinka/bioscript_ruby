@@ -13,15 +13,12 @@
         <%= @page_title || "Bioscript" %>
     </div>
     <div id="columns">
-        <div id="time">
-            <p Time>Time <%= @time %></p>
-        </div>
         <div id="side">
             <ul>
-                <li><a href="http://www....">Home</a></li>
+                <li><%= link_to  'Home', plugins_path%></li>
                 <li><a href="http://www..../faq">Questions</a></li>
                 <li><a href="http://www..../news">News</a></li>
-                <li><a href="http://www..../contact">Contact</a></li>
+                <li><a href="mailto:webmaster-bbcf@epfl.ch?subject=[BioScript]" >Contact</a></li>
             </ul>
         </div>
         <div id="main">

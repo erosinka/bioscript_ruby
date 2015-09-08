@@ -1,0 +1,13 @@
+<%= render :partial => 'build_form_js' %>
+
+<div id='bs_container'>
+<div></div>
+
+<tbody>
+<% @info_content['in'].each do |form_el| %>
+<% template_name = "field_" + form_el['type'] %>
+<% template_name += '_multiple' if form_el['multiple'] %>
+<% @var = form_el %>
+<%#= render :partial => template_name %>
+<% end %>
+</div>

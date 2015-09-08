@@ -1,6 +1,9 @@
 require 'json'
 class PluginsController < ApplicationController
-  before_action :set_plugin, only: [:show, :edit, :update, :destroy]
+  before_action :set_plugin, only: [:build_form, :show, :edit, :update, :destroy]
+
+  def build_form
+  end
 
   # GET /plugins
   # GET /plugins.json
@@ -17,7 +20,7 @@ class PluginsController < ApplicationController
     end
     
     @sorted_plugin_ids = @h_plugin_infos.keys.sort{|a, b| @h_plugin_infos[a]['title'] <=> @h_plugin_infos[b]['title']}
-    #@plugins_sorted_by_title = @h_plugin_infos.sort_by{|k, v| v[:title]}
+    # @plugins_sorted_by_title = @h_plugin_infos.sort_by{|k, v| v[:title]}
 
     respond_to do |format|
       format.html
@@ -28,6 +31,7 @@ class PluginsController < ApplicationController
   # GET /plugins/1
   # GET /plugins/1.json
   def show
+#      @plugin = Plugin.find(params[:id])
   end
 
   # GET /plugins/new
@@ -83,7 +87,8 @@ class PluginsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_plugin
-      @plugin = Plugin.find(params[:id])
+    @plugin = Plugin.find(params[:id])  
+    @info_content = @plugin.info_content
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -4,20 +4,25 @@
         margin: 0;
         font: 150%, sans-serif;
         color: #226;
-        padding-bottom: 0.5em;
-        border-bottom: 3px dotted #77d;
+        #border-bottom: 3px dotted #77d;
     }
 	table {
 		border-collapse: collapse;
 	}
 
+    table thead {
+        background: LightGray;
+    }   
 	table tr td {
 		padding: 5px;
-		vertical-align: top;
+		vertical-align: center;
 	}
 
+    .title {
+        vertical-align: center;
+    }
 	.list_info {
-		width: 70%;
+		width: 20%;
 		dl {
 			margin: 0;
 		}
@@ -30,13 +35,19 @@
 			margin: 0;
 		}
 	}
-	.list_line_even {
-		background: Lavender;
-	}
-	
-	.list_line_odd {
-		background: Beige;
-	}
+
+#list_plugins_filter {
+    border: 0px solid black;
+    padding: 1em;
+    font-size: 18px;
+
+input {
+    margin-left: 1em;
+}
+}
+
+table.dataTable tr.odd { background-color: Lavender; }
+table.dataTable tr.even { background-color: MintCream; }
 }
 
 

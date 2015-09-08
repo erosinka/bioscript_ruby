@@ -11,16 +11,18 @@
  * file per style scope.
  * 
  *= require_self
+ *= require dataTables/jquery.dataTables
+ *= require dataTables/extras/dataTables.fixedHeader
  *= require_tree .
  */
 
 /* START_HIGHLIGHT */
 #banner {
-  background: #9c9;
+  background: LightSteelBlue;
   padding: 10px;
   border-bottom: 2px solid;
   font: small-caps 40px/40px "Times New Roman", serif;
-  color: #282;
+  color: RoyalBlue;
   text-align: center;
 
   img {
@@ -31,38 +33,42 @@
 #notice {
   color: #000 !important;
   border: 2px solid red;
-  padding: 1em;
+  padding: 0em;
   margin-bottom: 2em;
-  background-color: #f0f0f0;
+  background-color: Black;
   font: bold smaller sans-serif;
 }
 
 #columns {
-  background: #141;
-
+  background: LightSteelBlue;
+     
+    height: 100vh;
   #main {
     margin-left: 17em;
-    padding: 1em;
-    background: white;
+    padding: 2em 0.5em;
+    background: whiteSmoke;
+    height: 100vh;
   }
 
   #side {
-    float: left;
-    padding: 1em 2em;
-    width: 13em;
-    background: #141;
+    txt-align: center;
+    margin-left: 4em;
+    font: small-caps 10px/10px "Times New Roman";
+    float: left; 
+    width: 10em;
+    background: LightSteelBlue;
     
     ul {
-      padding: 0;
       li {
         list-style: none;
         a {
-          color: #bfb;
-          font-size: small;
+          color: RoyalBlue;
         }
       }
     }
   }
 }
+
+
 /* END_HIGHLIGHT */
 

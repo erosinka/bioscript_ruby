@@ -36,6 +36,8 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    ajax-datatables-rails (0.3.1)
+      railties (>= 3.1)
     arel (6.0.3)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -50,7 +52,11 @@ GEM
       execjs
     coffee-script-source (1.9.1.1)
     columnize (0.9.0)
+    config (1.0.0)
+      activesupport (>= 3.0)
+      deep_merge (~> 1.0.0)
     debug_inspector (0.0.2)
+    deep_merge (1.0.1)
     erubis (2.7.0)
     execjs (2.6.0)
     globalid (0.3.6)
@@ -59,6 +65,11 @@ GEM
     jbuilder (2.3.1)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
+    jquery-datatables-rails (3.3.0)
+      actionpack (>= 3.1)
+      jquery-rails
+      railties (>= 3.1)
+      sass-rails
     jquery-rails (4.0.4)
       rails-dom-testing (~> 1.0)
       railties (>= 4.2.0)
@@ -147,9 +158,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ajax-datatables-rails
   byebug
   coffee-rails (~> 4.1.0)
+  config
   jbuilder (~> 2.0)
+  jquery-datatables-rails
   jquery-rails
   pg (= 0.14.0)
   rails (= 4.2.3)
