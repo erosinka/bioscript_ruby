@@ -1,0 +1,8 @@
+<tr id=<%= @var['id'] %>:container >
+<th><%= label_tag(@var['id'], @var['label']) %></th>
+
+<td>
+<%= select_tag( @var['id'], options_for_select(@var['options'])) %>
+<%= label_tag(@var['id'], @var['help_text']) %>
+</td>
+</tr>

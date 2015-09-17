@@ -1,0 +1,13 @@
+<tr id=<%= @var['id'] %>:container >
+<th><%= label_tag(@var['id'], @var['label']) %></th>
+<td>
+<div id=<%= @var['id'] %>:bs_container >
+<%= radio_button_tag( @var['id'] + '_bs_group', 'text', true) %>
+<%= label_tag(@var['id'], 'Url') %>
+<%= radio_button_tag( @var['id'] + '_bs_group', 'file', false ) %>
+<%= label_tag(@var['id'], 'File Upoad') %>
+<%= file_field_tag 'file' %>
+<%= @form.text_field 'file'%>
+<%= label_tag(@var['id'], @var['help_text']) %>
+</td>
+</tr>

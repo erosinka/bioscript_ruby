@@ -1,0 +1,36 @@
+<tr id='Bam_Multi:container' >
+<th><%= label_tag(@var['id'], @var['label']) %></th>
+<td>
+<table id='Bam_Multi'><tbody>
+<tr id="Bam_Multi:0", style="display:none"> 
+    <td>
+        <div id="Bam_Multi:0:sample", type="text", onchange="twd_grow_add(this);", name="" ></div>
+        <div id="Bam_Multi:0:sample:bs_container">
+<%= radio_button_tag( 'Bam_Multi:0:sample_bs_group', 'text', true) %>
+<%= label_tag(@var['id'], 'Url') %>
+<%= radio_button_tag( @var['id'], 'file', false, :name => 'Bam_Multi:0:sample' + '_bs_group') %>
+<%= label_tag(@var['id'], 'File Upoad') %>
+<%= file_field_tag 'file' %>
+<%= @form.text_field 'file', :style => 'display: none; ' %>
+<%#= label_tag(@var['id'], @var['help_text']) %>
+    </td>
+</tr>
+
+<tr id='Bam_Multi:1'>
+    <td> 
+        <div id="Bam_Multi:1:sample", type="text", onchange="twd_grow_add(this);", name="" ></div>
+        <div id="Bam_Multi:1:sample:bs_container">
+<%= radio_button_tag( 'Bam_Multi:1:sample_bs_group', 'text', true) %>
+<%= label_tag(@var['id'], 'Url') %>
+<%= radio_button_tag( @var['id'], 'file', false, :name => 'Bam_Multi:1:sample' + '_bs_group') %>
+<%= label_tag(@var['id'], 'File Upoad') %>
+<%= file_field_tag 'file' %>
+<%= @form.text_field 'file', :style => 'display: none; ' %>
+<%#= label_tag(@var['id'], @var['help_text']) %>
+        </div>
+    </td>
+    <td> </td>
+</tr>
+</tbody></table>
+</td>
+</tr>

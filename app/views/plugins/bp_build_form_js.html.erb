@@ -1,4 +1,5 @@
-<script type="text/javascript">
+<%= javascript_tag do %>
+
 bs_init_file_field = function(compound_id, select){
     var selector = '#' + compound_id.split(':').join('\\:');
     $(selector).attr('name', '');
@@ -61,4 +62,5 @@ bs_init_triple_file_field = function(compound_id, select){
         }
     });
 };
-</script>
+
+<% end %>

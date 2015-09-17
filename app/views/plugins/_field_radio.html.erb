@@ -1,0 +1,7 @@
+<tr id=<%= @var['id'] %>:container >
+<%= @var.radio_button(@var['id'], @var['options'][0], :checked => true) %>
+<%= label(@var['id'], @var['options'][0]) %>
+<%= @var.radio_button(:city_id, @var['options'][1]) %>
+<%= label(@var['id'], @var['options'][1]) %>
+<%= label_tag(:city_id, @var['help_text']) %>
+</tr>

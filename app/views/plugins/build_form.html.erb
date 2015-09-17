@@ -1,13 +1,43 @@
 <%= render :partial => 'build_form_js' %>
+<%= render :partial => 'hiding_js' %>
 
-<div id='bs_container'>
-<div></div>
+<div class='bs_container'>
+    <div class='bs_title'><%= @info_content['title'] %></div>
+    <div class='bs_desc'><p><%= raw @info_content['description'] %></p></div>
+    <div class='bs_desc'>
+    <p> 
+        by <%= @info_content['meta']['author']%> (
+        <a href="mailto:webmaster-bbcf@epfl.ch?subject=[BioScript]" >contact</a>,  
+        <a href="https://github.com/bbcf/bsPlugins/tree/master/bsPlugins">code</a> 
 
-<tbody>
-<% @info_content['in'].each do |form_el| %>
-<% template_name = "field_" + form_el['type'] %>
-<% template_name += '_multiple' if form_el['multiple'] %>
-<% @var = form_el %>
-<%#= render :partial => template_name %>
-<% end %>
+        )
+    </p></div>
+    <div class='bs_form'>
+        <%# form_for :plugins, :url => {:action => "post"}, :html =>%>
+        <%#= form_tag('/plugins', multipart: true, method: :post) do -%>
+        <%= form_for("/bioscript/plugins", method: "post", multipart: true) do |f|%>
+        <% @form = f %>
+        <table>
+        <tbody>
+        <% @info_content['in'].each do |form_el| %>
+            <% template_name = "field_" + form_el['type'] %>
+            <% template_name += '_multiple' if form_el['multiple'] %>
+            <% @var = form_el %>
+            <%#= template_name%>
+            <%= render :partial => template_name %>
+        <% end %>
+        </table>
+        <%= submit_tag("submit", :id=>"submit")%>
+        <% end %>
+    </div>
+    <% list_types = ['bam','track'] %>
+    <%= javascript_tag do  %>
+      <% @info_content['in'].select{|e| list_types.include?(e['type'])}.each do |form_el| %>
+       <% field_name = form_el['id'] %>
+           <%# template_name += '_multiple' if form_el['multiple'] %>
+       <%#= raw (form_el['multiple']) ? (0..1).to_a.map{|e| "bs_init_file_field('BamMulti:" + field_name + ":#{e}', 'text');"}.join("\n") : ("bs_init_file_field('" + field_name + "', 'text');" ) %> 
+       <%= raw (form_el['multiple']) ? (0..1).to_a.map{|e| 'bs_init_file_field("Bam_Multi:1:' + field_name + '", "text");'}.join("\n") : ("bs_init_file_field('" + field_name + "', 'text');" ) %> 
+      <% end %>
+     <% end %> 
+   <%# render :partial => 'run_bf_js' %>
 </div>
