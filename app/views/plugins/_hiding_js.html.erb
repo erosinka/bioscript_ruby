@@ -79,6 +79,7 @@ function twd_grow_add(ctrl)
 {
     var row_id = ctrl.id.substring(0, ctrl.id.lastIndexOf(':'));
     var id_prefix = row_id.substring(0, row_id.lastIndexOf(':')+1);
+  //alert(ctrl + ", " + id_prefix);
     var next_num = parseInt(row_id.substr(row_id.lastIndexOf(':')+1)) + 1;
     if(document.getElementById(id_prefix + next_num))
         return;

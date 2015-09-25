@@ -20,24 +20,35 @@
         <table>
         <tbody>
         <% @info_content['in'].each do |form_el| %>
-            <% template_name = "field_" + form_el['type'] %>
+            <% template_name = 'field_' + form_el['type'] %>
+            <% template_name = 'field_track' if form_el['type'] == 'userfile' or form_el['type'] == 'txt' or form_el['type'] == 'file' %>
+            <% template_name = 'field_format' if form_el['type'] == 'function'%>
             <% template_name += '_multiple' if form_el['multiple'] %>
             <% @var = form_el %>
-            <%#= template_name%>
             <%= render :partial => template_name %>
         <% end %>
+        </tbody>
         </table>
         <%= submit_tag("submit", :id=>"submit")%>
         <% end %>
     </div>
-    <% list_types = ['bam','track'] %>
+    <% list_types = ['bam','track', 'userfile', 'txt', 'file'] %>
     <%= javascript_tag do  %>
-      <% @info_content['in'].select{|e| list_types.include?(e['type'])}.each do |form_el| %>
-       <% field_name = form_el['id'] %>
-           <%# template_name += '_multiple' if form_el['multiple'] %>
-       <%#= raw (form_el['multiple']) ? (0..1).to_a.map{|e| "bs_init_file_field('BamMulti:" + field_name + ":#{e}', 'text');"}.join("\n") : ("bs_init_file_field('" + field_name + "', 'text');" ) %> 
-       <%= raw (form_el['multiple']) ? (0..1).to_a.map{|e| 'bs_init_file_field("Bam_Multi:1:' + field_name + '", "text");'}.join("\n") : ("bs_init_file_field('" + field_name + "', 'text');" ) %> 
-      <% end %>
-     <% end %> 
+        <% @info_content['in'].select{|e| list_types.include?(e['type'])}.each do |form_el| %>
+            <% field_name = form_el['id'] %>
+            <%#= raw (form_el['multiple']) ? (0..1).to_a.map{|e| 'bs_init_file_field("Bam_Multi:1:' + field_name + '", "text");'}.join("\n") : ("bs_init_file_field('" + field_name + "', 'text');" ) %> 
+            <%= raw (form_el['multiple']) ? (0..1).to_a.map{|e| 'bs_init_file_field("' + form_el['multiple'] +":#{e}:" + field_name + '", "text");'}.join("\n") : ("bs_init_file_field('" + field_name + "', 'text');" ) %> 
+        <% end %>
+    <% end %>
+
+
+    <%= javascript_tag do%>
+        <% @info_content['in'].each do |form_el| %>
+            <% if form_el['mapping'] %>
+                <%#= raw ('twd_hiding_init("' + form_el['id'] + '", ' + form_el['mapping'].map{|k, v| [k.to_s, v.to_s]} + ');') %>
+                <%= raw ('twd_hiding_init("' + form_el['id'] + '", ' + form_el['mapping'].to_json + ');') %>
+            <% end %>
+        <% end %>
+    <% end %>
    <%# render :partial => 'run_bf_js' %>
 </div>

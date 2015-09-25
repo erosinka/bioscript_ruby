@@ -1,0 +1,38 @@
+<div id=<%= @var['id'] %> >
+<tr id=<%= @var['id'] %>:container >
+
+<th><%= label_tag(@var['id'], @var['label']) %></th>
+<td>
+<% if @var['id'] != 'input_type'%>
+    <% i = 0%>
+    <% @var['options'].each do |option| %>
+        <% if @var['options'][i].is_a?(Array) %>
+            <% tag = @var['options'][i][1]%>
+        <% else tag = @var['options'][i]%>
+        <% end %>
+        <%= radio_button_tag( @var['id'], i, i == 0, options = {:value=> tag, :id => @var['id'] + ":" + i.to_s} ) %>
+        <%= label_tag(@var['id'] + ':' + i.to_s, @var['options'][i]  , options = { :value=> "0"}) %>
+        <% i = i + 1 %>
+    <% end %>
+
+<% else %>
+     <% i = 0%>
+    <% @var['options'].each do |opt| %>
+
+        <% if opt.is_a?(Array) %>
+            <% tag = opt[1]%>
+        <% else %>
+            <% tag = opt%>
+        <% end %>
+
+        <%=radio_button_tag(@var['id'], i,tag==@var['value'], options = {:value=> tag, :id => @var['id']+":" + i.to_s, :onclick => "twd_hiding_listitem_onchange(this);"} ) %>
+        <%= label_tag(@var['id'] + ':0', tag, options = { :value=> tag}) %>
+        <% i = i + 1%>
+    <% end %>
+<% end %>
+
+<%= label_tag(@var['id'], @var['help_text']) %>
+
+
+</td>
+</tr>

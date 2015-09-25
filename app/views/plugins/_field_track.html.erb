@@ -1,4 +1,4 @@
-<tr id=<%= @var['id'] %>:container >
+<tr id=<%= @var['id'] %>:container style="" >
 <th><%= label_tag(@var['id'], @var['label']) %></th>
 <td>
 <div id=<%= @var['id'] %>:bs_container >
@@ -7,7 +7,7 @@
 <%= radio_button_tag( @var['id'] + '_bs_group', 'file', false ) %>
 <%= label_tag(@var['id'], 'File Upoad') %>
 <%= file_field_tag 'file' %>
-<%= @form.text_field 'file'%>
+<%= @form.text_field 'file', :style=>'display: none;'%>
 <%= label_tag(@var['id'], @var['help_text']) %>
 </td>
 </tr>
