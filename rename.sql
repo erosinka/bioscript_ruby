@@ -1,7 +1,7 @@
 --rename tables according to ruby naming convention;
 alter table "User" rename to users;
 alter table "jl_connection" rename to connections;
-alter table "jl_plugin_request" rename to plugin_requests;
+alter table "jl_plugin_request" rename to requests;
 alter table "jl_job" rename to jobs;
 alter table "jl_plugin" rename to plugins ;
 alter table "jl_result" rename to results;
@@ -10,7 +10,7 @@ alter table "celery_taskmeta" rename to tasks;
 --rename sequences??;
 alter sequence "User_id_seq" rename to "users_id_seq";
 alter sequence "jl_connection_id_seq" rename to connections_id_seq;
-alter sequence "jl_plugin_request_id_seq" rename to plugin_requests_id_seq;
+alter sequence "jl_plugin_request_id_seq" rename to requests_id_seq;
 alter sequence "jl_job_id_seq" rename to jobs_id_seq;
 alter sequence "jl_plugin_id_seq" rename to plugins_id_seq;
 alter sequence "jl_result_id_seq" rename to results_id_seq;
@@ -20,7 +20,7 @@ alter sequence "jl_result_id_seq" rename to results_id_seq;
 --rename indices;
 alter index "User_pkey" rename to users_pkey;
 alter index "jl_connection_pkey" rename to connections_pkey;
-alter index "jl_plugin_request_pkey" rename to plugin_requests_pkey;
+alter index "jl_plugin_request_pkey" rename to requests_pkey;
 alter index "jl_job_pkey" rename to jobs_pkey;
 alter index "jl_plugin_pkey" rename to plugins_pkey;
 alter index "jl_result_pkey" rename to results_pkey;
@@ -36,7 +36,7 @@ alter index "celery_taskmeta_task_id_key" rename to tasks_key_key;
 --rename some columns;
 alter table users rename _email to email;
 alter table users rename _created to created_at;
-alter table plugin_requests rename date_done to created_at;
+alter table requests rename date_done to created_at;
 alter table plugins rename generated_id to key;
 alter table tasks rename date_done to created_at;
 alter table tasks rename task_id to key; 
@@ -71,16 +71,16 @@ values
 
 --not good to change column type as text is not convertible;
 --alter table plugin_requests rename status to status_id;
-alter table plugin_requests add column status_id integer;
-alter table plugin_requests add foreign key (status_id) references statuses;
+alter table requests add column status_id integer;
+alter table requests add foreign key (status_id) references statuses;
 --before rename statuses;
-update plugin_requests set status = 'pending' where status = 'PENDING';
-update plugin_requests set status = 'failure' where status = 'FAILED';
+update requests set status = 'pending' where status = 'PENDING';
+update requests set status = 'failure' where status = 'FAILED';
 
-update plugin_requests
-	set status_id = (select statuses.id from statuses where plugin_requests.status = statuses.status);
+update requests
+	set status_id = (select statuses.id from statuses where requests.status = statuses.status);
 
-alter table plugin_requests drop column status;
+alter table requests drop column status;
 ---------------------------------------------------------------------------------------------------------------
 
 --tasks.status_id same as plugin_requests.status_id
