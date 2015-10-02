@@ -1,0 +1,13 @@
+<tr id=<%= @var['id'] %>:container >
+<th><%= label_tag(@var['id'], @var['label']) %></th>
+
+<td>
+<% if @var['id'] == 'format'%>
+<%= @var.to_json %>
+<%#= select_tag( @var['id'], options_for_select(@var['options'])) %>
+<% else %>
+<%= text_field_tag @var['id'], @var['value'] %>
+<% end %>
+<%= label_tag(@var['id'], @var['help_text']) %>
+</td>
+</tr>

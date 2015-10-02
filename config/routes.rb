@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
+
   resources :requests
   resources :result_types
   resources :jobs
   resources :results
   resources :plugins do
+    resources :requests
     member do
       get 'build_form'
+      post 'build_form'
     end
   end
   resources :tasks

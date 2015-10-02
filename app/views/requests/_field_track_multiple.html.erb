@@ -1,0 +1,48 @@
+<tr id=<%= @var['multiple']%>:container >
+<th><%= label_tag(@var['id'], @var['label']) %></th>
+<td>
+<table id=<%= @var['multiple']%>><tbody>
+<tr>
+    <th></th>
+    <th></th>
+    <th>
+        <%= image_tag("plus-icon.png", alt: "undo", :style=>"display: none", :onclick=>"twd_grow_undo(this); return false;", :id => @var['multiple'] + ':undo') %>
+    </th>
+</tr>
+
+<tr id=<%= @var['multiple']%>:0 style="display:none"> 
+    <td>
+        <div id=<%= @var['multiple']%>:0:<%=@var['id']%> name=""   type="text" onchange="twd_grow_add(this);" ></div>
+        <div id=<%= @var['multiple']%>:0:<%=@var['id']%>:bs_container>
+            <%= radio_button_tag( @var['id'], 'text', true, :name => @var['multiple'] + ':0:'+ @var['id'] +'_bs_group') %>
+            <%= label_tag(@var['id'], 'Url') %>
+            <%= radio_button_tag( @var['id'], 'file', false, :name => @var['multiple'] + ':0:' + @var['id'] +'_bs_group') %>
+            <%= label_tag(@var['id'], 'File Upoad') %>
+            <%= file_field_tag 'file' %>
+            <%= @form.text_field 'file', :style => 'display: none; ' %>
+    </td>
+    <td>
+        <%= image_tag("plus-icon.png", alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;",:name => @var['multiple'] + ':0:del', :id => @var['multiple'] + ':0:del') %>
+        <%#= image_submit_tag("bbcf_logo.png", alt: "delete file", onclick="twd_grow_del(this); return flase;", :name => @var['multiple'] + ':0:del', :id => @var['multiple'] + ':0:del') %>
+    </td>
+</tr>
+
+<tr id=<%= @var['multiple']%>:1>
+    <td> 
+        <div id=<%= @var['multiple']%>:1:<%=@var['id']%> name=""   type="text" onchange="twd_grow_add(this);" ></div>
+        <div id=<%= @var['multiple']%>:1:<%=@var['id']%>:bs_container>
+        <%= radio_button_tag( @var['id'], 'text', true, :name => @var['multiple'] + ':1:'+ @var['id'] +'_bs_group') %>
+        <%= label_tag(@var['id'], 'Url') %>
+        <%= radio_button_tag( @var['id'], 'file', false, :name => @var['multiple'] + ':1:'+ @var['id'] +'_bs_group') %>
+        <%= label_tag(@var['id'], 'File Upoad') %>
+        <%= file_field_tag 'file' %>
+        <%= @form.text_field 'file', :style => 'display: none; ' %>
+        </div>
+    </td>
+    <td> 
+        <%= image_tag("plus_icon.png", alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;",:name=>@var['multiple']+':1:del', :id=>@var['multiple']+':1:del') %>
+    </td>
+</tr>
+</tbody></table>
+</td>
+</tr>

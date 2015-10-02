@@ -1,5 +1,6 @@
 class RequestsController < ApplicationController
-  before_action :set_request, only: [:show, :edit, :update, :destroy]
+#    before_action :set_plugin, only: [:create]
+    before_action :set_request, only: [:show, :edit, :update, :destroy]
 
   # GET /requests
   # GET /requests.json
@@ -14,7 +15,9 @@ class RequestsController < ApplicationController
 
   # GET /requests/new
   def new
-    @request = Request.new
+    @plugin = Plugin.find(params[:plugin_id])
+    @info_content = @plugin.info_content
+    @request = Request.new(:plugin_id => @plugin.id, :user_id => 1)
   end
 
   # GET /requests/1/edit
@@ -24,11 +27,14 @@ class RequestsController < ApplicationController
   # POST /requests
   # POST /requests.json
   def create
-    @request = Request.new(request_params)
+    plugin = Plugin.find(params[:plugin_id])
+    @request = plugin.requests.build(plugin: plugin)
+  #  @request = Request.new(request_params)
 
     respond_to do |format|
       if @request.save
-        format.html { redirect_to @request, notice: 'Request was successfully created.' }
+        format.html { redirect_to @request.plugin, notice: 'Request was successfully created.' }
+        #format.html { redirect_to @request, notice: 'Request was successfully created.' }
         format.json { render :show, status: :created, location: @request }
       else
         format.html { render :new }

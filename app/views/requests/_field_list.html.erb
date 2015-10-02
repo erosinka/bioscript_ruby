@@ -1,0 +1,14 @@
+<tr id=<%= @var['id'] %>:container >
+<th><%= label_tag(@var['id'], @var['label']) %></th>
+
+<td>
+<% if (@var['options'][0].class == Array) %>
+    <% @var['options'].each do |o| %>
+        <% o.reverse! %>
+    <% end %>
+<% end %>
+
+<%= select_tag( @var['id'], options_for_select(@var['options']), :onchange=>"twd_hiding_onchange(this)") %>
+<%= label_tag(@var['id'], @var['help_text']) %>
+</td>
+</tr>

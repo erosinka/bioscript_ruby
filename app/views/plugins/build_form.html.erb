@@ -12,10 +12,10 @@
 
         )
     </p></div>
-    <div class='bs_form'>
+    <div class='bs_form'> 
         <%# form_for :plugins, :url => {:action => "post"}, :html =>%>
         <%#= form_tag('/plugins', multipart: true, method: :post) do -%>
-        <%= form_for("/bioscript/plugins", method: "post", multipart: true) do |f|%>
+        <%= form_for(:requests, method: "post", multipart: true) do |f|%>
         <% @form = f %>
         <table>
         <tbody>
@@ -30,6 +30,7 @@
         </tbody>
         </table>
         <%= submit_tag("submit", :id=>"submit")%>
+        <%= button_to "submit", requests_path(:plugin_id =>  @plugin.id) %>
         <% end %>
     </div>
     <% list_types = ['bam','track', 'userfile', 'txt', 'file'] %>
