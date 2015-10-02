@@ -9,5 +9,6 @@
 <% end %>
 <%= select_tag( @var['id'], options_for_select(@var['options'])) %>
 <%= label_tag(@var['id'], @var['help_text']) %>
+<% @list_fields.push(@var['id']) %>
 </td>
 </tr>

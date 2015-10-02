@@ -87,8 +87,8 @@ class PluginsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_plugin
-    @plugin = Plugin.find(params[:id])  
-    @info_content = @plugin.info_content
+        @plugin = Plugin.find(params[:id])  
+        @info_content = @plugin.info_content
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

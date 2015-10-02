@@ -19,6 +19,7 @@
         <% @form = f %>
         <table>
         <tbody>
+        <%= @list_fields = [] %>
         <% @info_content['in'].each do |form_el| %>
             <% template_name = 'field_' + form_el['type'] %>
             <% template_name = 'field_track' if form_el['type'] == 'userfile' or form_el['type'] == 'txt' or form_el['type'] == 'file' %>
@@ -29,10 +30,16 @@
         <% end %>
         </tbody>
         </table>
+        <%= f.hidden_field :plugin_id %>
+        <%= f.hidden_field :user_id %>
+        <%= hidden_field_tag :list_fields, @list_fields.to_json %>   
         <%= submit_tag("submit", :id=>"submit")%>
-        <%= button_to "submit", requests_path(:plugin_id =>  @plugin.id) %>
+        <%#= button_to "submit", requests_path(:plugin_id =>  @plugin.id) %>
+        <%= button_to "submit" %>
         <% end %>
     </div>
+
+
     <% list_types = ['bam','track', 'userfile', 'txt', 'file'] %>
     <%= javascript_tag do  %>
         <% @info_content['in'].select{|e| list_types.include?(e['type'])}.each do |form_el| %>

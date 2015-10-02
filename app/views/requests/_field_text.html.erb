@@ -9,5 +9,6 @@
 <%= text_field_tag @var['id'], @var['value'] %>
 <% end %>
 <%= label_tag(@var['id'], @var['help_text']) %>
+<% @list_fields.push(@var['id']) %>
 </td>
 </tr>

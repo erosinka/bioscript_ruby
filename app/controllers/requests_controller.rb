@@ -24,16 +24,33 @@ class RequestsController < ApplicationController
   def edit
   end
 
+  def get_parameters(plugin)
+#    info_content = plugin.info_content
+#    list_fields = []
+ #   info_content['in'].each do |form_el|
+ #     if form_el['id'] == 'format'
+ #       list_fields.push(form_el['id'])
+ #     elsif form_el['id'] == 'track'
+ #       list_fields.push(form_el['id'] + '_bs_group')
+ #         list_fields.push('field_' + form_el['type']) 
+ #<% template_name = 'field_' + form_el['type'] %>
+ #           <% template_name = 'field_track' if form_el['type'] == 'userfile' or form_el['type'] == 'txt' or form_el['type'] == 'file' %>
+ #           <% template_name = 'field_format' if form_el['type'] == 'function'%>
+ #           <% template_name += '_multiple' if form_el['multiple'] %>
+ #           <% @var = form_el %>
+ #           <%= render :partial => template_name %>
+ #       <% end %>
+    end
+
   # POST /requests
   # POST /requests.json
   def create
-    plugin = Plugin.find(params[:plugin_id])
-    @request = plugin.requests.build(plugin: plugin)
-  #  @request = Request.new(request_params)
+    #plugin = Plugin.find(params[:plugin_id])
+    @request = Request.new(request_params)
 
     respond_to do |format|
       if @request.save
-        format.html { redirect_to @request.plugin, notice: 'Request was successfully created.' }
+        format.html { redirect_to @request, notice: 'Request was successfully created.' }
         #format.html { redirect_to @request, notice: 'Request was successfully created.' }
         format.json { render :show, status: :created, location: @request }
       else
@@ -75,6 +92,7 @@ class RequestsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def request_params
-      params[:request]
+      params.require(:request).permit(:user_id, :plugin_id, :parameters)
     end
+
 end
