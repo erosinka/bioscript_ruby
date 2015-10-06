@@ -2,7 +2,8 @@
 <th><%= label_tag(@var['id'], @var['label']) %></th>
 
 <td>
-<%= text_field_tag @var['id'], @var['value'] %>
-<%= label_tag(@var['id'], @var['help_text']) %>
+    <%= text_field_tag @var['id'], @var['value'] %>
+    <%= label_tag(@var['id'], @var['help_text']) %>
+    <%# @list_fields.push(@var['id']) %>
 </td>
 </tr>

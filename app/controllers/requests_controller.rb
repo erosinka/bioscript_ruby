@@ -47,7 +47,9 @@ class RequestsController < ApplicationController
   def create
     #plugin = Plugin.find(params[:plugin_id])
     @request = Request.new(request_params)
-
+    tmp_h = {}
+    JSON.parse(params[:list_fields]).map{|e| tmp_h[e] = params[e]}
+    @request.parameters = tmp_h.to_json
     respond_to do |format|
       if @request.save
         format.html { redirect_to @request, notice: 'Request was successfully created.' }
