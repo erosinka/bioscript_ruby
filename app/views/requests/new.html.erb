@@ -1,5 +1,6 @@
 <%= render :partial => 'build_form_js' %>
 <%= render :partial => 'hiding_js' %>
+<%= render :partial => 'bs_js' %>
 
 <div class='bs_container'>
     <div class='bs_title'><%= @info_content['title'] %></div>
@@ -15,27 +16,29 @@
     <div class='bs_form'> 
         <%# form_for :plugins, :url => {:action => "post"}, :html =>%>
         <%#= form_tag('/plugins', multipart: true, method: :post) do -%>
-        <%= form_for(@request, method: "post", multipart: true) do |f|%>
-        <% @form = f %>
-        <table>
-        <tbody>
-        <% @list_fields = [] %>
-        <% @info_content['in'].each do |form_el| %>
-            <% template_name = 'field_' + form_el['type'] %>
-            <% template_name = 'field_track' if form_el['type'] == 'userfile' or form_el['type'] == 'txt' or form_el['type'] == 'file' %>
-            <% template_name = 'field_format' if form_el['type'] == 'function'%>
-            <% template_name += '_multiple' if form_el['multiple'] %>
-            <% @var = form_el %>
-            <% @list_fields.push(@var['id'])%>
-            <%= render :partial => template_name %>
-        <% end %>
-        </tbody>
-        </table>
-        <%= f.hidden_field :plugin_id %>
-        <%= f.hidden_field :user_id %>
-        <%= hidden_field_tag :list_fields, @list_fields.to_json %>   
-        <%#= button_to "submit", requests_path(:plugin_id =>  @plugin.id) %>
-        <%= button_to "submit" %>
+        <%= form_for(@request, method: "post", html: {multipart: true}) do |f|%>
+            <% @form = f %>
+            <table>
+            <tbody>
+            <% @list_fields = [] %>
+            <% @info_content['in'].each do |form_el| %>
+                <% @var = form_el %>
+                <% @list_fields.push(@var['id']) if !form_el['multiple'] %>
+                <% template_name = 'field_' + form_el['type'] %>
+                <% template_name = 'field_track' if form_el['type'] == 'userfile' or form_el['type'] == 'txt' or form_el['type'] == 'file' %>
+                <% template_name = 'field_format' if form_el['type'] == 'function'%>
+                <% template_name += '_multiple' if form_el['multiple'] %>
+                <%= render :partial => template_name %>
+            <% end %>
+            </tbody>
+            </table>
+            <%= f.hidden_field :plugin_id %>
+            <%= f.hidden_field :user_id %>
+            <%= hidden_field_tag :list_fields, @list_fields.to_json %>   
+            <%#= button_to "submit", requests_path(:plugin_id =>  @plugin.id) %>
+            <%= button_to "submit" %>
+            <%= @list_fields %>
+            <%= f  %>
         <% end %>
     </div>
 

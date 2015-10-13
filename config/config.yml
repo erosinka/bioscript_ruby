@@ -1,2 +1,5 @@
 development:
   plugin_path: /srv/bsPlugins/
+  data_path: /data/epfl/bbcf/bioscript/
+  input_dir: input/
+  request_input_dir: request_input/ 

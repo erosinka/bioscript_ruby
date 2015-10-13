@@ -45,13 +45,34 @@ class RequestsController < ApplicationController
   # POST /requests
   # POST /requests.json
   def create
+    require 'digest'
     #plugin = Plugin.find(params[:plugin_id])
     @request = Request.new(request_params)
     tmp_h = {}
     JSON.parse(params[:list_fields]).map{|e| tmp_h[e] = params[e]}
+    list_file_fields = tmp_h.keys.select{|k| tmp_h[k] and tmp_h[k].respond_to?("original_filename")}
+
+    logger.debug("all fields:" + tmp_h.keys.to_json)
+    list_file_fields.map{|k|
+         tmp_h[k] = params[k].original_filename}
     @request.parameters = tmp_h.to_json
     respond_to do |format|
       if @request.save
+        
+        dir = APP_CONFIG[:data_path] + APP_CONFIG[:input_dir]
+        link_dir = APP_CONFIG[:data_path] + APP_CONFIG[:request_input_dir]
+        list_file_fields.map{|k|
+          tmp_h[k] = params[k].original_filename
+          filename = @request.id.to_s + "_" + k
+          filepath = dir + filename
+          File.open(filepath, 'w') do |f|
+            f.write(params[k].read)
+          end
+          sha2 = Digest::SHA2.file(filepath).hexdigest
+          FileUtils.move filepath, (dir + sha2)
+          File.symlink (dir + sha2), (link_dir + filename)
+        }
+        
         format.html { redirect_to @request, notice: 'Request was successfully created.' }
         #format.html { redirect_to @request, notice: 'Request was successfully created.' }
         format.json { render :show, status: :created, location: @request }

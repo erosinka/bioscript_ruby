@@ -79,13 +79,21 @@ function twd_grow_add(ctrl)
 {
     var row_id = ctrl.id.substring(0, ctrl.id.lastIndexOf(':'));
     var id_prefix = row_id.substring(0, row_id.lastIndexOf(':')+1);
-  //alert(ctrl + ", " + id_prefix);
+    //alert(ctrl + ", " + id_prefix);
     var next_num = parseInt(row_id.substr(row_id.lastIndexOf(':')+1)) + 1;
     if(document.getElementById(id_prefix + next_num))
         return;
     var del = document.getElementById(row_id + ':del');
     if(del) del.style.display = '';
     twd_grow_clone(id_prefix, next_num);
+    
+    //modify list_fields hidden field
+    var list_fields = JSON.parse(document.getElementById('list_fields').value);
+    id_suffix = ctrl.id.substring(ctrl.id.lastIndexOf(':'), ctrl.id.length);
+    var name = id_prefix + next_num + id_suffix;
+    alert(name);
+    list_fields.push(id_prefix + next_num + id_suffix);
+    document.getElementById('list_fields').value = JSON.stringify(list_fields);
 }
 
 function twd_grow_clone(id_prefix, next_num)
@@ -102,6 +110,7 @@ function twd_grow_clone(id_prefix, next_num)
     }
     clone_node.parentNode.appendChild(node);
     node.style.display = '';
+    
 }
 
 var twd_grow_undo_data = {};

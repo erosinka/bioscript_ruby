@@ -5,14 +5,13 @@
 <td>
     <% i = 0%>
     <% @var['options'].each do |opt| %>
-
         <% if opt.is_a?(Array) %>
             <% tag = opt[1]%>
         <% else %>
             <% tag = opt%>
         <% end %>
 
-        <%=radio_button_tag(@var['id'], i,tag==@var['value'], options = {:value=> i, :id => @var['id']+":" + i.to_s, :onclick => "twd_hiding_listitem_onchange(this);"} ) %>
+        <%=radio_button_tag(@var['id'], i,tag==@var['value'], options = {:value=> tag, :id => @var['id']+":" + i.to_s, :onclick => "twd_hiding_listitem_onchange(this);"} ) %>
         <%= label_tag(@var['id'] + ':' + i.to_s, tag, options = { :value=> tag}) %>
         <% i = i + 1%>
     <% end %>
