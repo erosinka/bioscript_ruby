@@ -1,8 +1,16 @@
 <tr id=<%= @var['multiple']%>:container style="" >
 <th><%= label_tag(@var['id'], @var['label']) %></th>
-<td>
+    <td>
 <table id=<%= @var['multiple']%>><tbody>
-<tr id=<%= @var['multiple']%>:0, style="display:none"> 
+<tr>
+    <th></th>
+    <th></th>
+    <th>
+        <%= image_tag("plus_icon.png", alt: "undo", :style=>"display: none", :onclick=>"twd_grow_undo(this); return false;", :id => @var['multiple'] + ':undo') %>
+    </th>
+</tr>
+
+<tr id=<%= @var['multiple']%>:0 style="display:none"> 
     <td>
         <div id=<%= @var['multiple']%>:0:<%=@var['id']%> name=""   type="text" onchange="twd_grow_add(this);" ></div>
         <div id=<%= @var['multiple']%>:0:<%=@var['id']%>:bs_container>
@@ -13,7 +21,9 @@
             <%= label_tag(@var['id'], 'File Upoad') %>
             <%= file_field_tag 'file' %>
             <%= text_field_tag 'file', '', :style => 'display: none; ' %>
-            <%# @list_fields.push(name) %>
+    </td>
+    <td>
+    <%= image_tag("plus-icon.png", alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;",:name => @var['multiple'] + ':0:del', :id     => @var['multiple'] + ':0:del') %>
     </td>
 </tr>
 
@@ -28,10 +38,11 @@
             <%= label_tag(@var['id'], 'File Upoad') %>
             <%= file_field_tag 'file' %>
             <%= text_field_tag 'file','', :style => 'display: none; ' %>
-            <%# @list_fields.push(name) %>
         </div>
     </td>
-    <td> </td>
+    <td>
+    <%= image_tag("plus-icon.png", alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;",:name => @var['multiple'] + ':1:del', :id     => @var['multiple'] + ':1:del') %>
+    </td>
 </tr>
 </tbody></table>
 </td>

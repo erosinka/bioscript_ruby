@@ -4,15 +4,17 @@
 <th><%= label_tag(@var['id'], @var['label']) %></th>
 <td>
     <% i = 0%>
+<%# options can be either [(0 : val0), (1 : val1)] or [val0, val1]%>
     <% @var['options'].each do |opt| %>
         <% if opt.is_a?(Array) %>
             <% tag = opt[1]%>
+            <% value = opt[0] %>
         <% else %>
-            <% tag = opt%>
+            <% tag = opt %>
+            <% value = opt %>
         <% end %>
-
-        <%=radio_button_tag(@var['id'], i,tag==@var['value'], options = {:value=> tag, :id => @var['id']+":" + i.to_s, :onclick => "twd_hiding_listitem_onchange(this);"} ) %>
-        <%= label_tag(@var['id'] + ':' + i.to_s, tag, options = { :value=> tag}) %>
+        <%=radio_button_tag(@var['id'], i, value == @var['value'], options = { :value=> value, :id => @var['id']+":" + i.to_s, :onclick => "twd_hiding_listitem_onchange(this);"} ) %>
+        <%= label_tag(@var['id'] + ':' + i.to_s, tag, options = { :value => tag }) %>
         <% i = i + 1%>
     <% end %>
 

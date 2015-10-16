@@ -8,7 +8,7 @@
 <%= radio_button_tag( @var['id'], 'file', false, :name => name) %>
 <%= label_tag(@var['id'], 'File Upoad') %>
 <%= file_field_tag 'file' %>
-<%= text_field_tag 'file', :style => 'display: none; ' %>
+<%= text_field_tag 'file', '', :style => 'display: none; ' %>
 <%= label_tag(@var['id'], @var['help_text']) %>
 <%# @list_fields.push(name) %>
 </td>

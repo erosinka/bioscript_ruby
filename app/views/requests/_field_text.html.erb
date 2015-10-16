@@ -2,16 +2,15 @@
 <th><%= label_tag(@var['id'], @var['label']) %></th>
 
 <td>
-<%# if id = format then it is list fild %>
-    <% if @var['id'] == 'format'%>
-        <% @var.to_json %>
-        <%= select_tag( @var['id'], options_for_select(@var['options'])) %>
-    <% else %>
+<%#ino more such combination  if id = format then it is list fild %>
+    <%# if @var['id'] == 'format'%>
+        <%# @var.to_json %>
+        <%#= select_tag('form['+ @var['id'] + ']', options_for_select(@var['options'])) %>
+    <%# else %>
         <% #before ext_field_tag %>
         <%= text_field @var['id'], @var['value'], placeholder: @var['placeholder'] %>
-    <% end %>
+    <%# end %>
 
     <%= label_tag(@var['id'], @var['help_text']) %>
-    <%# @list_fields.push(@var['id']) %>
 </td>
 </tr>

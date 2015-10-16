@@ -10,6 +10,10 @@ var twd_mapping_store = {};
 function twd_hiding_init(ctrl_id, mapping)
 {
     twd_mapping_store[ctrl_id] = mapping;
+
+    //for first initialization of the mapping
+    my_ctrl = document.getElementById(ctrl_id);
+    twd_hiding_onchange(my_ctrl);
 }
 
 function twd_hiding_onchange(ctrl)
@@ -48,8 +52,8 @@ function twd_hiding_onchange(ctrl)
 
     // Set the visibility for all dependent controls, where this has changed
     for(a in mapping){
-var l = mapping[a];
-for(var j=0;j<l.length;j++)
+        var l = mapping[a];
+        for(var j=0;j<l.length;j++)
         {
 		    var b = l[j];
             var display = visible[b] ? '' : 'none';
@@ -57,7 +61,7 @@ for(var j=0;j<l.length;j++)
             if(x.style.display != display)
             {
                 x.style.display = display;
-		var x = document.getElementById(parent_id+b);
+		        var x = document.getElementById(parent_id+b);
                 if(x && x.id && twd_mapping_store[x.id])
                     twd_hiding_onchange(x);
             }
@@ -90,9 +94,16 @@ function twd_grow_add(ctrl)
     //modify list_fields hidden field
     var list_fields = JSON.parse(document.getElementById('list_fields').value);
     id_suffix = ctrl.id.substring(ctrl.id.lastIndexOf(':'), ctrl.id.length);
-    var name = id_prefix + next_num + id_suffix;
-    alert(name);
-    list_fields.push(id_prefix + next_num + id_suffix);
+    //add to list id of the previos element, which has value, not the new and empty one
+    var num = next_num - 1;
+    name = id_prefix + num  + id_suffix;
+    check = false;
+    for (var i in list_fields) {
+        if (list_fields[i] == name) {
+            check = true;
+        }
+    }
+    if (!check) list_fields.push(name);
     document.getElementById('list_fields').value = JSON.stringify(list_fields);
 }
 
@@ -122,13 +133,38 @@ function twd_grow_del(ctrl)
     twd_grow_undo_data[id_prefix].push(parent_id);
     document.getElementById(parent_id).style.display = 'none';
     document.getElementById(id_prefix + ':undo').style.display = '';
+    //modify list_fields hidden field
+    var par = document.getElementById(parent_id);
+    var divs = par.getElementsByTagName( 'div' );
+    var firstDiv = divs[ 0 ];
+    id_suffix = firstDiv.id.substring(firstDiv.id.lastIndexOf(':'), firstDiv.id.length);
+    var list_fields = JSON.parse(document.getElementById('list_fields').value);
+    var index = list_fields.indexOf(parent_id + id_suffix);
+    if (index > -1) {
+        list_fields.splice(index, 1);
+    }
+    document.getElementById('list_fields').value = JSON.stringify(list_fields);
 }
 
 function twd_grow_undo(ctrl)
 {
     var id_prefix = ctrl.id.substring(0, ctrl.id.lastIndexOf(':'));
-    document.getElementById(twd_grow_undo_data[id_prefix].pop()).style.display = '';
+    last_el = twd_grow_undo_data[id_prefix].pop();
+    document.getElementById(last_el).style.display = '';
     if(!twd_grow_undo_data[id_prefix].length) ctrl.style.display = 'none';
+    //modify list_fields hidden field
+    var par = document.getElementById(last_el);
+    var divs = par.getElementsByTagName( 'div' );
+    var firstDiv = divs[ 0 ];
+    var list_fields = JSON.parse(document.getElementById('list_fields').value);
+    var check = false;
+    for (var i in list_fields) {
+        if (list_fields[i] == firstDiv.id) {
+            check = true;
+        }
+    }
+    if (!check) list_fields.push(firstDiv.id);
+    document.getElementById('list_fields').value = JSON.stringify(list_fields);
 }
 
 /**

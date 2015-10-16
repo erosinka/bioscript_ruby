@@ -18,7 +18,7 @@
 <%= radio_button_tag( @var['id'], 'file', false, :name => @var['multiple'] + ':0:sample_bs_group') %>
 <%= label_tag(@var['id'], 'File Upoad') %>
 <%= file_field_tag 'file' %>
-<%= @form.text_field 'file', :style => 'display: none; ' %>
+<%= text_field_tag 'file','', :style => 'display: none; ' %>
 <%#= label_tag(@var['id'], @var['help_text']) %>
     </td>
 </tr>
@@ -32,7 +32,7 @@
 <%= radio_button_tag( @var['id'], 'file', false, :name => @var['multiple'] + ':1:sample_bs_group') %>
 <%= label_tag(@var['id'], 'File Upoad') %>
 <%= file_field_tag 'file' %>
-<%= @form.text_field 'file', :style => 'display: none; ' %>
+<%= text_field_tag 'file', '', :style => 'display: none; ' %>
 <%#= label_tag(@var['id'], @var['help_text']) %>
         </div>
     </td>

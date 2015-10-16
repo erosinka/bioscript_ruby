@@ -53,8 +53,8 @@ namespace :bioscript do
                     #@plugin = @plugin.where(:deprecated => false).first
                     #@plugin = Plugin.where(:id => 142)
                     @plugin.each do |p| 
-                        p.update(:name => filename, :info => JSON.generate(hash)) #or plugin_name?
-                        puts "#{p.id}  #{filename}"
+                   #     p.update(:name => filename, :info => JSON.generate(hash)) #or plugin_name?
+                    #    puts "#{p.id}  #{filename}"
                     end
                 end
             end

@@ -24,6 +24,7 @@ class RequestsController < ApplicationController
   def edit
   end
 
+
   def get_parameters(plugin)
 #    info_content = plugin.info_content
 #    list_fields = []
@@ -53,8 +54,7 @@ class RequestsController < ApplicationController
     list_file_fields = tmp_h.keys.select{|k| tmp_h[k] and tmp_h[k].respond_to?("original_filename")}
 
     logger.debug("all fields:" + tmp_h.keys.to_json)
-    list_file_fields.map{|k|
-         tmp_h[k] = params[k].original_filename}
+    list_file_fields.map{|k| tmp_h[k] = params[k].original_filename}
     @request.parameters = tmp_h.to_json
     respond_to do |format|
       if @request.save
@@ -65,7 +65,7 @@ class RequestsController < ApplicationController
           tmp_h[k] = params[k].original_filename
           filename = @request.id.to_s + "_" + k
           filepath = dir + filename
-          File.open(filepath, 'w') do |f|
+          File.open(filepath, 'wb+') do |f|
             f.write(params[k].read)
           end
           sha2 = Digest::SHA2.file(filepath).hexdigest
@@ -73,6 +73,8 @@ class RequestsController < ApplicationController
           File.symlink (dir + sha2), (link_dir + filename)
         }
         
+        @request.delay.run
+
         format.html { redirect_to @request, notice: 'Request was successfully created.' }
         #format.html { redirect_to @request, notice: 'Request was successfully created.' }
         format.json { render :show, status: :created, location: @request }

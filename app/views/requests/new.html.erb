@@ -14,8 +14,6 @@
         )
     </p></div>
     <div class='bs_form'> 
-        <%# form_for :plugins, :url => {:action => "post"}, :html =>%>
-        <%#= form_tag('/plugins', multipart: true, method: :post) do -%>
         <%= form_for(@request, method: "post", html: {multipart: true}) do |f|%>
             <% @form = f %>
             <table>
@@ -25,8 +23,9 @@
                 <% @var = form_el %>
                 <% @list_fields.push(@var['id']) if !form_el['multiple'] %>
                 <% template_name = 'field_' + form_el['type'] %>
-                <% template_name = 'field_track' if form_el['type'] == 'userfile' or form_el['type'] == 'txt' or form_el['type'] == 'file' %>
-                <% template_name = 'field_format' if form_el['type'] == 'function'%>
+                <% template_name = 'field_track' if form_el['type'] == 'userfile' or form_el['type'] == 'txt' # or form_el['type'] == 'file' %>
+                <% template_name = 'field_listing' if form_el['type'] == 'function'%>
+                <% template_name = 'field_list' if form_el['type'] == 'function' %>
                 <% template_name += '_multiple' if form_el['multiple'] %>
                 <%= render :partial => template_name %>
             <% end %>
@@ -37,8 +36,6 @@
             <%= hidden_field_tag :list_fields, @list_fields.to_json %>   
             <%#= button_to "submit", requests_path(:plugin_id =>  @plugin.id) %>
             <%= button_to "submit" %>
-            <%= @list_fields %>
-            <%= f  %>
         <% end %>
     </div>
 
@@ -56,6 +53,7 @@
         <% @info_content['in'].each do |form_el| %>
             <% if form_el['mapping'] %>
                 <%= raw ('twd_hiding_init("' + form_el['id'] + '", ' + form_el['mapping'].to_json + ');') %>
+                <%#= raw ('twd_hiding_onchange("' + form_el['id'] + '");') %>
             <% end %>
         <% end %>
     <% end %>

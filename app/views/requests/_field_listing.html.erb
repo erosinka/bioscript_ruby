@@ -1,0 +1,19 @@
+<tr id=<%= @var['id'] %>:container >
+<th><%= label_tag(@var['id'], @var['label']) %></th>
+
+<td>
+<%# if (@var['options'][0].class == Array) %>
+    <%# @var['options'].each do |o| %>
+        <%# o.reverse! %>
+    <%# end %>
+<%# end %>
+
+<%# if @var['id'] == 'format'%>
+<%= select_tag( 'form[' + @var['id'] + ']', options_for_select(@var['options'])) %>
+<%= label_tag(@var['id'], @var['help_text']) %>
+<%# else %>
+<%#= text_field_tag @var['id'], @var['value'] %>
+<%# end %>
+    <%# @list_fields.push(@var['id']) %>
+</td>
+</tr>
