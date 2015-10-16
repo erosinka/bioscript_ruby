@@ -9,7 +9,7 @@
 <%# end %>
 
 <%# if @var['id'] == 'format'%>
-<%= select_tag( 'form[' + @var['id'] + ']', options_for_select(@var['options'])) %>
+<%= select_tag( @var['id'], options_for_select(@var['options'])) %>
 <%= label_tag(@var['id'], @var['help_text']) %>
 <%# else %>
 <%#= text_field_tag @var['id'], @var['value'] %>

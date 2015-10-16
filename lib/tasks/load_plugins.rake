@@ -25,7 +25,6 @@ namespace :bioscript do
         puts filename
         filepath = Pathname.new(dir) + "#{filename}.py"
         plugin_names = []
-        puts filename
         File.open(filepath, 'r') do |f|
             while (l = f.gets) do
                 #find Plugin
@@ -43,7 +42,6 @@ namespace :bioscript do
                         end
                     end
                     query = '"title": ' + "\"#{title}\""
-                    puts query
                     @plugin = Plugin.where("info LIKE :query", query: "%#{query}%")
                     if @plugin.count == 0
                         query = query = '"title":' + "\"#{title}\""
@@ -53,8 +51,8 @@ namespace :bioscript do
                     #@plugin = @plugin.where(:deprecated => false).first
                     #@plugin = Plugin.where(:id => 142)
                     @plugin.each do |p| 
-                   #     p.update(:name => filename, :info => JSON.generate(hash)) #or plugin_name?
-                    #    puts "#{p.id}  #{filename}"
+                        p.update(:name => n[1], :info => JSON.generate(hash)) #or plugin_name?
+                     #   puts "#{p.id}  #{filename}"
                     end
                 end
             end
