@@ -26,22 +26,7 @@ class RequestsController < ApplicationController
 
 
   def get_parameters(plugin)
-#    info_content = plugin.info_content
-#    list_fields = []
- #   info_content['in'].each do |form_el|
- #     if form_el['id'] == 'format'
- #       list_fields.push(form_el['id'])
- #     elsif form_el['id'] == 'track'
- #       list_fields.push(form_el['id'] + '_bs_group')
- #         list_fields.push('field_' + form_el['type']) 
- #<% template_name = 'field_' + form_el['type'] %>
- #           <% template_name = 'field_track' if form_el['type'] == 'userfile' or form_el['type'] == 'txt' or form_el['type'] == 'file' %>
- #           <% template_name = 'field_format' if form_el['type'] == 'function'%>
- #           <% template_name += '_multiple' if form_el['multiple'] %>
- #           <% @var = form_el %>
- #           <%= render :partial => template_name %>
- #       <% end %>
-    end
+  end
 
   # POST /requests
   # POST /requests.json

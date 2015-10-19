@@ -1,7 +1,7 @@
 <tr id=<%= @var['id'] %>:container style="">
 <th><%= label_tag(@var['id'], @var['label']) %></th>
 <td>
-    <%= check_box_tag(@var['id'], :checked => true) %>
+    <%= check_box_tag(@var['id'], 'on' ) %>
     <%= label_tag(@var['id'], @var['help_text']) %>
     <%# @list_fields.push(@var['id'])%>
 </td>

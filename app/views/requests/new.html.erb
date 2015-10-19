@@ -24,8 +24,8 @@
                 <% @list_fields.push(@var['id']) if !form_el['multiple'] %>
                 <% template_name = 'field_' + form_el['type'] %>
                 <% template_name = 'field_track' if form_el['type'] == 'userfile' or form_el['type'] == 'txt' # or form_el['type'] == 'file' %>
-                <% template_name = 'field_listing' if form_el['type'] == 'function'%>
-                <% template_name = 'field_list' if form_el['type'] == 'function' %>
+                <%# template_name = 'field_listing' if form_el['type'] == 'function'%>
+                <%# template_name = 'field_list' if form_el['type'] == 'function' %>
                 <% template_name += '_multiple' if form_el['multiple'] %>
                 <%= render :partial => template_name %>
             <% end %>
