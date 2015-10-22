@@ -47,17 +47,33 @@ class RequestsController < ApplicationController
         dir = APP_CONFIG[:data_path] + APP_CONFIG[:input_dir]
         link_dir = APP_CONFIG[:data_path] + APP_CONFIG[:request_input_dir]
         list_file_fields.map{|k|
-          tmp_h[k] = params[k].original_filename
-          filename = @request.id.to_s + "_" + k
+          tmp_h[k] = params[k].original_filename #
+          #r = k.split(':')
+          ##field_name = id or id_1 id_2 in case of multiple
+          #field_name = (r.size == 3) ? "#{r[2]}_#{r[1]}" : k 
+          #filename = @request.id.to_s + "_" + field_name
+          filename = @request.id.to_s + "_" + k#
           filepath = dir + filename
           File.open(filepath, 'wb+') do |f|
             f.write(params[k].read)
           end
           sha2 = Digest::SHA2.file(filepath).hexdigest
+          #tmp_h[k] = field_name
           FileUtils.move filepath, (dir + sha2)
-          File.symlink (dir + sha2), (link_dir + filename)
+          File.symlink (dir + sha2), (link_dir + filename) #
         }
-        
+        #rewrite the parameters in case of multiple
+        tmp_h2 = {}
+        tmp_h.keys.each do |k|
+            if (res = k.split(':')).size == 3
+                tmp_h2[res[2]] ||= []
+                tmp_h2[res[2]].push(tmp_h[k])
+            else
+                tmp_h2[k] = tmp_h[k]
+            end
+        end
+        @request.update_attribute(:parameters, tmp_h2.to_json)
+
         @request.delay.run
 
         format.html { redirect_to @request, notice: 'Request was successfully created.' }
