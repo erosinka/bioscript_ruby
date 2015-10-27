@@ -4,7 +4,10 @@ class Request < ActiveRecord::Base
   def run
     #dir = APP_CONFIG[:data_path] + APP_CONFIG[:input_dir]
     link_dir = APP_CONFIG[:data_path] + APP_CONFIG[:request_input_dir]
+    logger.debug('link_dir: ' + link_dir)  
     output_dir = APP_CONFIG[:data_path] + APP_CONFIG[:output_dir]
+    logger.debug('output_dir:' + output_dir)  
+    # output_dir = APP_CONFIG[:data_path] + APP_CONFIG[:output_dir]
 
     #get the name of the plugin file
     n = self.plugin.name.match(/(.+?)Plugin/)
@@ -63,7 +66,7 @@ class Request < ActiveRecord::Base
         end
     end
 
-script = "import os\nos.chdir('#{output_dir}')\nfrom bsPlugins import #{n[1]}\nplugin = #{n[1]}.#{self.plugin.name}()\nplugin(#{arg_line})\nprint plugin.output_files[0][0]"
+script = "print #{output_dir}\nfrom bsPlugins import #{n[1]}\nplugin = #{n[1]}.#{self.plugin.name}()\nplugin(#{arg_line})\nprint plugin.output_files[0][0]"
 
 #script_name = sefl.id.to_s +'.py'
 script_name = 'script.py'

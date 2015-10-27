@@ -14,7 +14,7 @@ namespace :bioscript do
     require 'json'
    
     
-    dir_name = "/local/rvmuser/srv/bsPlugins/bsPlugins"
+    dir_name = "/local/rvmuser/srv/bioscript/bsPlugins"
     dir = Dir.new(dir_name)
     
     types = [] 
@@ -22,7 +22,7 @@ namespace :bioscript do
     #dir.entries.map{|f| m = f.match(/(Vplot)\.py$/); (m) ? m[1] : nil}.compact.each do |filename|
     dir.entries.map{|f| m = f.match(/(.+?)\.py$/); (m) ? m[1] : nil}.compact.each do |filename|
       # filename = e.sub(/\.py\z/, '')
-        puts filename
+    #    puts filename
         filepath = Pathname.new(dir) + "#{filename}.py"
         plugin_names = []
         File.open(filepath, 'r') do |f|
@@ -30,7 +30,7 @@ namespace :bioscript do
                 #find Plugin
                 if n = l.match(/class (.+?Plugin)/)
                     plugin_names.push(n[1])
-                    puts n[1]
+                   # puts n[1]
                     cmd = "python -c 'import os\nimport json\nos.chdir(\"/srv/bsPlugins/bsPlugins\")\nimport #{filename}\nprint json.dumps(#{filename}.#{n[1]}.info)'"
                     result =  `#{cmd}`
                     
@@ -51,7 +51,7 @@ namespace :bioscript do
                     #@plugin = @plugin.where(:deprecated => false).first
                     #@plugin = Plugin.where(:id => 142)
                     @plugin.each do |p| 
-                        p.update(:name => n[1], :info => JSON.generate(hash)) #or plugin_name?
+                    #    p.update(:name => n[1], :info => JSON.generate(hash)) #or plugin_name?
                      #   puts "#{p.id}  #{filename}"
                     end
                 end

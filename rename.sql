@@ -111,3 +111,9 @@ update results
 
 alter table results drop column _type;
 
+create table param_types (
+id serial,
+name text,
+is_file bool,
+primary key (id)
+);

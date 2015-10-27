@@ -1,0 +1,27 @@
+<%= form_for(@param_type) do |f| %>
+  <% if @param_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@param_type.errors.count, "error") %> prohibited this param_type from being saved:</h2>
+
+      <ul>
+      <% @param_type.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<table>
+<tr>
+<td>Name</td>
+<td><%= f.text_field :name %></td>
+</tr>
+<tr>
+<td>Is a file?</td>
+<td><%= f.check_box :is_file %></td>
+</tr>
+</table>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
