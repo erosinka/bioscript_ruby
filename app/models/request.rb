@@ -1,11 +1,11 @@
 class Request < ActiveRecord::Base
   belongs_to :plugin
-
+  has_many :results
   def run
     #dir = APP_CONFIG[:data_path] + APP_CONFIG[:input_dir]
     link_dir = APP_CONFIG[:data_path] + APP_CONFIG[:request_input_dir]
     output_dir = APP_CONFIG[:data_path] + APP_CONFIG[:output_dir]
-
+    #output_dir = ''
     #get the name of the plugin file
     n = self.plugin.name.match(/(.+?)Plugin/)
 
@@ -63,18 +63,31 @@ class Request < ActiveRecord::Base
         end
     end
 
-script = "import os\nos.chdir('#{output_dir}')\nfrom bsPlugins import #{n[1]}\nplugin = #{n[1]}.#{self.plugin.name}()\nplugin(#{arg_line})\nprint plugin.output_files[0][0]"
+    script = "import os\nos.chdir('#{output_dir}')\nfrom bsPlugins import #{n[1]}\nplugin = #{n[1]}.#{self.plugin.name}()\nplugin(#{arg_line})"
 
-#script_name = sefl.id.to_s +'.py'
-script_name = 'script.py'
-File.open(script_name, 'w') do |f|
-    f.write(script)
-end
+    #script_name = sefl.id.to_s +'.py'
+    script_name = 'script.py'
+    File.open(script_name, 'w') do |f|
+        f.write(script)
+    end
+    output = `python #{script_name}`
 
-#res = `python #{script_name}`
-
-logger.debug(self.plugin.name)
-
+    logger.debug('LINE' )
+    res = output.split('\n')
+    logger.debug('RESULT' + res[0])
+    res.each do |k|
+        logger.debug('TEST' + k)
+       # v.each do |e|
+        #    logger.debug('TEST' + e)
+            # save_result e
+            new_result = Result.new(:request_id => request.id, :fname => file_name)
+            new_result.save
+      # end
+    end
   end
 
+  def save_result file_name
+    Result.new(:job_id => @request.id, :fname => file_name)
+    
+  end
 end

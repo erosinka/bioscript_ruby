@@ -50,25 +50,20 @@ class RequestsController < ApplicationController
         #only for fielts of file type
         list_file_fields.map{|k|
           tmp_h[k] = params[k].original_filename #
-          #r = k.split(':')
-          ##field_name = id or id_1 id_2 in case of multiple
-          #field_name = (r.size == 3) ? "#{r[2]}_#{r[1]}" : k 
-          #filename = @request.id.to_s + "_" + field_name
           filename = @request.id.to_s + "_" + k#
           #add extension and full path to file name because of plugins realization
-        ext = ''
-        if (res = tmp_h[k].split('.')).size == 2
-          ext = res[1]
-          filename = filename + '.' + ext
-          #tmp_h[k] = link_dir + filename
-          tmp_h[k] = filename
-        end 
+          ext = ''
+          if (res = tmp_h[k].split('.')).size == 2
+            ext = res[1]
+            filename = filename + '.' + ext
+            #tmp_h[k] = link_dir + filename
+            tmp_h[k] = filename
+          end 
           filepath = dir + filename
           File.open(filepath, 'wb+') do |f|
             f.write(params[k].read)
           end
           sha2 = Digest::SHA2.file(filepath).hexdigest
-          #tmp_h[k] = field_name
           FileUtils.move filepath, (dir + sha2)
           File.symlink (dir + sha2), (link_dir + filename) #
         }
@@ -85,7 +80,7 @@ class RequestsController < ApplicationController
         @request.update_attribute(:parameters, tmp_h2.to_json)
 
         @request.delay.run
-
+        #@request.update_attribute(:error, res)
         format.html { redirect_to @request, notice: 'Request was successfully created.' }
         #format.html { redirect_to @request, notice: 'Request was successfully created.' }
         format.json { render :show, status: :created, location: @request }
