@@ -4,7 +4,12 @@ class ResultsController < ApplicationController
   # GET /results
   # GET /results.json
   def index
-    @results = Result.all
+    #@results = Result.all
+    #change !admin to admin
+    current_user_id = 1
+    #@results = (!admin?) ? Result.all : Result.request.where(:user_id => current_user_id)
+    @results = Result.joins(:request).where(:requests => {:user_id => 1})
+    # 
   end
 
   # GET /results/1

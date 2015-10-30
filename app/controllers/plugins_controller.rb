@@ -96,13 +96,4 @@ class PluginsController < ApplicationController
       params[:plugin]
     end
 
-#    def get_title
-#        @title = []
-#        @description = []
-#        Plugin.all.each do |p|
-#            h.JSON.parse(p.info)
-#            h['title'].keys.map{|k| @title.push(k) if !@title.include?(k)}
-#            p.title = h["title"]
-#        end
-#    end
 end

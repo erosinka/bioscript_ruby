@@ -70,20 +70,22 @@ class Request < ActiveRecord::Base
     File.open(script_name, 'w') do |f|
         f.write(script)
     end
+    logger.debug('BEFORERESULT')
     output = `python #{script_name}`
 
-    logger.debug('LINE' )
-    res = output.split('\n')
-    logger.debug('RESULT' + res[0])
-    res.each do |k|
-        logger.debug('TEST' + k)
+    logger.debug('AFTERRESULT' + output)
+  #  res = output.split('\n')
+   # res.each do |k|
        # v.each do |e|
         #    logger.debug('TEST' + e)
             # save_result e
-            new_result = Result.new(:request_id => request.id, :fname => file_name)
+         val = self.id
+        logger.debug('seld.id' + val.to_s)
+        file_name = 'testing.sql'
+            new_result = Result.new(:request_id => self.id, :fname => file_name)
             new_result.save
       # end
-    end
+   # end
   end
 
   def save_result file_name

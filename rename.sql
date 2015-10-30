@@ -111,8 +111,20 @@ update results
 
 alter table results drop column _type;
 
+alter table results add column request_id integer references requests (id);
+
+--update results
+--    set request_id = (select req.id from requests as req join jobs on req.id = jobs.request_id where jobs.id = job_id)b
+update results set request_id = (select jobs.request_id from jobs where jobs.id =  job_id);
+-- drop not null constraint on job_id
+alter table results add column job_id_new int;
+update results set job_id_new=job_id;
+alter table results drop column job_id;
+alter table results rename column job_id_new to job_id;
+
 create table param_types (
-id serial,
+id serial not null primary key,
+--id serial,
 name text,
 is_file bool,
 primary key (id)
