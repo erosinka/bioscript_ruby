@@ -5,19 +5,19 @@ class Request < ActiveRecord::Base
     #dir = APP_CONFIG[:data_path] + APP_CONFIG[:input_dir]
     link_dir = APP_CONFIG[:data_path] + APP_CONFIG[:request_input_dir]
     output_dir = APP_CONFIG[:data_path] + APP_CONFIG[:output_dir]
-    #output_dir = ''
     #get the name of the plugin file
     n = self.plugin.name.match(/(.+?)Plugin/)
 
     # plugin info to define which parameters are files
+
     in_content = self.plugin.info_content['in']
     h_in = {}
     in_content.map{ |i| h_in[i['id']] = i}
     # needed to add file path in case of file fields, but also is need to check if i is url
     
-    # create a hash {'bam': ['bam', true]}
     h_param_types={} #{'bam': true, 'list': false}
     ParamType.all.map{|pt| h_param_types[pt.name] = pt.is_file}
+    
     arg_line = ''
     params = JSON.parse(self.parameters)
     params.each do |k, v|
@@ -25,7 +25,6 @@ class Request < ActiveRecord::Base
         
         # if parameter value is not empty
         if v
-            #input_params = JSON.parse(h_inp[k])
             line = h_in[k]
             param_type = h_param_types[line['type']]
     
@@ -38,22 +37,19 @@ class Request < ActiveRecord::Base
                     else
                         p = link_dir + fname.to_s
                     end
-                    # filepath = link_dir + fname.to_s
                     arg_line = arg_line + "'" + p + "', "
-                    #arg_line = arg_line + "'" + f.to_s + "', "
                 end
-                #remove last comma
+                #remove last comma and space
                 arg_line = arg_line.chop.chop
                 arg_line = arg_line + "]"
             else 
-                # if parameter is just a file
+                # if parameter is a one file or url
                 if param_type 
                     if v.include?('http')
                         p = v.to_s
                     else
                         p = link_dir + v.to_s
                     end
-                    #arg_line = arg_line + k + " = '" + link_dir + v.to_s + "', "
                     arg_line = arg_line + k + " = '" + p + "', "
                 # if simple parameter
                 else
@@ -70,26 +66,22 @@ class Request < ActiveRecord::Base
     File.open(script_name, 'w') do |f|
         f.write(script)
     end
-    logger.debug('BEFORERESULT')
     output = `python #{script_name}`
 
-    logger.debug('AFTERRESULT' + output)
-  #  res = output.split('\n')
-   # res.each do |k|
-       # v.each do |e|
-        #    logger.debug('TEST' + e)
-            # save_result e
-         val = self.id
-        logger.debug('seld.id' + val.to_s)
-        file_name = 'testing.sql'
-            new_result = Result.new(:request_id => self.id, :fname => file_name)
-            new_result.save
-      # end
-   # end
+    request_id = self.id
+    res = output.split("\n")
+    res.each do |line|
+        logger.debug('SPLIT: ' + line)
+        k = line.split(request_id.to_s)
+        logger.debug('k: ' + k[0])
+        path = k[0].split(':').map(&:strip)
+        logger.debug('path: ' + path[1])
+        file_name = request_id.to_s + k[1]
+        logger.debug('file_name: ' + file_name)
+        new_result = Result.new(:request_id => self.id, :fname => file_name, :path => path[1])
+        new_result.save
+    end
+
   end
 
-  def save_result file_name
-    Result.new(:job_id => @request.id, :fname => file_name)
-    
-  end
 end
