@@ -83,6 +83,8 @@ class RequestsController < ApplicationController
         @request.delay.run
         #@request.update_attribute(:error, res)
         #format.html { redirect_to @request, notice: 'Request was successfully created.' }
+        
+       # format.html { redirect_to results_path(:request_id => @request.id)}
         format.html { redirect_to @request, notice: 'Request was successfully created.' }
         format.json { render :show, status: :created, location: @request }
       else

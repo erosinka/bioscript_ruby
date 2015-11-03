@@ -1,4 +1,46 @@
 <p id="notice"><%= notice %></p>
+<div class = 'content'>
+    <p>
+        Request <b><%= @request.id %></b> finished successfully
+        <span><%= link_to 'Submit another job', new_request_path(:plugin_id => @request.plugin_id) %><br/></span>
+    </p>
+    <p>
+        File:
+        <%= link_to "file", APP_CONFIG[:bioscript_server] + APP_CONFIG[:data_url] + 'to' %>
+        <%= link_to "file", '//bbcf-serv03.epfl.ch/bioscript/data/to' %>
+    </p>
+    <p><b>File will be deleted in 29 days.</b> Files are kept in Bioscript only for 30 days.</p>
+</div>
 
-<%= link_to 'Edit', edit_request_path(@request) %> |
-<%= link_to 'Back', requests_path %>
+<div class = 'belement'>
+    <h2>Plugin parameters</h2>
+    <table class = 'job_params'>
+        <%= params = JSON.parse(@request.parameters) %>
+        <tbody>
+            <% params.each do |k, v|%>
+                <tr><td><%= k + ': ' %></td> 
+                
+                <td>
+                <% if v.is_a?(Array) %>
+                    <% v.each do |vv| %>
+                        <%= vv %>
+                    <% end %> 
+                <% else %>
+                    <%= v %>
+                <% end %>
+                </td></tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
+<div class = 'belement'>
+    <% p = Plugin.where(:id => @request.plugin_id).first %>
+    <h2><%= p.info_content['title'] %></h2>
+    <br><%= p.info_content['description'] %></br>
+    <br><b>Author: </b><%= p.info_content['meta']['author'] %></br>
+    <br><b>Version: </b><%= p.info_content['meta']['version'] %></br>
+    <br><b>Contact: </b><%= p.info_content['meta']['contact'] %></br>
+    <br><b>Contact: </b><a href="mailto:webmaster-bbcf@epfl.ch?subject=[BioScript]" >webmaster-bbcf@epfl.ch </a></br>
+</div>
+<%#= link_to 'Edit', edit_request_path(@request) %> 
+<%#= link_to 'Back', requests_path %>

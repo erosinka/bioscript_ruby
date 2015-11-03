@@ -2,8 +2,8 @@ require 'json'
 class PluginsController < ApplicationController
   before_action :set_plugin, only: [:build_form, :show, :edit, :update, :destroy]
 
-  def build_form
-  end
+#  def build_form
+#  end
 
   # GET /plugins
   # GET /plugins.json
@@ -17,9 +17,8 @@ class PluginsController < ApplicationController
     @plugins.each do |p|
       @h_plugins[p.id]=p
       @h_plugin_infos[p.id] = p.info_content
-    end
-    
-    @sorted_plugin_ids = @h_plugin_infos.keys.sort{|a, b| @h_plugin_infos[a]['title'] <=> @h_plugin_infos[b]['title']}
+   end
+   @sorted_plugin_ids = @h_plugin_infos.keys.sort{|a, b| @h_plugin_infos[a]['title'] <=> @h_plugin_infos[b]['title']}
     # @plugins_sorted_by_title = @h_plugin_infos.sort_by{|k, v| v[:title]}
 
     respond_to do |format|

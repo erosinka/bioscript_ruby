@@ -4,7 +4,7 @@
 
 <table>
 	<tr>
-		<th>result_type_id</th>
+		<th>file</th>
 		<th>path</th>
 		<th>file_name</th>
 		<th>request_id</th>
@@ -12,8 +12,11 @@
     <% @results.each do |result| %>
       <% rt = result.result_type %>
       <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
-	<td class="list_result_type_id">
-		<%= rt.result_type if rt %>
+	<td class="list_file">
+		<%#= rt.result_type if rt %>
+        <% link_dir = APP_CONFIG[:bioscript_server] + APP_CONFIG[:data_url] %>
+        <%= link_to "file", '//bbcf-serv03.epfl.ch/bioscript/data/to' %>
+        <%#= link_to "file", link_dir + 'tmpcgyc43/6672_BamMulti\:1\:sample_density_fwd.sql' %>
 	</td>
 	<td class="list_path">
 		<dd><%#= truncate(strip_tags(result.result), length: 80) %></dd>
