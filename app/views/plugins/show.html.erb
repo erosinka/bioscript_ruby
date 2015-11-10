@@ -2,13 +2,12 @@
 <p id="notice"><%= notice %></p>
 <% end %>
 
-
-<%# @plugin.each do |p|%>
-<td class="title">
-        <dd><%= raw @info_content['title'] %></dd>
+<div class='bs_container'>
+    <td class="title">
+        <dt><b><%= raw @info_content['title'] %></b></dt>
     </td>
     <td class="group">
-        <dd><%= raw @info_content['path'][0] %></dd>
+        <dt><%= raw @info_content['path'][0] %></dt>
     </td>
     <td class="description">
         <dd><%= raw @info_content['description'] %></dd>
@@ -17,6 +16,7 @@
     <td class="version">
         <dd><%= @info_content['meta']['version'] %></dd>
     </td>
-<%# end %>
+</div>
 <%= link_to 'Edit', edit_plugin_path(@plugin) %> |
-<%= link_to 'Back', plugins_path %>
+<%= link_to 'Back', plugins_path %> |
+<%= link_to 'New request', new_request_path(:plugin_id => @plugin.id) %>

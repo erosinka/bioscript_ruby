@@ -4,18 +4,22 @@
         Request <b><%= @request.id %></b> finished successfully
         <span><%= link_to 'Submit another job', new_request_path(:plugin_id => @request.plugin_id) %><br/></span>
     </p>
+    <% res = Result.where(:request_id => @request.id)%>
+    <% if res.count > 0 %>
     <p>
-        File:
-        <%= link_to "file", APP_CONFIG[:bioscript_server] + APP_CONFIG[:data_url] + 'to' %>
-        <%= link_to "file", '//bbcf-serv03.epfl.ch/bioscript/data/to' %>
+        <b>File:</b>
+        <% res.each do |r| %>
+            <%= link_to r.fname,  APP_CONFIG[:bioscript_server] + APP_CONFIG[:data_url] + r.path + '/' + r.fname %>
+        <% end %>
     </p>
-    <p><b>File will be deleted in 29 days.</b> Files are kept in Bioscript only for 30 days.</p>
+    <p><b>File(s) will be deleted in 29 days.</b> Files are kept in Bioscript only for 30 days.</p>
+    <% end %>
 </div>
 
 <div class = 'belement'>
     <h2>Plugin parameters</h2>
     <table class = 'job_params'>
-        <%= params = JSON.parse(@request.parameters) %>
+        <% params = JSON.parse(@request.parameters) %>
         <tbody>
             <% params.each do |k, v|%>
                 <tr><td><%= k + ': ' %></td> 
@@ -36,11 +40,16 @@
 <div class = 'belement'>
     <% p = Plugin.where(:id => @request.plugin_id).first %>
     <h2><%= p.info_content['title'] %></h2>
-    <br><%= p.info_content['description'] %></br>
-    <br><b>Author: </b><%= p.info_content['meta']['author'] %></br>
-    <br><b>Version: </b><%= p.info_content['meta']['version'] %></br>
-    <br><b>Contact: </b><%= p.info_content['meta']['contact'] %></br>
-    <br><b>Contact: </b><a href="mailto:webmaster-bbcf@epfl.ch?subject=[BioScript]" >webmaster-bbcf@epfl.ch </a></br>
+    <table class = 'job_params'>
+    <tbody>
+    <tr><td><%= p.info_content['description'] %></td></tr>
+    <% address = p.info_content['meta']['contact'] %>
+    <tr><td><b>Author: </b><%= p.info_content['meta']['author'] %></td></tr>
+    <tr><td><b>Version: </b><%= p.info_content['meta']['version'] %></td><tr>
+    <tr><td><b>Contact: </b><a href="mailto:"+ address + "?subject=[BioScript]" >webmaster-bbcf@epfl.ch </a></td></tr>
+    <tr><td><b>Contact: </b><a href="mailto:webmaster-bbcf@epfl.ch?subject=[BioScript]" >webmaster-bbcf@epfl.ch </a></td></tr>
+    </tbody>
+    </table>
 </div>
 <%#= link_to 'Edit', edit_request_path(@request) %> 
 <%#= link_to 'Back', requests_path %>

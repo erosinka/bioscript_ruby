@@ -1,7 +1,22 @@
+.requests {
+
+h1 {
+        margin: 0;
+        font: 10%, sans-serif;
+        color: #226;
+        #border-bottom: 3px dotted #77d;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
 div#content > p {
     border: 1px solid #4b4e50;
     border-radius: 5px;
     box-shadow: 10px 10px 5px #4b4e50;
     margin: 30px;
-    padding: 30px;
+   padding: 30px;
+}
+
 }

@@ -1,6 +1,7 @@
 class Request < ActiveRecord::Base
   belongs_to :plugin
   has_many :results
+  #has :statuses
   def run
     #dir = APP_CONFIG[:data_path] + APP_CONFIG[:input_dir]
     link_dir = APP_CONFIG[:data_path] + APP_CONFIG[:request_input_dir]
@@ -67,18 +68,50 @@ class Request < ActiveRecord::Base
         f.write(script)
     end
     output = `python #{script_name}`
-
+    out_content = self.plugin.info_content['out']
+    line_start = []
+    out_content.each do |out|
+        # line_start[0] = 'density_fwd (track):'
+        line_start.push(out['id'] + ' (' + out['type'] + '): ')
+    end
     request_id = self.id
     res = output.split("\n")
+    logger.debug('RES: ' + res[0])
     res.each do |line|
+        includes = false;
+        #check if each line of output has proper begining
+        line_start.each do |ls|
+            includes = line.include?(ls)
+            break if (includes)
+        end
+        if (!includes)
+            error = 'no output!'
+            logger.debug(error + ' ' + line.include?(ls).to_s)
+        end
+        #example of line:
+        #density_fwd (track): /data/epfl/bbcf/bioscript/tmp/tmp4dJJ7W/Density_average_fwd.sql
         logger.debug('SPLIT: ' + line)
-        k = line.split(request_id.to_s)
-        logger.debug('k: ' + k[0])
-        path = k[0].split(':').map(&:strip)
-        logger.debug('path: ' + path[1])
-        file_name = request_id.to_s + k[1]
-        logger.debug('file_name: ' + file_name)
-        new_result = Result.new(:request_id => self.id, :fname => file_name, :path => path[1])
+        k = line.split(':', 2).map(&:strip)
+        # other option:
+        # k = line.split('/', 2)
+        # path = '/' + k[1]
+        file_name = ''
+        path = ''
+        if (k.length > 1)
+           # full_path = '/data/epfl...'
+           full_path = k[1]
+           # file_name = full_path.rpartition('/').last
+           # path = full_path.split(file_name)[0]
+           tab = full_path.split('/') 
+           file_name = tab.pop
+           folder_name = tab.pop 
+           path = tab.join('/') + '/' + folder_name
+           logger.debug('FNAME: ' + path)
+           `chmod 755 #{path}`
+        else
+            # error: no path
+        end
+        new_result = Result.new(:request_id => self.id, :fname => file_name, :path => folder_name)
         new_result.save
     end
 

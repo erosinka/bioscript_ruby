@@ -5,7 +5,9 @@ class RequestsController < ApplicationController
   # GET /requests
   # GET /requests.json
   def index
-    @requests = Request.all
+    @requests = Request.where(:user_id => 1) 
+    @user_requests_sorted = @requests.sort {|a,b| b.id <=> a.id}
+    # @requests = Request.all
   end
 
   # GET /requests/1
@@ -24,8 +26,8 @@ class RequestsController < ApplicationController
   def edit
   end
 
-  def get_parameters(plugin)
-  end
+ # def get_parameters(plugin)
+ # end
 
   # POST /requests
   # POST /requests.json

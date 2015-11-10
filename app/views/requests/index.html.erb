@@ -1,25 +1,17 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Listing Requests</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @requests.each do |request| %>
-      <tr>
-        <td><%= link_to 'Show', request %></td>
-        <td><%= link_to 'Edit', edit_request_path(request) %></td>
-        <td><%= link_to 'Destroy', request, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+<div id='content'>
+<% @user_requests_sorted.each do |request| %>
+    <% request_id = request.id %>
+    <% status = '' %>
+    <% if request.status_id %>
+    <% stat = request.id %>
     <% end %>
-  </tbody>
-</table>
+    <p>
+       Request <i><%=  request.plugin.info_content['title'] %> </i><%= link_to request.id, request %> is <%= status %> at <%= request.created_at %> 
+    </p>
+<% end %>
+</div>
 
-<br>
 
-<%= link_to 'New Request', new_request_path %>

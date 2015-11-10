@@ -15,7 +15,7 @@
     <td>
         <div id=<%= @var['multiple']%>:0:<%=@var['id']%> name=""   type="text" onchange="twd_grow_add(this);" ></div>
         <div id=<%= @var['multiple']%>:0:<%=@var['id']%>:bs_container>
-            <%= radio_button_tag( @var['id'], 'text', true, :name => @var['multiple'] + ':0:'+ @var['id'] +'_bs_group') %>
+            <%= radio_button_tag(@var['id'], 'text', true, :name => @var['multiple'] + ':0:'+ @var['id'] +'_bs_group') %>
             <%= label_tag(@var['id'], 'Url') %>
             <%= radio_button_tag( @var['id'], 'file', false, :name => @var['multiple'] + ':0:' + @var['id'] +'_bs_group') %>
             <%= label_tag(@var['id'], 'File Upoad') %>
@@ -35,9 +35,9 @@
     <td> 
         <div id=<%= @var['multiple']%>:1:<%=@var['id']%> name=""   type="text" onchange="twd_grow_add(this);" ></div>
         <div id=<%= @var['multiple']%>:1:<%=@var['id']%>:bs_container>
-        <%= radio_button_tag( @var['id'], 'text', true, :name => @var['multiple'] + ':1:'+ @var['id'] +'_bs_group') %>
+        <%= radio_button_tag(@var['id'], 'text', true, :name => @var['multiple'] + ':1:'+ @var['id'] +'_bs_group') %>
         <%= label_tag(@var['id'], 'Url') %>
-        <%= radio_button_tag( @var['id'], 'file', false, :name => @var['multiple'] + ':1:'+ @var['id'] +'_bs_group') %>
+        <%= radio_button_tag(@var['id'], 'file', false, :name => @var['multiple'] + ':1:'+ @var['id'] +'_bs_group') %>
         <%= label_tag(@var['id'], 'File Upoad') %>
         <%= file_field_tag 'file' %>
         <%= text_field_tag 'file', '', :style => 'display: none; ' %>
