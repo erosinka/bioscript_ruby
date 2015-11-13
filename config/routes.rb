@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :statuses
   resources :param_types
   resources :requests
   resources :result_types

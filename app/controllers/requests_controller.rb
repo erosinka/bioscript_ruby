@@ -79,14 +79,15 @@ class RequestsController < ApplicationController
                 tmp_h2[k] = tmp_h[k]
             end
         end
-        logger.debug('CONT')
         @request.update_attribute(:parameters, tmp_h2.to_json)
 
         @request.delay.run
-        #@request.update_attribute(:error, res)
-        #format.html { redirect_to @request, notice: 'Request was successfully created.' }
+       # if (err_msg.length > 1)
+       #     @request.update_attributes(:error => err_msg, :status_id => 5)
+       # else
+       @request.update_attributes(:status_id => 2)
+       # end
         
-       # format.html { redirect_to results_path(:request_id => @request.id)}
         format.html { redirect_to @request, notice: 'Request was successfully created.' }
         format.json { render :show, status: :created, location: @request }
       else

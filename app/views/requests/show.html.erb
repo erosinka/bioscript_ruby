@@ -1,10 +1,17 @@
 <p id="notice"><%= notice %></p>
+<%= render :partial => 'expand_js' %>
 <div class = 'content'>
     <p>
-        Request <b><%= @request.id %></b> finished successfully
-        <span><%= link_to 'Submit another job', new_request_path(:plugin_id => @request.plugin_id) %><br/></span>
+        <% if @request.status_id %>
+            <% status = @request.status.status %>
+        <% else %>
+            <% status = 'finished' %>
+        <% end %>
+        Request <b><%= @request.id %></b> is <%= status %>
+        <span><%= link_to 'Submit another job', new_request_path(:plugin_id => @request.plugin_id) %></span>
     </p>
     <% res = Result.where(:request_id => @request.id)%>
+    <% # if no files and entry in delayed_job - then failure. DEcide what to show here based on status_id  %>
     <% if res.count > 0 %>
     <p>
         <b>File:</b>
@@ -13,6 +20,13 @@
         <% end %>
     </p>
     <p><b>File(s) will be deleted in 29 days.</b> Files are kept in Bioscript only for 30 days.</p>
+    <% end %>
+    <% if @request.error %>
+        <p id='link' style="cursor:pointer" onclick="showError()"><strong>Full traceback</strong></br></br>
+        <% lines = @request.error.split('\n') %>
+        <% text = lines.join('<br>')%>
+        <span id='err' hidden><%= text %></span>
+    </p>
     <% end %>
 </div>
 

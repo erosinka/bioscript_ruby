@@ -1,16 +1,16 @@
 class Request < ActiveRecord::Base
   belongs_to :plugin
   has_many :results
-  #has :statuses
+  belongs_to :status
+
   def run
-    #dir = APP_CONFIG[:data_path] + APP_CONFIG[:input_dir]
+    # started
+    self.update_attributes(:status_id => 1)
+    logger.debug('STARTED ')
     link_dir = APP_CONFIG[:data_path] + APP_CONFIG[:request_input_dir]
     output_dir = APP_CONFIG[:data_path] + APP_CONFIG[:output_dir]
-    #get the name of the plugin file
-    n = self.plugin.name.match(/(.+?)Plugin/)
 
     # plugin info to define which parameters are files
-
     in_content = self.plugin.info_content['in']
     h_in = {}
     in_content.map{ |i| h_in[i['id']] = i}
@@ -60,6 +60,8 @@ class Request < ActiveRecord::Base
         end
     end
 
+    #get the name of the plugin file
+    n = self.plugin.name.match(/(.+?)Plugin/)
     script = "import os\nos.chdir('#{output_dir}')\nfrom bsPlugins import #{n[1]}\nplugin = #{n[1]}.#{self.plugin.name}()\nplugin(#{arg_line})"
 
     #script_name = sefl.id.to_s +'.py'
@@ -67,26 +69,29 @@ class Request < ActiveRecord::Base
     File.open(script_name, 'w') do |f|
         f.write(script)
     end
-    output = `python #{script_name}`
+    output = `python #{script_name} 2>&1`
+    logger.debug('OUTPUT: ' + output)
     out_content = self.plugin.info_content['out']
     line_start = []
     out_content.each do |out|
         # line_start[0] = 'density_fwd (track):'
-        line_start.push(out['id'] + ' (' + out['type'] + '): ')
+        line_start.push(out['id'] + ' (' + out['type'] + '):')
     end
+    error = false
+    err_msg = ''
     request_id = self.id
-    res = output.split("\n")
-    logger.debug('RES: ' + res[0])
-    res.each do |line|
+    lines = output.split("\n")
+    logger.debug('RES: ' + lines[0])
+    lines.each do |line|
         includes = false;
         #check if each line of output has proper begining
         line_start.each do |ls|
-            includes = line.include?(ls)
-            break if (includes)
+            error = !line.include?(ls)
+            break if (!error)
         end
-        if (!includes)
-            error = 'no output!'
-            logger.debug(error + ' ' + line.include?(ls).to_s)
+        if error
+            err_msg = lines.join("\\n")
+            break
         end
         #example of line:
         #density_fwd (track): /data/epfl/bbcf/bioscript/tmp/tmp4dJJ7W/Density_average_fwd.sql
@@ -109,12 +114,21 @@ class Request < ActiveRecord::Base
            logger.debug('FNAME: ' + path)
            `chmod 755 #{path}`
         else
-            # error: no path
+            error = true
+            err_msg = 'no output path'
+            break
         end
         new_result = Result.new(:request_id => self.id, :fname => file_name, :path => folder_name)
         new_result.save
     end
+    logger.debug('ERROR: ' + err_msg)
+    if (error)
+        self.update_attributes(:error => err_msg, :status_id => 5)
+    else
+        self.update_attributes(:status_id => 4)
+    end  
 
-  end
-
+    end
 end
+
+
