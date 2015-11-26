@@ -39,6 +39,13 @@
         <% end %>
     </div>
 
+<%= javascript_tag do %>
+    function testing(ctrl) {
+      // var btn = document.getElementById(ctrl.id);
+        alert("test!")
+   // btn.onchange = function(){alert("test!")}
+    }
+<% end %>
 
     <%# list_types = ['bam','track', 'userfile', 'txt', 'file'] %>
     <% list_types = ['bam','track', 'userfile', 'txt'] %>

@@ -1,4 +1,5 @@
-<div id=<%= @var['id'] %> >
+<%# not working without this line. Look MotifSearch. Probably need ul id = @var['id']%>
+<div id = <%= @var['id']%> >
 <tr id=<%= @var['id'] %>:container >
 
 <th><%= label_tag(@var['id'], @var['label']) %></th>

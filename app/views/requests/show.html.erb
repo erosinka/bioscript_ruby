@@ -22,9 +22,9 @@
     <p><b>File(s) will be deleted in 29 days.</b> Files are kept in Bioscript only for 30 days.</p>
     <% end %>
     <% if @request.error %>
-        <p id='link' style="cursor:pointer" onclick="showError()"><strong>Full traceback</strong></br></br>
         <% lines = @request.error.split('\n') %>
         <% text = lines.join('<br>')%>
+        <p id='link' style="cursor:pointer" onclick="showError()"> <%= lines[lines.length - 1 ] %><strong>  Full traceback</strong></br></br>
         <span id='err' hidden><%= text %></span>
     </p>
     <% end %>

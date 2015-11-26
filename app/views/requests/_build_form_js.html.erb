@@ -11,6 +11,19 @@ bs_init_file_field = function(compound_id, select){
         var val = $(this).val();
         $root.find('input:not(:radio):not(:'+ val + ')').attr('name', '').hide();
         $root.find('input:' + val + '').attr('name', compound_id).show();
+        
+        // make radio file/URL field required only if it is present and for 1 in case of Multi
+        var row_id = compound_id.substring(0, compound_id.lastIndexOf(':'));
+        var num = parseInt(row_id.substr(row_id.lastIndexOf(':')+1)) ;
+        // second Multi are not required
+        if (num == 0 || num > 1) {
+        
+        } else
+            // check if the field was required before
+            if ($root.find('input:not(:radio):not(:'+ val + ')').attr('name', '').attr('required')) {
+                $root.find('input:' + val + '').attr('name', compound_id).attr('required',true);
+                $root.find('input:not(:radio):not(:'+ val + ')').attr('name', '').attr('required', false);
+            }
     });
     $root.find('input:not(:radio)').change(function(){
         // small hack to make it work in chrome and safari

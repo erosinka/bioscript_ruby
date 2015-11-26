@@ -3,6 +3,12 @@ class Request < ActiveRecord::Base
   has_many :results
   belongs_to :status
 
+    before_save :validate
+
+    def validate
+        logger.debug('VALIDTE: ' + self.plugin.id.to_s)
+    end
+
   def run
     # started
     self.update_attributes(:status_id => 1)
@@ -63,7 +69,6 @@ class Request < ActiveRecord::Base
     #get the name of the plugin file
     n = self.plugin.name.match(/(.+?)Plugin/)
     script = "import os\nos.chdir('#{output_dir}')\nfrom bsPlugins import #{n[1]}\nplugin = #{n[1]}.#{self.plugin.name}()\nplugin(#{arg_line})"
-
     #script_name = sefl.id.to_s +'.py'
     script_name = 'script.py'
     File.open(script_name, 'w') do |f|

@@ -19,13 +19,10 @@
             <%= label_tag(@var['id'], 'Url') %>
             <%= radio_button_tag( @var['id'], 'file', false, :name => @var['multiple'] + ':0:' + @var['id'] +'_bs_group') %>
             <%= label_tag(@var['id'], 'File Upoad') %>
-            <%= file_field_tag 'file' %>
-            <%= text_field_tag 'file', '', :style => 'display: none; ' %>
+            <%= text_field_tag 'text', '' %>
+            <%= file_field_tag 'file', :style => 'display: none; ' %>
     </td>
     <td>
-        <% if !@list_fields.include?(name) %>
-            <%# @list_fields.push(name) %>
-        <% end %>
         <%= image_tag("plus-icon.png", alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;",:name => @var['multiple'] + ':0:del', :id => @var['multiple'] + ':0:del') %>
     </td>
 </tr>
@@ -39,14 +36,11 @@
         <%= label_tag(@var['id'], 'Url') %>
         <%= radio_button_tag(@var['id'], 'file', false, :name => @var['multiple'] + ':1:'+ @var['id'] +'_bs_group') %>
         <%= label_tag(@var['id'], 'File Upoad') %>
-        <%= file_field_tag 'file' %>
-        <%= text_field_tag 'file', '', :style => 'display: none; ' %>
+        <%= text_field_tag @var['id'],'',  required: @var['required'] %>
+        <%= file_field_tag @var['id'],  :style => 'display: none; ' %>
         </div>
     </td>
     <td> 
-        <% if !@list_fields.include?(name) %>
-            <%# @list_fields.push(name) %>
-        <% end %>
         <%= image_tag("plus-icon.png", alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;",:name=>@var['multiple']+':1:del', :id=>@var['multiple']+':1:del') %>
     </td>
 </tr>

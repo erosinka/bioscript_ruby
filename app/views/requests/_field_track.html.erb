@@ -6,8 +6,9 @@
 <%= label_tag(@var['id'], 'Url') %>
 <%= radio_button_tag( @var['id'] + '_bs_group', 'file', false ) %>
 <%= label_tag(@var['id'], 'File Upoad') %>
-<%= file_field_tag 'file' %>
-<%= text_field_tag 'file', '', :style=>'Display: none;'%>
+<%= text_field_tag @var['id'], '', required: @var['required'] %>
+<%= file_field_tag @var['id'],  :style=>'Display: none;'%>
 <%= label_tag(@var['id'], @var['help_text']) %>
+</div>
 </td>
 </tr>
