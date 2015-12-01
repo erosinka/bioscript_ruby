@@ -52,7 +52,7 @@
     <%= javascript_tag do  %>
         <% @info_content['in'].select{|e| list_types.include?(e['type'])}.each do |form_el| %>
             <% field_name = form_el['id'] %>
-            <%= raw (form_el['multiple']) ? (0..1).to_a.map{|e| 'bs_init_file_field("' + form_el['multiple'] +":#{e}:" + field_name + '", "text");'}.join("\n") : ("bs_init_file_field('" + field_name + "', 'text');" ) %> 
+            <%= raw (form_el['multiple']) ? (0..1).to_a.map{|e| 'bs_init_file_field("' + form_el['id'] +"Multi:#{e}:" + field_name + '", "text");'}.join("\n") : ("bs_init_file_field('" + field_name + "', 'text');" ) %> 
         <% end %>
     <% end %>
 

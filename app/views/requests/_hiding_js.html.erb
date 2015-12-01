@@ -15,6 +15,8 @@ var twd_required_store = {};
 var twd_mapping_store = {};
 function twd_hiding_init(ctrl_id, mapping)
 {
+
+ //   alert('hiding: ' + ctrl_id)
     twd_mapping_store[ctrl_id] = mapping;
     
     //for first initialization of the mapping
@@ -27,7 +29,7 @@ function twd_hiding_onchange(ctrl, first)
     var is_vis = document.getElementById(ctrl.id+':container').style.display != 'none';
     var mapping = twd_mapping_store[ctrl.id];
     var parent_id = ctrl.id.substring(0, ctrl.id.lastIndexOf(':')+1);
-    alert('begin: ' + ctrl.id)
+//    alert('begin: ' + ctrl.id)
     // Determine the selected value(s)
     var values = [];
     if(ctrl.tagName == 'INPUT' || ctrl.tagName == 'SELECT' || ctrl.tagName == 'TEXTAREA')
@@ -49,7 +51,7 @@ function twd_hiding_onchange(ctrl, first)
         {
             var match = 0;
             for(b in values) {
-                alert('cycle: ' + a + ' ' + b)
+//                alert('cycle: ' + a + ' ' + b)
                 if(a == values[b])
                     match = 1;
             }
@@ -67,11 +69,12 @@ function twd_hiding_onchange(ctrl, first)
          //   alert('begin: ' + b + ' ' + visible[b]);
             var display = visible[b] ? '' : 'none';
 		    var x = document.getElementById(parent_id+b+':container');
-            //here
+   //         alert('parent:'+  parent_id +', b: ' + b) 
+           //here
 		    var field = document.getElementById(parent_id+b);
             if (first) {
                 if (field && field.required)
-                    alert('1: '+b + ' ' +field.required)
+  //                  alert('1: '+b + ' ' +field.required)
                     twd_required_store[b] = true;
             }
             //to here
@@ -80,13 +83,13 @@ function twd_hiding_onchange(ctrl, first)
                  //here
                 if (twd_required_store[b] && field){
                    field.required = visible[b] ? true : false;;
-                   alert('2: b = ' +b + ', field = '+ field.id +', visible = ' + visible[b] + ', req: ' + field.required);
+    //               alert('2: b = ' +b + ', field = '+ field.id +', visible = ' + visible[b] + ', req: ' + field.required);
                 }
                 //to here
                 x.style.display = display;
 		        var x = document.getElementById(parent_id+b);
                 if(x && x.id && twd_mapping_store[x.id]) {
-                   alert('3: x = ' + x.id);
+    //               alert('3: x = ' + x.id);
                     twd_hiding_onchange(x);
                    }
             }

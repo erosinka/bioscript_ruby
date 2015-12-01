@@ -1,5 +1,6 @@
 <script type="text/javascript">
 bs_init_file_field = function(compound_id, select){
+//    alert('bsinit: ' + compound_id)
     var selector = '#' + compound_id.split(':').join('\\:');
     $(selector).attr('name', '');
     //console.log("INIT FILE FIELD : " + compound_id + ", and select: "+ select +" selector= " + selector);  

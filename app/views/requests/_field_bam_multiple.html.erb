@@ -1,20 +1,21 @@
-<tr id=<%= @var['multiple']%>:container style="" >
+<tr id=<%= @var['id']%>:container style="" >
 <th><%= label_tag(@var['id'], @var['label']) %></th>
     <td>
-<table id=<%= @var['multiple']%>><tbody>
+<% multiname = @var['id'] + 'Multi' %>
+<table id=<%= multiname %>><tbody>
 <tr>
     <th></th>
     <th></th>
     <th>
-        <%= image_tag("plus_icon.png", alt: "undo", :style=>"display: none", :onclick=>"twd_grow_undo(this); return false;", :id => @var['multiple'] + ':undo') %>
+        <%= image_tag("plus_icon.png", alt: "undo", :style=>"display: none", :onclick=>"twd_grow_undo(this); return false;", :id => multiname + ':undo') %>
     </th>
 </tr>
-
-<tr id=<%= @var['multiple']%>:0 style="display:none"> 
+<% multiname0 = multiname + ':0:' %>
+<tr id=<%= multiname %>:0 style="display:none"> 
     <td>
-        <div id=<%= @var['multiple']%>:0:<%=@var['id']%> name=""   type="text" onchange="twd_grow_add(this);" ></div>
-        <div id=<%= @var['multiple']%>:0:<%=@var['id']%>:bs_container>
-            <% name = @var['multiple'] + ':0:'+ @var['id'] +'_bs_group'%>
+        <div id=<%= multiname0 %><%=@var['id']%> name=""   type="text" onchange="twd_grow_add(this);" ></div>
+        <div id=<%= multiname0 %><%=@var['id']%>:bs_container>
+            <% name = multiname0 + @var['id'] +'_bs_group'%>
             <%= radio_button_tag( @var['id'], 'text', true, :name => name) %>
             <%= label_tag(@var['id'], 'Url') %>
             <%= radio_button_tag( @var['id'], 'file', false, :name => name) %>
@@ -23,15 +24,16 @@
             <%= file_field_tag 'file', :style => 'display: none; ' %>
     </td>
     <td>
-    <%= image_tag("plus-icon.png", alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;",:name => @var['multiple'] + ':0:del', :id     => @var['multiple'] + ':0:del') %>
+    <%= image_tag("plus-icon.png", alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;", :name => multiname0 + 'del', :id => multiname0 + 'del') %>
     </td>
 </tr>
 
-<tr id=<%= @var['multiple']%>:1>
+<% multiname1 = multiname + ':1:' %>
+<tr id=<%= multiname %>:1>
     <td> 
-        <div id=<%= @var['multiple']%>:1:<%=@var['id']%> name=""   type="text" onchange="twd_grow_add(this);" ></div>
-        <div id=<%= @var['multiple']%>:1:<%=@var['id']%>:bs_container>
-            <% name = @var['multiple'] + ':1:'+ @var['id'] +'_bs_group'%>
+        <div id=<%= multiname1 %><%=@var['id']%> name=""   type="text" onchange="twd_grow_add(this);" ></div>
+        <div id=<%= multiname1 %><%=@var['id']%>:bs_container>
+            <% name = multiname1 + @var['id'] +'_bs_group'%>
             <%= radio_button_tag( @var['id'], 'text', true, :name => name) %>
             <%= label_tag(@var['id'], 'Url') %>
             <%= radio_button_tag( @var['id'], 'file', false, :name => name) %>
@@ -42,7 +44,7 @@
 
    </td>
     <td>
-    <%= image_tag("plus-icon.png", alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;",:name => @var['multiple'] + ':1:del', :id     => @var['multiple'] + ':1:del') %>
+    <%= image_tag("plus-icon.png", alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;", :name => multiname1 + 'del', :id => multiname1 + 'del') %>
     </td>
 </tr>
 
