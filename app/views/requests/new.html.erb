@@ -21,6 +21,7 @@
             <% @list_fields = [] %>
             <% @info_content['in'].each do |form_el| %>
                 <% @var = form_el %>
+                <%# multiple are pushed in java script on adding file %>
                 <% @list_fields.push(@var['id']) if !form_el['multiple'] %>
                 <% template_name = 'field_' + form_el['type'] %>
                 <% template_name = 'field_track' if form_el['type'] == 'userfile' or form_el['type'] == 'txt' # or form_el['type'] == 'file' %>

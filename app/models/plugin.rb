@@ -7,6 +7,12 @@ class Plugin < ActiveRecord::Base
     return ActiveSupport::JSON.decode(self.info)
   end
 
+  def hash_in
+    in_content = self.info_content['in']
+    h_in = {}
+    in_content.map{ |i| h_in[i['id']] = i}
+    return h_in
+  end
     private
 
     def ensure_not_referenced_by_any_request

@@ -26,67 +26,79 @@ class RequestsController < ApplicationController
   def edit
   end
 
- # def get_parameters(plugin)
- # end
 
   # POST /requests
   # POST /requests.json
   def create
     require 'digest'
-    #plugin = Plugin.find(params[:plugin_id])
+    logger.debug('CREATE PARAMS:' + params.to_s)
     @request = Request.new(request_params)
-    tmp_h = {}
-    JSON.parse(params[:list_fields]).map{|e| tmp_h[e] = params[e]}
-    
-    #list of fields of type file
-    list_file_fields = tmp_h.keys.select{|k| tmp_h[k] and tmp_h[k].respond_to?("original_filename")}
+    @plugin = Plugin.find(request_params[:plugin_id])
+    @h_in = @plugin.hash_in  
 
-    logger.debug("all fields:" + tmp_h.keys.to_json)
-    list_file_fields.map{|k| tmp_h[k] = params[k].original_filename}
-    @request.parameters = tmp_h.to_json
+    h_param_types={} #{'bam': true, 'list': false}
+    ParamType.all.map{|pt| h_param_types[pt.name] = pt.is_file}
+    
+#    download_cmd = "wget -O #{dir} '#{url}'" #validate: no \ no ', dir contains the name of the file. 
+    #curl '#{url}' > file
+#    `#{download_cmd}`
+
+    #list of fields of type file
+#    list_file_fields = param_h.keys.select{|k| param_h[k] and param_h[k].respond_to?("original_filename")}
+    # edit hash put original file name instead of parameter value for parameters of type file
+#    list_file_fields.map{|k| param_h[k] = params[k].original_filename}
+    param_h = {}
+    JSON.parse(params[:list_fields]).map{|e| param_h[e] = params[e]}
+    
+    @request.parameters = param_h.to_json
     respond_to do |format|
       if @request.save
         
         dir = APP_CONFIG[:data_path] + APP_CONFIG[:input_dir]
         link_dir = APP_CONFIG[:data_path] + APP_CONFIG[:request_input_dir]
-        #only for fielts of file type
-        list_file_fields.map{|k|
-          tmp_h[k] = params[k].original_filename #
-          filename = @request.id.to_s + "_" + k#
-          #add extension and full path to file name because of plugins realization
-          ext = ''
-          if (res = tmp_h[k].split('.')).size == 2
-            ext = res[1]
-            filename = filename + '.' + ext
-            #tmp_h[k] = link_dir + filename
-            tmp_h[k] = filename
-          end 
-          filepath = dir + filename
-          File.open(filepath, 'wb+') do |f|
-            f.write(params[k].read)
-          end
-          sha2 = Digest::SHA2.file(filepath).hexdigest
-          FileUtils.move filepath, (dir + sha2)
-          File.symlink (dir + sha2), (link_dir + filename) #
-        }
-        #rewrite the parameters in case of multiple
-        tmp_h2 = {}
-        tmp_h.keys.each do |k|
-            if (res = k.split(':')).size == 3
-                tmp_h2[res[2]] ||= []
-                tmp_h2[res[2]].push(tmp_h[k])
-            else
-                tmp_h2[k] = tmp_h[k]
+        keys = param_h.keys
+        @list_file_fields = []
+        #param_h.each do |k, v|
+        keys.each do |k|
+            key = k.split(':').last
+            line = @h_in[key]
+            # if parameter type is_file and value exists
+            if h_param_types[line['type']] and param_h[k]
+                prefix_name = @request.id.to_s + "_" + k + '.' # + param_h[k].split('.').last
+                if param_h[k].respond_to?("original_filename")
+                    original_filename = param_h[k].original_filename
+                    filename = prefix_name + original_filename.split('.').last
+                    filepath = dir + filename
+                    File.open(dir + filename, 'wb+') do |f|
+                        f.write(params[k].read)
+                    end
+                # if URL
+                else
+                    original_filename = param_h[k] #url.split('/').last
+                    url = param_h[k]
+                    filename = prefix_name + original_filename.split('.').last
+                    filepath = dir + filename
+                    download_cmd = "wget -O #{filepath} '#{url}'"
+                    `#{download_cmd}`
+
+                end
+                logger.debug('FILE:' + k.to_s + ';' + filename + ';')
+                @list_file_fields.push(key)
+                param_h[k + '_original_filename'] = original_filename
+                param_h[k] = filename
+                sha2 = Digest::SHA2.file(filepath).hexdigest
+                FileUtils.move filepath, (dir + sha2)
+                File.symlink (dir + sha2), (link_dir + filename) #
+                #@list_file_fields.push(k)
             end
         end
-        @request.update_attribute(:parameters, tmp_h2.to_json)
-
-        @request.delay.run
-       # if (err_msg.length > 1)
-       #     @request.update_attributes(:error => err_msg, :status_id => 5)
-       # else
-       @request.update_attributes(:status_id => 2)
-       # end
+        @param_h = param_h
+        #rewrite the parameters in case of multiple
+        @request.update_attribute(:parameters, rewrite_multiple.to_json)
+       # @request.update_attribute(:parameters, @tmp_h.to_json)
+        
+        @request.delay.run create_arg_line
+        @request.update_attributes(:status_id => 2)
         
         format.html { redirect_to @request, notice: 'Request was successfully created.' }
         format.json { render :show, status: :created, location: @request }
@@ -132,4 +144,47 @@ class RequestsController < ApplicationController
       params.require(:request).permit(:user_id, :plugin_id, :parameters)
     end
 
+    def rewrite_multiple
+        @tmp_h = {}
+        @param_h.each do |k, v|
+            if (res = k.split(':')).size == 3 # and k.include?('Multi')
+                @tmp_h[res[2]] ||= []
+                @tmp_h[res[2]].push(@param_h[k])
+            else
+                @tmp_h[k] = @param_h[k]
+            end
+        end
+        return @tmp_h
+    end
+
+    def create_arg_line
+        arg_line = ''
+        link_dir = APP_CONFIG[:data_path] + APP_CONFIG[:request_input_dir]
+        @tmp_h.each do |k, v|
+            if (!k.include?('original_filename') and !v.to_s.blank?)
+            if !@list_file_fields.include?(k)
+                #arg_line =  arg_line + k + " = '" + v.to_s + "', "
+                arg_line =  arg_line + k + " = " + v.to_s + ", "
+            else
+                # if it is Multi field with array of files: tracks: ['file1', 'file2']
+                if v.is_a? Array
+                    arg_line = arg_line + k + " = ["
+                    files = v
+                    files.each do |fname|
+                        p = link_dir + fname.to_s
+                        arg_line = arg_line + "'" + p + "', "
+                    end
+                    #remove last comma and space
+                    arg_line = arg_line.chop.chop
+                    arg_line = arg_line + "], "
+                else
+                    p = link_dir + v.to_s
+                    arg_line = arg_line + k + " = '" + p + "', "
+                end
+            end
+            end
+         end
+        logger.debug('ARG_LINE:' + arg_line + ';')
+        return arg_line
+    end
 end

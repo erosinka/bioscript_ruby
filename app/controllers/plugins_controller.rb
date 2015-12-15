@@ -88,6 +88,9 @@ class PluginsController < ApplicationController
     def set_plugin
         @plugin = Plugin.find(params[:id])  
         @info_content = @plugin.info_content
+        @in_content = @info_content['in']
+        @h_in = {}
+        @in_content.map{ |i| @h_in[i['id']] = i}
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
