@@ -4,7 +4,7 @@ class Request < ActiveRecord::Base
   belongs_to :status
 
   before_create :validate
-
+#  validate :validate
   def validate
 
     # plugin.info to define which parameters are files
@@ -34,7 +34,8 @@ class Request < ActiveRecord::Base
     end
 
     def validate_int(p_name, val)
-        logger.debug('VALIDATE INT')
+        test = val.is_a? Integer
+        logger.debug('VALIDATE INT' + test.to_s)
         errors.add(:base, "#{p_name} is not an integer value") if (!(val.is_a? Integer))
     end
 

@@ -31,68 +31,30 @@ class RequestsController < ApplicationController
   # POST /requests.json
   def create
     require 'digest'
-    logger.debug('CREATE PARAMS:' + params.to_s)
+    # request_params = {"user_id"=>"1", "plugin_id"=>"106"}
     @request = Request.new(request_params)
     @plugin = Plugin.find(request_params[:plugin_id])
+    @info_content = @plugin.info_content
     @h_in = @plugin.hash_in  
-
-    h_param_types={} #{'bam': true, 'list': false}
-    ParamType.all.map{|pt| h_param_types[pt.name] = pt.is_file}
     
-#    download_cmd = "wget -O #{dir} '#{url}'" #validate: no \ no ', dir contains the name of the file. 
-    #curl '#{url}' > file
-#    `#{download_cmd}`
+    @param_h = {}
+    JSON.parse(params[:list_fields]).map{|e| @param_h[e] = params[e]}
 
-    #list of fields of type file
 #    list_file_fields = param_h.keys.select{|k| param_h[k] and param_h[k].respond_to?("original_filename")}
-    # edit hash put original file name instead of parameter value for parameters of type file
 #    list_file_fields.map{|k| param_h[k] = params[k].original_filename}
-    param_h = {}
-    JSON.parse(params[:list_fields]).map{|e| param_h[e] = params[e]}
     
-    @request.parameters = param_h.to_json
+    # replace files with just name to save in database
+    @param_h.each do |k, v|
+        if v and v.respond_to?("original_filename")
+            @param_h[k] = params[k].original_filename
+        end
+    end
+
+    @request.parameters = @param_h.to_json
+    
     respond_to do |format|
       if @request.save
-        
-        dir = APP_CONFIG[:data_path] + APP_CONFIG[:input_dir]
-        link_dir = APP_CONFIG[:data_path] + APP_CONFIG[:request_input_dir]
-        keys = param_h.keys
-        @list_file_fields = []
-        #param_h.each do |k, v|
-        keys.each do |k|
-            key = k.split(':').last
-            line = @h_in[key]
-            # if parameter type is_file and value exists
-            if h_param_types[line['type']] and param_h[k]
-                prefix_name = @request.id.to_s + "_" + k + '.' # + param_h[k].split('.').last
-                if param_h[k].respond_to?("original_filename")
-                    original_filename = param_h[k].original_filename
-                    filename = prefix_name + original_filename.split('.').last
-                    filepath = dir + filename
-                    File.open(dir + filename, 'wb+') do |f|
-                        f.write(params[k].read)
-                    end
-                # if URL
-                else
-                    original_filename = param_h[k] #url.split('/').last
-                    url = param_h[k]
-                    filename = prefix_name + original_filename.split('.').last
-                    filepath = dir + filename
-                    download_cmd = "wget -O #{filepath} '#{url}'"
-                    `#{download_cmd}`
-
-                end
-                logger.debug('FILE:' + k.to_s + ';' + filename + ';')
-                @list_file_fields.push(key)
-                param_h[k + '_original_filename'] = original_filename
-                param_h[k] = filename
-                sha2 = Digest::SHA2.file(filepath).hexdigest
-                FileUtils.move filepath, (dir + sha2)
-                File.symlink (dir + sha2), (link_dir + filename) #
-                #@list_file_fields.push(k)
-            end
-        end
-        @param_h = param_h
+        create_file_links
         #rewrite the parameters in case of multiple
         @request.update_attribute(:parameters, rewrite_multiple.to_json)
        # @request.update_attribute(:parameters, @tmp_h.to_json)
@@ -157,14 +119,70 @@ class RequestsController < ApplicationController
         return @tmp_h
     end
 
+    def create_file_links
+        h_param_types={} #{'bam': true, 'list': false}
+        ParamType.all.map{|pt| h_param_types[pt.name] = pt.is_file}
+        dir = APP_CONFIG[:data_path] + APP_CONFIG[:input_dir]
+        link_dir = APP_CONFIG[:data_path] + APP_CONFIG[:request_input_dir]
+        keys = @param_h.keys
+        @list_file_fields = []
+        #param_h.each do |k, v|
+        keys.each do |k|
+            key = k.split(':').last
+            line = @h_in[key]
+            # if parameter type is_file and value exists
+            if h_param_types[line['type']] and @param_h[k]
+                prefix_name = @request.id.to_s + "_" + k + '.' # + param_h[k].split('.').last
+                if params[k].respond_to?("original_filename")
+                    original_filename = params[k].original_filename
+                    filename = prefix_name + original_filename.split('.').last
+                    filepath = dir + filename
+                    File.open(dir + filename, 'wb+') do |f|
+                        f.write(params[k].read)
+                    end
+                # if URL
+                else
+                    original_filename = @param_h[k] #url.split('/').last
+                    url = @param_h[k]
+                    filename = prefix_name + original_filename.split('.').last
+                    filepath = dir + filename
+                #   download_cmd = "wget -O #{dir} '#{url}'" #validate: no \ no ', dir contains the name of the file. 
+                #   curl '#{url}' > file
+                    download_cmd = "wget -O #{filepath} '#{url}'"
+                    `#{download_cmd}`
+                end
+                @list_file_fields.push(key)
+                @param_h[k + '_original_filename'] = original_filename
+                @param_h[k] = filename
+                sha2 = Digest::SHA2.file(filepath).hexdigest
+                FileUtils.move filepath, (dir + sha2)
+                File.symlink (dir + sha2), (link_dir + filename) #
+                #@list_file_fields.push(k)
+            end
+        end
+    end
+
     def create_arg_line
         arg_line = ''
+        logger.debug('LIST:' + @list_file_fields.to_s + ';')
         link_dir = APP_CONFIG[:data_path] + APP_CONFIG[:request_input_dir]
         @tmp_h.each do |k, v|
             if (!k.include?('original_filename') and !v.to_s.blank?)
             if !@list_file_fields.include?(k)
-                #arg_line =  arg_line + k + " = '" + v.to_s + "', "
-                arg_line =  arg_line + k + " = " + v.to_s + ", "
+                if (v.is_a? Array)
+                    arg_line = arg_line + k + "= '"
+                    v.each do |value|
+                        arg_line = arg_line + value.to_s + ',' 
+                    end
+                    arg_line = arg_line.chop + "', "
+                else
+                    test = @h_in[k]['type']
+                    if test == 'int' or test == 'float'
+                        arg_line =  arg_line + k + " = " + v.to_s + ", "
+                    else
+                        arg_line =  arg_line + k + " = '" + v.to_s + "', "
+                    end
+                end
             else
                 # if it is Multi field with array of files: tracks: ['file1', 'file2']
                 if v.is_a? Array

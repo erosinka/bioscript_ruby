@@ -2,7 +2,8 @@
 <th><%= label_tag(@var['id'], @var['label']) %></th>
 
 <td>
-<%= text_field_tag @var['id'], @var['value'], required: @var['required'] %>
+<%#= text_field_tag @var['id'], @var['value'] || params[@var['id']], required: @var['required'] %>
+<%= text_field_tag @var['id'], @var['value'],  required: @var['required'] %>
 <%#= text_field_tag @var['id'], @var['value'], required: true %>
 <%= label_tag(@var['id'], @var['help_text']) %>
 </td>

@@ -1,7 +1,18 @@
 <%= render :partial => 'build_form_js' %>
 <%= render :partial => 'hiding_js' %>
 <%= render :partial => 'bs_js' %>
+<%= params %>
+  <% if @request.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@request.errors.count, "error") %> prohibited this request from being saved:</h2>
 
+      <ul>
+      <% @request.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 <div class='bs_container'>
     <div class='bs_title'><b><%= @info_content['title'] %></b></div>
     <div class='bs_desc'><p><%= raw @info_content['description'] %></p></div>
@@ -37,15 +48,21 @@
             <%= hidden_field_tag :list_fields, @list_fields.to_json %>   
             <%#= button_to "submit", requests_path(:plugin_id =>  @plugin.id) %>
             <%= button_to "submit" %>
+            <span id='submit_link'>Submit</span>
         <% end %>
     </div>
 
 <%= javascript_tag do %>
-    function testing(ctrl) {
-      // var btn = document.getElementById(ctrl.id);
-        alert("test!")
-   // btn.onchange = function(){alert("test!")}
-    }
+//$('#submit_link').click(function(){
+//var list_fields = JSON.parse($('#list_fields').val());
+//var info_content = <%= raw @info_content['in'].to_json %> ;
+//for (var i = 0; i < list_fields.length; i++) {
+//alert(list_fields[i])    
+
+//}
+//$('#' + id).val()
+$('#new_request').submit();
+});
 <% end %>
 
     <%# list_types = ['bam','track', 'userfile', 'txt', 'file'] %>
