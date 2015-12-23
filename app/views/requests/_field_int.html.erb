@@ -3,8 +3,26 @@
 
 <td>
 <%#= text_field_tag @var['id'], @var['value'] || params[@var['id']], required: @var['required'] %>
-<%= text_field_tag @var['id'], @var['value'],  required: @var['required'] %>
-<%#= text_field_tag @var['id'], @var['value'], required: true %>
+<%#= number_field_tag @var['id'], @var['value'],  required: @var['required'] %>
+<% @var['value'] ? val = @var['value'] : val = 0 %>
+<% @var['required'] ? req = @var['required'] : req = false %>
+<% @var['min'] ? minv = @var['min'] : minv = "" %>
+<% @var['max'] ? maxv = @var['max'] : maxv = ""  %>
+
+<% if @var['max'] and @var['min'] %>
+    <%= number_field_tag @var['id'], @var['value'],  required: @var['required'], min: @var['min'], max: @var['max'] %>
+<% end %>
+
+<% if @var['max'] and !@var['min'] %>
+    <%= number_field_tag @var['id'], @var['value'],  required: @var['required'], max: @var['max'] %>
+<% end %>
+<% if !@var['max'] and @var['min'] %>
+    <%= number_field_tag @var['id'], @var['value'],  required: @var['required'], min: @var['min'] %>
+<% end %>
+<% if !@var['max'] and !@var['min'] %>
+    <%= number_field_tag @var['id'], @var['value'],  required: @var['required'] %>
+<% end %>
+<//input type="number" name=<%= @var['id'] %>  value=<%= val %> required= <%= req %>   />
 <%= label_tag(@var['id'], @var['help_text']) %>
 </td>
 </tr>

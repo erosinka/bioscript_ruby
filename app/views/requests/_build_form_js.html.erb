@@ -1,6 +1,6 @@
 <script type="text/javascript">
 bs_init_file_field = function(compound_id, select){
-//    alert('bsinit: ' + compound_id)
+    //alert('bsinit: ' + compound_id)
     var selector = '#' + compound_id.split(':').join('\\:');
     $(selector).attr('name', '');
     //console.log("INIT FILE FIELD : " + compound_id + ", and select: "+ select +" selector= " + selector);  
@@ -10,6 +10,7 @@ bs_init_file_field = function(compound_id, select){
     $root.find('input:radio.bsradio_' + select).attr('checked', 'checked');
     $root.find(':radio').change(function(){
         var val = $(this).val();
+       // alert('2 bsinit: ' + val)
         $root.find('input:not(:radio):not(:'+ val + ')').attr('name', '').hide();
         $root.find('input:' + val + '').attr('name', compound_id).show();
         

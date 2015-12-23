@@ -126,12 +126,14 @@ class RequestsController < ApplicationController
         link_dir = APP_CONFIG[:data_path] + APP_CONFIG[:request_input_dir]
         keys = @param_h.keys
         @list_file_fields = []
+        logger.debug('PARAMS:' + params.to_s)
+        logger.debug('PARAMS_H:' + @param_h.to_s)
         #param_h.each do |k, v|
         keys.each do |k|
             key = k.split(':').last
             line = @h_in[key]
             # if parameter type is_file and value exists
-            if h_param_types[line['type']] and @param_h[k]
+            if h_param_types[line['type']] and !@param_h[k].blank?
                 prefix_name = @request.id.to_s + "_" + k + '.' # + param_h[k].split('.').last
                 if params[k].respond_to?("original_filename")
                     original_filename = params[k].original_filename
@@ -142,6 +144,7 @@ class RequestsController < ApplicationController
                     end
                 # if URL
                 else
+                    logger.debug('K:' + k + ';')
                     original_filename = @param_h[k] #url.split('/').last
                     url = @param_h[k]
                     filename = prefix_name + original_filename.split('.').last

@@ -1,0 +1,38 @@
+$(document).ready(function(){
+
+    $("#new_request").validate({
+
+       rules:{
+
+            pval:{
+                required: true,
+                minlength: 4,
+                maxlength: 16,
+            },
+            num_terms:{
+                required: true,
+                minlength: 4,
+                maxlength: 16,
+            }
+
+       },
+
+       messages:{
+
+            num_terms:{
+                required: "Это поле обязательно для заполнения",
+                minlength: "Логин должен быть минимум 4 символа",
+                maxlength: "Максимальное число символо - 16",
+            },
+
+            pval:{
+                required: "Это поле обязательно для заполнения",
+                minlength: "Пароль должен быть минимум 6 символа",
+                maxlength: "Пароль должен быть максимум 16 символов",
+            }
+
+       }
+
+    });
+alert('t')
+});

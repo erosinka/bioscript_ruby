@@ -2,18 +2,11 @@
 <th><%= label_tag(@var['id'], @var['label']) %></th>
 
 <td>
-    <%= text_field_tag @var['id'], @var['value'], required: @var['required'] %>
-    <%#= text_field_tag @var['id'], @var['value'], required: true %>
+    <%= number_field_tag @var['id'], @var['value'], required: @var['required'] %>
+    <% @var['value'] ? val = @var['value'] : val=0%>
+    <% @var['required'] ? req = @var['required'] : req = false %>
+    <//input type="number" name= <%= @var['id'] %> value= <%= val%> required= <%= req %>  />
     <%= label_tag(@var['id'], @var['help_text']) %>
-    <%# @list_fields.push(@var['id']) %>
 </td>
 </tr>
 
-<%= javascript_tag do%>
-$("#<%=@var['id']%>").change(function(){
-    alert('test float');
-    var is_checked = document.getElementById("<%= @var['id']%>").checked;
-    var val = <%= @var['required'] %>;
-    $('#file').prop('required', is_checked);
-
-<% end %>

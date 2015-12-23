@@ -35,7 +35,20 @@
     <table class = 'job_params'>
         <% params = JSON.parse(@request.parameters) %>
         <tbody>
-            <% params.each do |k, v|%>
+            <% edit_params = {} %>
+            <%# select original_filename parameter%>
+            <% params.each do |k, v| %>
+                <% if k.include? 'original_filename' %>
+                    <% k_param = k.split('_original_filename').first %>
+                    <% edit_params[k_param] = v %>
+                <% else %>
+                    <% if !edit_params[k] %>
+                        <% edit_params[k] = v %>
+                    <% end %>
+                <% end %>
+            <% end %>
+
+            <% edit_params.each do |k, v|%>
                 <tr><td><%= k + ': ' %></td> 
                 
                 <td>

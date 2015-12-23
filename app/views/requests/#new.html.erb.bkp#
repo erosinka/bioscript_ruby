@@ -1,15 +1,15 @@
 <%= render :partial => 'build_form_js' %>
 <%= render :partial => 'hiding_js' %>
-<%= render :partial => 'bs_js' %>
-
-<%#= params %>
+c<%= render :partial => 'bs_js' %>
+<%# render :partial => "my_js"%>
+<%= params %>
   <% if @request.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@request.errors.count, "error") %> prohibited this request from being saved:</h2>
 
       <ul>
       <% @request.errors.full_messages.each do |message| %>
-        <li><%#= message %></li>
+        <li><%= message %></li>
       <% end %>
       </ul>
     </div>
@@ -49,31 +49,48 @@
             <%= hidden_field_tag :list_fields, @list_fields.to_json %>   
             <%#= button_to "submit", requests_path(:plugin_id =>  @plugin.id) %>
             <%# button_to "submit" %>
+<!-- input id='submit_button1' type="submit" name="enter" value="Enter" />-->
             <span id='submit_link'>Submit</span>
         <% end %>
-
    </div>
 
+    <div class='bs_form2'>
+        <form id='myform'>
+        <%= text_field_tag 'text', '',  required: false %>
+        <%= label_tag('label', 'label test') %>
+        Login: 
+        <input type="text" name="login" />
+        Password:
+        <input type="password" name="pswd" required='true' />
+        <input id='submit_button2' type="submit" name="enter" value="Enter" /></form>
+    </div>
+
+<%= javascript_tag do %>
+    $("#myform").validate();
+<% end %>
 <%= javascript_tag do %>
 
-    <%#= render :partial => "my_js"%>
+$(document).ready(function(){
 
-    $(document).ready(function(){
-        var list_fields = JSON.parse($('#list_fields').val());
-        var info_content = <%= raw @info_content['in'].to_json %> ;
+$('#submit_link').click(function(){
+/*var list_fields = JSON.parse($('#list_fields').val());
+var info_content = <%= raw @info_content['in'].to_json %> ;
+for (var i = 0; i < list_fields.length; i++) {
+//alert(list_fields[i])    
 
-        $('#submit_link').click(function(){
-            var h_validate = {rules: {}, messages: {}}
-            for (var i = 0; i < list_fields.length; i++) {
-                // alert(list_fields[i])
-            }
-            //alert('t')
-            $('#new_request').validate();
-            $('#new_request').submit();
-        });
-    });
+}
+//$('#' + id).val()
+
+*/
+alert('t2');
+$('#myform').submit();
+//alert('t');
+//$('#submit_link').click();
+});
+});
+//var validator = $("#f").validate();
+//validator.form();
 <% end %>
-
 
     <%# list_types = ['bam','track', 'userfile', 'txt', 'file'] %>
     <% list_types = ['bam','track', 'userfile', 'txt'] %>

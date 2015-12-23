@@ -2,11 +2,13 @@
 <th><%= label_tag(@var['id'], @var['label']) %></th>
 <td>
 <div id=<%= @var['id'] %>:bs_container >
+<%#= radio_button_tag( @var['id'] + '_bs_group', 'url', true, class: "text") %>
 <%= radio_button_tag( @var['id'] + '_bs_group', 'text', true) %>
 <%= label_tag(@var['id'], 'Url') %>
 <%= radio_button_tag( @var['id'] + '_bs_group', 'file', false ) %>
 <%= label_tag(@var['id'], 'File Upoad') %>
 <%= text_field_tag @var['id'], '', required: @var['required'] %>
+<%#= url_field_tag( @var['id'], @var['value']) %>
 <%= file_field_tag @var['id'],  :style=>'Display: none;'%>
 <%= label_tag(@var['id'], @var['help_text']) %>
 </div>

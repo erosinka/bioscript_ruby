@@ -2,7 +2,7 @@
 <th><%= label_tag(@var['id'], @var['label']) %></th>
 <td>
     <%= check_box_tag(@var['id'], 'on' ) %>
+    <//input type="checkbox" name = <%= @var['id'] %>/>    
     <%= label_tag(@var['id'], @var['help_text']) %>
-    <%# @list_fields.push(@var['id'])%>
 </td>
 </tr>

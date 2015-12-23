@@ -14,6 +14,10 @@
 //= require jquery_ujs
 //= require dataTables/jquery.dataTables 
 //= require dataTables/extras/dataTables.fixedHeader
+//
+//= require jquery.validate
+//= require jquery.validate.additional-methods
+//
 //= require turbolinks
 //= require_tree .
 //
