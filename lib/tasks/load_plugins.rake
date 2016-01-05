@@ -19,7 +19,7 @@ namespace :bioscript do
     
     types = [] 
     #for each .py file in  a folder
-    #dir.entries.map{|f| m = f.match(/(Vplot)\.py$/); (m) ? m[1] : nil}.compact.each do |filename|
+   # dir.entries.map{|f| m = f.match(/(VennDiagram)\.py$/); (m) ? m[1] : nil}.compact.each do |filename|
     dir.entries.map{|f| m = f.match(/(.+?)\.py$/); (m) ? m[1] : nil}.compact.each do |filename|
       # filename = e.sub(/\.py\z/, '')
     #    puts filename
@@ -51,8 +51,9 @@ namespace :bioscript do
                     #@plugin = @plugin.where(:deprecated => false).first
                     #@plugin = Plugin.where(:id => 142)
                     @plugin.each do |p| 
-                    #    p.update(:name => n[1], :info => JSON.generate(hash)) #or plugin_name?
-                     #   puts "#{p.id}  #{filename}"
+                     p.update(:name => n[1], :info => JSON.generate(hash)) #or plugin_name?
+                     puts "#{p.id}  #{filename}"
+                     #puts hash
                     end
                 end
             end
