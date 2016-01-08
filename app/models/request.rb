@@ -5,6 +5,11 @@ class Request < ActiveRecord::Base
 
 #  before_create :validate
 #  validate :validate
+
+  def to_param
+    key
+  end
+
   def validate
 
     # plugin.info to define which parameters are files
@@ -33,7 +38,7 @@ class Request < ActiveRecord::Base
         f.write(script)
     end
     output = `python #{script_name} 2>&1`
-    logger.debug('OUTPUT: ' + output)
+    logger.debug('DELAYED_JOB.RUN OUTPUT: ' + output)
     out_content = self.plugin.info_content['out']
     line_start = []
     out_content.each do |out|
@@ -44,7 +49,6 @@ class Request < ActiveRecord::Base
     err_msg = ''
     request_id = self.id
     lines = output.split("\n")
-    logger.debug('RES: ' + lines[0])
     lines.each do |line|
         includes = false;
         #check if each line of output has proper begining
@@ -71,6 +75,7 @@ class Request < ActiveRecord::Base
            # file_name = full_path.rpartition('/').last
            # path = full_path.split(file_name)[0]
            tab = full_path.split('/') 
+           # file_name = tab.pop
            file_name = tab.pop
            folder_name = tab.pop 
            path = tab.join('/') + '/' + folder_name

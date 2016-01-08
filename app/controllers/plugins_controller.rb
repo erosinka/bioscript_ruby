@@ -2,6 +2,7 @@ require 'json'
 class PluginsController < ApplicationController
   before_action :set_plugin, only: [:build_form, :show, :edit, :update, :destroy]
 
+
 #  def build_form
 #  end
 

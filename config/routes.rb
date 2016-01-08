@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
 
+ # get ':controller(/:action(/:key))', controller: /requests\/[^\/]+/
+ # get ':requests(/:action(/:key))', controller: /requests\/[^\/]+/
+
   resources :statuses
   resources :param_types
-  resources :requests
+ # resources :requests  
+  resources :requests, param: :key 
   resources :result_types
   resources :jobs
   resources :results
@@ -14,6 +18,7 @@ Rails.application.routes.draw do
     end
   end
   resources :tasks
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

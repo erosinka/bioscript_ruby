@@ -5,6 +5,7 @@ class RequestsController < ApplicationController
   # GET /requests
   # GET /requests.json
   def index
+  #  @requests = Request.all
     @requests = Request.where(:user_id => 1) 
     @user_requests_sorted = @requests.sort {|a,b| b.id <=> a.id}
     # @requests = Request.all
@@ -15,11 +16,24 @@ class RequestsController < ApplicationController
   def show
   end
 
-  # GET /requests/new
-  def new
-    @plugin = Plugin.find(params[:plugin_id])
+  def fetch
+    @plugin = Plugin.find_by_key(params[:oid])
     @info_content = @plugin.info_content
     @request = Request.new(:plugin_id => @plugin.id, :user_id => 1)
+    render :partial => 'new'
+  end
+
+  # GET /requests/new
+  def new
+    
+    @plugin = Plugin.where({:id =>params[:plugin_id]}).first 
+    if @plugin
+      @info_content = @plugin.info_content
+      @request = Request.new(:plugin_id => @plugin.id, :user_id => 1)      
+      render
+    else
+      render :text => 'ERROR'
+    end    
   end
 
   # GET /requests/1/edit
@@ -51,7 +65,12 @@ class RequestsController < ApplicationController
     end
 
     @request.parameters = @param_h.to_json
-    
+   # create the key 
+   rnd = Array.new(6){[*'0'..'9', *'a'..'z'].sample}.join
+    while(Request.find_by_key(rnd)) do
+      rnd = Array.new(6){[*'0'..'9', *'a'..'z'].sample}.join
+    end 
+    @request.key = rnd
     respond_to do |format|
       if @request.save
         create_file_links
@@ -98,12 +117,13 @@ class RequestsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_request
-      @request = Request.find(params[:id])
+      @request = Request.find_by_key(params[:key])
+    #  @request = Request.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def request_params
-      params.require(:request).permit(:user_id, :plugin_id, :parameters)
+      params.require(:request).permit(:user_id, :plugin_id, :parameters, :key) #, :service_id)
     end
 
     def rewrite_multiple
@@ -132,27 +152,32 @@ class RequestsController < ApplicationController
         keys.each do |k|
             key = k.split(':').last
             line = @h_in[key]
+            logger.debug('K:' + k + ';')
             # if parameter type is_file and value exists
             if h_param_types[line['type']] and !@param_h[k].blank?
-                prefix_name = @request.id.to_s + "_" + k + '.' # + param_h[k].split('.').last
+                prefix_name = @request.key.to_s + "_" + k + '.' # + param_h[k].split('.').last
                 if params[k].respond_to?("original_filename")
                     original_filename = params[k].original_filename
                     filename = prefix_name + original_filename.split('.').last
                     filepath = dir + filename
+                    logger.debug('FILE:' + filepath + ';')
                     File.open(dir + filename, 'wb+') do |f|
                         f.write(params[k].read)
                     end
                 # if URL
                 else
-                    logger.debug('K:' + k + ';')
                     original_filename = @param_h[k] #url.split('/').last
                     url = @param_h[k]
-                    filename = prefix_name + original_filename.split('.').last
+                    file_end = original_filename.split('.').last
+                    file_end.gsub!('&', '_')
+                    filename = prefix_name + file_end.gsub("/", "_")
                     filepath = dir + filename
+                    logger.debug('URL:' + filepath + ';')
                 #   download_cmd = "wget -O #{dir} '#{url}'" #validate: no \ no ', dir contains the name of the file. 
                 #   curl '#{url}' > file
                     download_cmd = "wget -O #{filepath} '#{url}'"
                     `#{download_cmd}`
+                    logger.debug('URL2:' + download_cmd + ';')
                 end
                 @list_file_fields.push(key)
                 @param_h[k + '_original_filename'] = original_filename

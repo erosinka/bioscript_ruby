@@ -7,7 +7,7 @@
         <% else %>
             <% status = 'finished' %>
         <% end %>
-        Request <b><%= @request.id %></b> is <%= status %>
+        Request <b><%= @request.key %></b> is <%= status %>
         <span><%= link_to 'Submit another job', new_request_path(:plugin_id => @request.plugin_id) %></span>
     </p>
     <% res = Result.where(:request_id => @request.id)%>
@@ -19,13 +19,16 @@
             <%= link_to r.fname,  APP_CONFIG[:bioscript_server] + APP_CONFIG[:data_url] + r.path + '/' + r.fname %>
         <% end %>
     </p>
-    <p><b>File(s) will be deleted in 29 days.</b> Files are kept in Bioscript only for 30 days.</p>
+    <% created_date = @request.created_at.to_date %>
+    <% now = Time.now.to_date %>
+    <% days_diff = 29 - (now - created_date).to_i %>
+    <p><b>File(s) will be deleted in <%= days_diff %> days.</b> Files are kept in Bioscript only for 30 days.</p>
     <% end %>
     <% if @request.error %>
         <% lines = @request.error.split('\n') %>
-        <% text = lines.join('<br>')%>
+        <% text = lines.join('<br/>')%>
         <p id='link' style="cursor:pointer" onclick="showError()"> <%= lines[lines.length - 1 ] %><strong>  Full traceback</strong></br></br>
-        <span id='err' hidden><%= text %></span>
+        <span id='err' hidden><%=  raw text %></span>
     </p>
     <% end %>
 </div>

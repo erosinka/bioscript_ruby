@@ -129,3 +129,7 @@ name text,
 is_file bool,
 primary key (id)
 );
+
+
+alter table requests add column key text unique;
+CREATE UNIQUE INDEX request_key_index ON requests (key);

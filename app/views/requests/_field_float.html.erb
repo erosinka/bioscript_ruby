@@ -1,9 +1,8 @@
 <tr id=<%= @var['id'] %>:container style="" >
 <th><%= label_tag(@var['id'], @var['label']) %></th>
-
 <td>
-    <%= number_field_tag @var['id'], @var['value'], required: @var['required'] %>
-    <% @var['value'] ? val = @var['value'] : val=0%>
+    <%= number_field_tag @var['id'], @var['value'], required: @var['required'],  step:'any'%>
+    <% @var['value'] ? val = @var['value'] : val = 0%>
     <% @var['required'] ? req = @var['required'] : req = false %>
     <//input type="number" name= <%= @var['id'] %> value= <%= val%> required= <%= req %>  />
     <%= label_tag(@var['id'], @var['help_text']) %>
