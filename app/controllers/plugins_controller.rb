@@ -22,9 +22,22 @@ class PluginsController < ApplicationController
    @sorted_plugin_ids = @h_plugin_infos.keys.sort{|a, b| @h_plugin_infos[a]['title'] <=> @h_plugin_infos[b]['title']}
     # @plugins_sorted_by_title = @h_plugin_infos.sort_by{|k, v| v[:title]}
 
+    plugins_json = {}
+    plugins_json[:plugins] = []
+    @plugins.each do |p|
+        # add desc_as_html, html_doc, html_src_code 
+        line = {}
+        line[:id] = p.key
+        info = JSON.parse(p.info)
+        line[:key] = info['title']
+        line[:info] = info
+        plugins_json[:plugins].push(line)
+    end
+
     respond_to do |format|
       format.html
-      format.json { render json: @plugins }
+     # format.json { render json: @plugins }
+      format.json { render json: plugins_json }
     end
   end
 

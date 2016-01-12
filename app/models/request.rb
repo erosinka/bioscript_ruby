@@ -86,7 +86,7 @@ class Request < ActiveRecord::Base
             err_msg = 'no output path'
             break
         end
-        new_result = Result.new(:request_id => self.id, :fname => file_name, :path => folder_name)
+        new_result = Result.new(:request_id => self.id, :fname => file_name, :path => folder_name, :is_file => true)
         new_result.save
     end
     logger.debug('ERROR: ' + err_msg)

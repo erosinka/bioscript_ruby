@@ -14,12 +14,37 @@ class RequestsController < ApplicationController
   # GET /requests/1
   # GET /requests/1.json
   def show
+    if !@request
+        page_not_found
+    else
+    val = {}
+    val[:parameters] = JSON.parse(@request.parameters)
+    results = Result.where(:request_id => @request.id)
+    val[:results] = []
+    results.each do |r|
+        res = {}
+        res[:fname] = r.fname
+        res[:id] = r.id
+        res[:is_file] = r.is_file
+        val[:results].push(res)
+    end
+    val[:plugin_id] = @request.plugin_id
+    val[:status] = @request.status.status
+    respond_to do |format|
+
+    #    format.html { redirect_to @request, notice: 'test' }
+        format.html #{ render :show, status: :created, location: @request }
+        format.json { render json: val, status: :ok, location: @request }
+    end
+    end
+       # format.json { render :show, status: :ok, location: @request }
   end
 
   def fetch
     @plugin = Plugin.find_by_key(params[:oid])
     @info_content = @plugin.info_content
     @request = Request.new(:plugin_id => @plugin.id, :user_id => 1)
+   # @service = Services.find_by_key(params[:key])
     render :partial => 'new'
   end
 
@@ -32,9 +57,11 @@ class RequestsController < ApplicationController
       @request = Request.new(:plugin_id => @plugin.id, :user_id => 1)      
       render
     else
-      render :text => 'ERROR'
+     # render :text => 'ERROR'
+     page_not_found
     end    
   end
+
 
   # GET /requests/1/edit
   def edit
