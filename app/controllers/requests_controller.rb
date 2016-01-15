@@ -44,7 +44,7 @@ class RequestsController < ApplicationController
     @plugin = Plugin.find_by_key(params[:oid])
     @info_content = @plugin.info_content
     @request = Request.new(:plugin_id => @plugin.id, :user_id => 1)
-   # @service = Services.find_by_key(params[:key])
+    @service = Services.find_by_key(params[:key])
     render :partial => 'new'
   end
 

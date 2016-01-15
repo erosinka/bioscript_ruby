@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<%#= render :partial => 'bs_js' %>
 <head>
   <meta charset="utf-8"/>
   <title>Bioscript</title>
@@ -20,6 +21,7 @@
                 <li><a href="http://www..../faq">Questions</a></li>
                 <li><a href="http://www..../news">News</a></li>
                 <li><a href="mailto:webmaster-bbcf@epfl.ch?subject=[BioScript]" >Contact</a></li>
+                <li><%= link_to 'Operations', operations_path %></li>
             </ul>
         </div>
         <div id="main">

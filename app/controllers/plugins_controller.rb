@@ -6,6 +6,15 @@ class PluginsController < ApplicationController
 #  def build_form
 #  end
 
+
+    def ordered
+        render json: @plugins_ordered
+        #format.all { render json: @plugins_ordered }
+    end
+def visual_index
+
+end
+
   # GET /plugins
   # GET /plugins.json
   def index
@@ -37,7 +46,8 @@ class PluginsController < ApplicationController
     respond_to do |format|
       format.html
      # format.json { render json: @plugins }
-      format.json { render json: plugins_json }
+      format.json { render json: @plugins_ordered }
+     # format.json { render json: plugins_json }
     end
   end
 

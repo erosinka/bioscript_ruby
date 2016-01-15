@@ -1,20 +1,20 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
+    before_filter :get_plugin_ordered
+    protect_from_forgery with: :exception
     helper_method :admin?
 
-  Bundler.require(*Rails.groups)
-  Config::Integration::Rails::Railtie.preload
+    Bundler.require(*Rails.groups)
+    Config::Integration::Rails::Railtie.preload
 
     rescue_from ActiveRecord::RecordNotFound, :with => :page_not_found
   
-   def menu 
-    @h_menu = {
-        :home => ['Home', root_path],
-        :plugins => ['Plugins', plugins_path()]
-    }
-
+    def menu 
+        @h_menu = {
+            :home => ['Home', root_path],
+            :plugins => ['Plugins', plugins_path()]
+        }
     end
 
 #protected
@@ -29,6 +29,36 @@ class ApplicationController < ActionController::Base
             format.all  { render nothing: true, status: 404 }
     end
    end
+
+    def get_plugin_ordered
+       @plugins = (admin?) ? Plugin.all : Plugin.where(:deprecated => false)
+        plugins_ordered = {}
+        plugins_ordered[:plugins] = {}
+        plugins_ordered[:plugins][:key] = 'Operations'
+        plugins_ordered[:plugins][:childs] = []
+        path_list = {}
+        @plugins.each do |p|
+            h = {}
+            info = JSON.parse(p.info)
+            h[:key] = info['path'][1]
+            h[:id] = p.key
+            h[:info] = info
+            operation = info['path'][0]
+            path_list[operation] ||=[]
+            path_list[operation].push(h)
+        end
+        path_list.each do |k, v|
+            child2 = {}
+            child2[:key] = k
+            child2[:childs] = []
+            v.each do |p|
+                child2[:childs].push(p)
+            end
+            plugins_ordered[:plugins][:childs].push(child2)
+        end
+        @plugins_ordered = plugins_ordered
+
+    end
 
     
 end

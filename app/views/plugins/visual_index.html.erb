@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+</head>
+<body>
+    <div id="bs_operations"></div>
+     <div id="content">
+</body>
+<%#= render :partial => 'bs_js' %>
+
+<%= javascript_tag do %>
+    $(document).ready(function(){
+  //  window.onload = function(){
+        var options = {
+            operation_list : <%= raw @plugins_ordered.to_json %>, 
+            show_plugin : function(plugin_id){
+               window.location =  '<%= new_request_path(:plugin_id => 118) %>'
+              //  window.location = ${serv|se,n} + 'requests/' + 'new'+ '?plugin_id=' + plugin_id;
+            },
+            'root_name' : 'Operations'
+        }
+        $('#bs_operations').bioscript(options).bioscript('operation_list');
+  //  };
+    });
+<% end %>
+
+</html>
