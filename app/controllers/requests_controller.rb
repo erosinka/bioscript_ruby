@@ -51,7 +51,11 @@ class RequestsController < ApplicationController
   # GET /requests/new
   def new
     
-    @plugin = Plugin.where({:id =>params[:plugin_id]}).first 
+   # @plugin = Plugin.where({:id =>params[:plugin_id]}).first
+    h = {}
+    h[:id] = params[:plugin_id] if params[:plugin_id]
+    h[:key] = params[:plugin_key] if params[:plugin_key]
+    @plugin = Plugin.where(h).first 
     if @plugin
       @info_content = @plugin.info_content
       @request = Request.new(:plugin_id => @plugin.id, :user_id => 1)      

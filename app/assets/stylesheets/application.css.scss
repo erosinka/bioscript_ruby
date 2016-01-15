@@ -1,4 +1,30 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will
+ * include all the files listed below.
+ * 
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets,
+ * vendor/assets/stylesheets, or vendor/assets/stylesheets of plugins, if any,
+ * can be referenced here using a relative path.
+ * 
+ * You're free to add application-wide styles to this file and they'll appear
+ * at the top of the compiled file, but it's generally better to create a new
+ * file per style scope.
+ * 
+ *= require_self
+ *= require dataTables/jquery.dataTables
+ *= require dataTables/extras/dataTables.fixedHeader
+ *= require_tree .
+ */
+
 /* START_HIGHLIGHT */
+.layout {
+  background: LightSteelBlue;
+  color: RoyalBlue;
+  text-align: center;
+  border-bottom: 2px solid;
+  padding: 10px;
+
+}
 #banner {
   background: LightSteelBlue;
   padding: 10px;
@@ -14,51 +40,41 @@
 
 #notice {
   color: #000 !important;
-  /*
-    border: 2px solid red;
-  */
-    padding: 0em;
+  padding: 0em;
   margin-bottom: 2em;
   font: bold sans-serif;
 }
 
- #columns {
-  background: LightSteelBlue;
-
-  #main {
-    margin-left: 17em;
-    padding: 2em 0.5em;
-    background: whiteSmoke;
-
-  }
-
-  #side {
-    txt-align: center;
-    margin-left: 4em;
-    font: small-caps 10px/10px "Times New Roman";
-    float: left;
-    width: 10em;
+#columns {
     background: LightSteelBlue;
-
-    ul {
-      li {
-        list-style: none;
-        a {
-          color: RoyalBlue;
-        }
-      }
+     
+    #main {
+        margin-left: 17em;
+        padding: 2em 0.5em;
+        background: whiteSmoke;
     }
-  }
-}
 
-.job_params td:first-child {
-    text-align: left;
+    #side {
+        txt-align: center;
+        margin-left: 4em;
+        font: small-caps 10px/10px "Times New Roman";
+        float: left; 
+        width: 10em;
+        background: LightSteelBlue;
+    
+        ul {
+            li {
+                list-style: none;
+                a {
+                    color: RoyalBlue;
+                }
+            }
+        }
+    } 
 }
-.job_params td {
-    padding: 10px;
-    text-align: left;
-}
+/* end of columns*/
 
+/* FORM */
 .belement {
     border: 1px solid #4b4e50;
     border-radius: 5px;
@@ -83,12 +99,26 @@
     margin: 30px;
     padding: 30px;
     width: auto;
-
+  
    th {
         text-align: right;
     }
+}
 
-    .bs_form {
+.bs_title {
+  font-size: large;
+  font-weight: bold;
+  padding: 10px; 
+}
+
+.bs_desc {
+  font-weight: lighter;
+  font-style: italic;
+  padding: 5px;
+  font-style: italic; 
+}
+
+.bs_form {
     border: 1px solid #4b4e50;
     border-radius: 5px;
     box-shadow: 10px 10px 5px Grey;
@@ -98,242 +128,29 @@
     width: auto;
 
     td {
-    padding-bottom: 10px;
-    padding-left: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+    }
+    
+    th {
+        text-align: right;
+        padding-right: 5px;
     }
     .error {
     color: red;
     margin-left: 10px;
     width: auto;
     display: inline;
-    }
-
-    }
-}
-/* FORM */
-.bs_container {
-  width: auto;
-  margin: 30px;
-  padding: 30px;
-  box-shadow: 10px 10px 5px #4b4e50;
-  border: 1px solid #4b4e50;
-  border-radius: 5px; }
-
-.bs_title {
-  font-size: large;
-  font-weight: bold;
-  padding: 15px; }
-
-.bs_desc {
-  font-weight: lighter;
-  font-style: italic;
-  padding: 10px;
-  font-style: italic; }
-
-.bs_form {
-  margin: 15px;
-  padding: 30px;
-  width: auto;
-  box-shadow: 10px 10px 5px #4b4e50;
-  border: 1px solid #4b4e50;
-  border-radius: 5px; 
-  font-style: normal;}
-
-.bs_form th {
-  text-align: right;
-  padding-right: 5px;
 }
 
-.bs_form li {
-    display: inline; }
+.control-group.error input, .control-group.error select, .control-group.error textarea { border-color: #b94a48;}
+.control-group.error .control-label, .control-group.error .help-block, .control-group.error .help-inline { color: #b94a48; }
+.control-group.success input, .control-group.success select, .control-group.success textarea { border-color: #468847; }
+.control-group.success .control-label, .control-group.success .help-block, .control-group.success .help-inline { color: #468847; }
 
-.bs_form td {
-    padding-bottom: 10px;
-    padding-left: 10px; }
 
-/* BUTTONS */
-#bs_operations {
-  margin: 30px;
-  width: 200px;
-  height: 200px; }
-
-#bs_menubar {
-  width: 150px;
-  padding: 0;
-  list-style-type: none;
-  position: relative;
 }
 
-/* clear floats */
-#bs_menubar:before, #bs_menubar:after {
-  content: "";
-  display: table; }
 
-#bs_menubar:after {
-  clear: both; }
+/* END_HIGHLIGHT */
 
-/* list elements */
-#bs_menubar li {
-  float: left;
-  border: 1px solid;
-  border-radius: 5px; }
-
-/* links */
-#bs_menubar a {
-  float: left;
-  padding: 15px 30px;
-  background: LightSteelBlue;
-  color: Black;
-  text-transform: uppercase;
-  font: bold 12px Arial, Helvetica;
-  text-decoration: none; }
-
-/* submenus */
-#bs_menubar ul {
-  zoom: 1; 
-  margin: 30px 0 0 0;
-  opacity: 0;
-  visibility: hidden;
-//  display: none;
-  position: absolute;
-  padding: 0;
-  top: 38px;
-  left: 0;
-  z-index: 1;
-  background: #636769;
-  border: 0;
-  border-radius: 5px;
-  transition: visibility 0.2s ease-in-out; }
-
-#bs_menubar a:hover {
-  background-color: #e6f1f5;
-  color: #4b4e50;
-  border-radius: 5px;}
-
-#bs_menubar li:hover > ul {
-  visibility: visible;
-//  display: block;
-  opacity: 1;
-  margin: 0; }
-
-#bs_menubar ul ul {
-  top: 0;
-  left: 120px;
-  margin: 0 0 0 20px;
-}
-
-#bs_menubar ul li {
-  float: none;
-  display: block;
-  border: 1px solid;
-  border-radius: 5px;
-  position: relative; 
-}
-
-#bs_menubar ul a {
-  padding: 10px;
-  width: 130px;
-  display: block;
-  white-space: nowrap;
-  float: none;
-  text-transform: none; }
-
-
-.loading-wrap {
-  width: 20px;
-  height: 20px;
-  position: relative;
-  margin: -10 0 0 10;
-  background: #6e7476;
-  animation: rotation ease-in-out 2s infinite;
-  border-radius: 20px;}
-
-.triangle1, .triangle2, .triangle3 {
-  border-width: 0 6.66667px 10px 6.66667px;
-  border-style: solid;
-  border-color: transparent;
-  border-bottom-color: #aab3b6;
-  height: 0;
-  width: 0;
-  position: absolute;
-  left: 3.33333px;
-  top: -3.33333px;
-  animation: fadecolor 2s 1s infinite; }
-
-.triangle2, .triangle3 {
-  content: "";
-  top: 6.66667px;
-  left: 10px;
-  animation-delay: 0.5s; }
-
-.triangle3 {
-  left: -3.33333px;
-  animation-delay: 0.8s; }
-
-@-webkit-keyframes rotation {
-  0% {
-    transform: rotate(0deg); }
-
-  20% {
-    transform: rotate(360deg); }
-
-  100% {
-    transform: rotate(360deg); } }
-
-@-moz-keyframes rotation {
-  0% {
-    transform: rotate(0deg); }
-
-  20% {
-    transform: rotate(360deg); }
-
-  100% {
-    transform: rotate(360deg); } }
-
-@-ms-keyframes rotation {
-  0% {
-    transform: rotate(0deg); }
-
-  20% {
-    transform: rotate(360deg); }
-
-  100% {
-    transform: rotate(360deg); } }
-
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg); }
-
-  20% {
-    transform: rotate(360deg); }
-
-  100% {
-    transform: rotate(360deg); } }
-
-@-webkit-keyframes fadecolor {
-  0% {
-    border-bottom-color: #e6f1f5; }
-
-  100% {
-    border-bottom-color: #aab3b6; } }
-
-@-moz-keyframes fadecolor {
-  0% {
-    border-bottom-color: #e6f1f5; }
-
-  100% {
-    border-bottom-color: #aab3b6; } }
-
-@-ms-keyframes fadecolor {
-  0% {
-    border-bottom-color: #e6f1f5; }
-
-  100% {
-    border-bottom-color: #aab3b6; } }
-
-@keyframes fadecolor {
-  0% {
-    border-bottom-color: #e6f1f5; }
-
-  100% {
-    border-bottom-color: #aab3b6; } }
