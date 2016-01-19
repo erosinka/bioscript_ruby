@@ -8,8 +8,10 @@ class PluginsController < ApplicationController
 
 
     def ordered
-        render json: @plugins_ordered
-        #format.all { render json: @plugins_ordered }
+        respond_to do |format|
+           format.html {redirect_to plugins_path}
+           format.json { render json: @plugins_ordered} 
+        end 
     end
 def visual_index
 
@@ -45,8 +47,8 @@ end
 
     respond_to do |format|
       format.html
-     # format.json { render json: @plugins }
-      format.json { render json: @plugins_ordered }
+      format.json { render json: @plugins }
+   #   format.json { render json: @plugins_ordered }
      # format.json { render json: plugins_json }
     end
   end

@@ -3,14 +3,14 @@
         margin: 0;
         font: 150%, sans-serif;
         color: #226;
-        #border-bottom: 3px dotted #77d;
     }
 	table {
 		border-collapse: collapse;
 	}
 
     table thead {
-        background: LightGray;
+        background: LightSteelBlue;
+        color: #226
     }   
 	table tr td {
 		padding: 5px;
@@ -46,7 +46,7 @@ input {
 }
 
 table.dataTable tr.odd { background-color: Lavender; }
-table.dataTable tr.even { background-color: MintCream; }
+table.dataTable tr.even { background-color: whiteSmoke; }
 }
 
 

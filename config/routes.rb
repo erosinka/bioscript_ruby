@@ -6,18 +6,22 @@ Rails.application.routes.draw do
 get 'operations', to: 'plugins#visual_index'
   resources :statuses
   resources :param_types
- # resources :requests  
-  resources :requests, param: :key 
+  
   resources :result_types
   resources :jobs
   resources :results
-  resources :plugins do
-    resources :requests
-    member do
-      get 'build_form'
-      post 'build_form'
+  resources :plugins 
+ 
+  resources :requests, param: :key do
+    collection do
+        post 'fetch'
+        get 'ordered'
     end
   end
+  #  member do
+  #      get 'build_form'
+  #      post 'build_form'
+  #  end
   resources :tasks
 
 

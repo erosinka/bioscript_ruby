@@ -1,7 +1,7 @@
 class RequestsController < ApplicationController
 #    before_action :set_plugin, only: [:create]
     before_action :set_request, only: [:show, :edit, :update, :destroy]
-
+    protect_from_forgery except: :fetch
   # GET /requests
   # GET /requests.json
   def index
@@ -44,7 +44,7 @@ class RequestsController < ApplicationController
     @plugin = Plugin.find_by_key(params[:oid])
     @info_content = @plugin.info_content
     @request = Request.new(:plugin_id => @plugin.id, :user_id => 1)
-    @service = Services.find_by_key(params[:key])
+    @service = Service.find_by_shared_key(params[:key])
     render :partial => 'new'
   end
 

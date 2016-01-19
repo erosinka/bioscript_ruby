@@ -96,7 +96,7 @@ class Request < ActiveRecord::Base
         self.update_attributes(:status_id => 4)
     end 
     status_name = self.status.status
-   service = Service.find_by_shared_key(key) 
+#   service = Service.find_by_shared_key(key) 
  end
 
 end

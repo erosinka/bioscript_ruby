@@ -45,11 +45,11 @@
 
         <%#= link_to "Description", plugin, :onclick => "window.open(this.href,'create_company', 'height=600, width=600');return false;"  %>
         <%#= link_to "Description", plugin, :onclick => 'return openPopup(this);' %>
-        <%= link_to 'Edit', edit_plugin_path(plugin) %><br/>
+        <%#= link_to 'Edit', edit_plugin_path(plugin) %>
         <%= link_to 'New request', new_request_path(:plugin_id => plugin_id) %><br/>
-        <%= link_to 'Destroy', plugin, method: :delete, data: { confirm: 'Are you sure?' } %>
-<%= button_to plugin_id, new_request_path(:plugin_id => plugin_id)  %>
-    <%#, :user_id => session[:user_id]) %>    
+        <%#= link_to 'Destroy', plugin, method: :delete, data: { confirm: 'Are you sure?' } %>
+        <%= button_to plugin_id, new_request_path(:plugin_id => plugin_id)  %>
+        <%#, :user_id => session[:user_id]) %>    
 
       	</td>
     <% end %>
@@ -59,13 +59,11 @@
 </table>
 
 <br>
-<% if !admin? %>
-<%= link_to 'New Plugin', new_plugin_path %>
+<% if admin? %>
+    <%= link_to 'New Plugin', new_plugin_path %>
 <% end %>
 
 <script type="text/javascript">
-    //<![CDATA[
-
 jQuery(document).ready(function() {
     /* Build the DataTable with third column using our custom sort functions */
     var oTable = jQuery('#list_plugins').dataTable( {
@@ -80,6 +78,4 @@ jQuery(document).ready(function() {
 
 }
 );
-
-//]]>
 </script>
