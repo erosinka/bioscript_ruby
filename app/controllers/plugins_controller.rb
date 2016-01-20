@@ -2,20 +2,24 @@ require 'json'
 class PluginsController < ApplicationController
   before_action :set_plugin, only: [:build_form, :show, :edit, :update, :destroy]
 
-
-#  def build_form
-#  end
-
-
     def ordered
         respond_to do |format|
            format.html {redirect_to plugins_path}
            format.json { render json: @plugins_ordered} 
         end 
     end
-def visual_index
 
-end
+    def validate
+        h = {}
+        h[:callback] = 'callback'
+        h[:plugin_id] = self.key
+        h[:validation] = 'success'
+        h[:app] = {}
+        user_id = 2
+        h[:app][:user_id] = user_id
+        h[:task_id] = @request.key
+        return h.to_json
+    end
 
   # GET /plugins
   # GET /plugins.json

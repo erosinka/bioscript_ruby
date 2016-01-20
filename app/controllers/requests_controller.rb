@@ -1,7 +1,7 @@
 class RequestsController < ApplicationController
 #    before_action :set_plugin, only: [:create]
     before_action :set_request, only: [:show, :edit, :update, :destroy]
-    protect_from_forgery except: :fetch
+  protect_from_forgery except: [:fetch, :create]
   # GET /requests
   # GET /requests.json
   def index
@@ -43,8 +43,9 @@ class RequestsController < ApplicationController
   def fetch
     @plugin = Plugin.find_by_key(params[:oid])
     @info_content = @plugin.info_content
-    @request = Request.new(:plugin_id => @plugin.id, :user_id => 1)
-    @service = Service.find_by_shared_key(params[:key])
+    @service = Service.find_by_shared_key(params[:shared_key]) if params[:shared_key]
+    @request = Request.new(:plugin_id => @plugin.id, :user_id => 1, :service_id => (@service) ? @service.id : nil)
+  
     render :partial => 'new'
   end
 
@@ -77,6 +78,10 @@ class RequestsController < ApplicationController
   def create
     require 'digest'
     # request_params = {"user_id"=>"1", "plugin_id"=>"106"}
+    #logger.debug('SERVICE_ID ' + params[:service_id])
+    # if post comes from htsstation I have bs_private with files for select
+    @service = Service.find(params[:request][:service_id]) if params[:request][:service_id]
+    #logger.debug('SERVICE ' + @service.to_json)
     @request = Request.new(request_params)
     @plugin = Plugin.find(request_params[:plugin_id])
     @info_content = @plugin.info_content
@@ -111,9 +116,22 @@ class RequestsController < ApplicationController
         
         @request.delay.run create_arg_line
         @request.update_attributes(:status_id => 2)
-        
-        format.html { redirect_to @request, notice: 'Request was successfully created.' }
-        format.json { render :show, status: :created, location: @request }
+
+        # callback_service_pending
+        if @service     
+          
+            h = {
+            :callback => 'callback',
+            :plugin_id => @plugin.key,
+            :validation => 'success',
+           # :app => {:user_id => 1},
+            :task_id => @request.key} 
+            logger.debug('H_JSON:' + h.to_json)
+            format.html {render json: {:key => @request.key } }
+        else
+            format.html { redirect_to @request, notice: 'Request was successfully created.' }
+            format.json { render :show, status: :created, location: @request }
+        end
       else
         format.html { render :new }
         format.json { render json: @request.errors, status: :unprocessable_entity }
@@ -154,7 +172,7 @@ class RequestsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def request_params
-      params.require(:request).permit(:user_id, :plugin_id, :parameters, :key) #, :service_id)
+      params.require(:request).permit(:user_id, :plugin_id, :parameters, :key, :service_id) #, :service_id)
     end
 
     def rewrite_multiple

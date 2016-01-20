@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :services
  # get ':controller(/:action(/:key))', controller: /requests\/[^\/]+/
  # get ':requests(/:action(/:key))', controller: /requests\/[^\/]+/
 

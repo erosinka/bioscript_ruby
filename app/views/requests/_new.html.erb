@@ -47,6 +47,7 @@
             </table>
             <%= f.hidden_field :plugin_id %>
             <%= f.hidden_field :user_id %>
+	    <%= f.hidden_field :service_id %>
             <%= hidden_field_tag :list_fields, @list_fields.to_json %>   
             <%#= button_to "submit", requests_path(:plugin_id =>  @plugin.id) %>
             <%# button_to "submit" %>
@@ -60,12 +61,10 @@
         var list_fields = JSON.parse($('#list_fields').val());
         var info_content = <%= raw @info_content['in'].to_json %> ;
 
-        $('#submit_link').click(function(){
+        $('#submit_link').click(function(event){
             var h_validate = {rules: {}, messages: {}}
-            //for (var i = 0; i < list_fields.length; i++) {
-                // alert(list_fields[i])
-            //}
             $('#new_request').validate();
+            alert('ha-ha!');
             $('#new_request').submit();
         });
     });

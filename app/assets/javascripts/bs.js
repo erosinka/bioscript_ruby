@@ -174,7 +174,9 @@
 
             /* submit query */
             $.ajax({
-                    url: bs_url + 'plugins/validate',
+                   /* url: bs_url + 'plugins/validate',
+                   */
+                    url: bs_url + 'requests',
                     type : 'POST',
                     data : formData,
                     processData:false,

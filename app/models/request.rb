@@ -28,6 +28,7 @@ class Request < ActiveRecord::Base
  def run arg_line
     # started
     self.update_attributes(:status_id => 1)
+    # callback_service running
     output_dir = APP_CONFIG[:data_path] + APP_CONFIG[:output_dir]
     #get the name of the plugin file
     n = self.plugin.name.match(/(.+?)Plugin/)
@@ -96,6 +97,7 @@ class Request < ActiveRecord::Base
         self.update_attributes(:status_id => 4)
     end 
     status_name = self.status.status
+    # call_back_service finish
 #   service = Service.find_by_shared_key(key) 
  end
 

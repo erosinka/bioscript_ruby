@@ -138,3 +138,5 @@ create table services (id serial not null primary key, shared_key text unique no
 insert into services values (default, 'eb09841e907cb0f8d204fb39705f8caaa3337013', 'HTSStation', 'bbcf.epfl@gmail.com', '128.178.198.130', '/data/epfl/bbcf/htsstation/data', 'http://htsstation.epfl.ch/data', '/data/epfl/bbcf/htsstation/bs', 'http://htsstation.epfl.ch/bs_jobs/bs_callback' );
 
 update statuses set status = upper(status);
+
+alter table requests add column service_id int references services(id);

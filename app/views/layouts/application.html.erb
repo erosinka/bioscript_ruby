@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <%#= render :partial => 'bs_js' %>
+<%= csrf_meta_tags %>
 <head>
   <meta charset="utf-8"/>
   <title>Bioscript</title>
@@ -8,7 +9,6 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= stylesheet_link_tag 'operations' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
 </head>
 <body class="<%= controller.controller_name %>">
     <div id="banner">
