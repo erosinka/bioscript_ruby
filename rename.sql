@@ -140,3 +140,5 @@ insert into services values (default, 'eb09841e907cb0f8d204fb39705f8caaa3337013'
 update statuses set status = upper(status);
 
 alter table requests add column service_id int references services(id);
+alter table services add column server_url text;
+alter table services add column redirect_path text;

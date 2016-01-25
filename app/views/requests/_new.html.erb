@@ -27,7 +27,7 @@
     </p>
     </div>
     <div class='bs_form'> 
-        <%= form_for(@request, method: "post", html: {multipart: true}) do |f|%>
+        <%= form_for(@request, method: "post", remote: true, html: {multipart: true}) do |f|%>
             <% @form = f %>
             <table>
             <tbody>
@@ -47,11 +47,13 @@
             </table>
             <%= f.hidden_field :plugin_id %>
             <%= f.hidden_field :user_id %>
-	    <%= f.hidden_field :service_id %>
+	    <%= hidden_field_tag 'format', 'json' %>
+	    <%= hidden_field_tag 'request[format]', 'json' %>
+	        <%= f.hidden_field :service_id %>
             <%= hidden_field_tag :list_fields, @list_fields.to_json %>   
             <%#= button_to "submit", requests_path(:plugin_id =>  @plugin.id) %>
             <%# button_to "submit" %>
-            <button id='submit_link'>Submit</button>
+            <span id='submit_link'>Submit</span>
         <% end %>
 
    </div>
@@ -61,22 +63,112 @@
         var list_fields = JSON.parse($('#list_fields').val());
         var info_content = <%= raw @info_content['in'].to_json %> ;
 
-        $('#submit_link').click(function(event){
+        $('#submit_link2').click(function(event){
             var h_validate = {rules: {}, messages: {}}
             $('#new_request').validate();
-            alert('ha-ha!');
+            alert('ha-ha!222');
             $('#new_request').submit();
         });
     });
 <% end %>
 
+<%= javascript_tag do %>
+/*
+$(document).ready 
+  $("#new_request").on("ajax:success", (e, data, status, xhr) 
+    $("#new_request").append xhr.responseText).on "ajax:error", (e, xhr, status, error) 
+    $("#new_request").append "<p>ERROR</p>"
+*/
+    $(document).ready(function(){
+        $('#submit_link').click(function(event){
+            $('#new_request').validate();
+            alert('ha-ha!');
+          //  return true;
+            // this values come from begining of bs.js
+            alert('1');
+            var bs_url = '<%= APP_CONFIG[:bioscript_server] %>';
+            var fselector = 'div.bs_form'; //data.fselector;
+            var fsizemax = 255; //data.fsizemax;
+            var waitdiv = $('<div class="loading-wrap"><span class="triangle1"></span><span class="triangle2"></span><span class="triangle3"></span></div>');
+            waitdiv.css('left', $(this).find('input').width() + 'px');
+            waitdiv.css('top', -$(this).find('input').height() + 'px');
+            $(this).append(waitdiv);
+            /* build form data objet to upload files if any */
+            var formData = new FormData();
+            alert('2');
+            var files = $(':file');
+            for(var i = 0; i < files.length; i++) {
+                var fid = files[i].name;
+                var fs = files[i].files;
+                for(var j=0;j<fs.length;j++){
+                    var f = fs[j];
+                    if(f){
+                        // file size max
+                        if (f.size > fsizemax * 1000000 ){
+                            alert('File is too big. You cannot upload files greater than '+ fsizemax + ' Mo.');
+                            $('.loading-wrap').remove();
+                            return false;
+                        }
+                        formData.append(fid, f);
+                    }
+                }
+            }
+            alert('3');
+            /* get data from form */
+            var pdata = $('#new_request').serializeArray();
+            // pdata - all the parameters
+            alert('4');
+            //breaks here if submit in HTSStation
+            $.each(pdata, function(i, v){
+                formData.append(v.name, v.value);
+                alert('formData:'+v.name + '/' + v.value);
+            });
+   //         formData.append('format', 'json');
+            $(this).addClass('hidden');
+            alert('5');
+           // url = bs_url + 'requests';
+            //url = bs_url + 'request/new';
+            /* submit query */
+           var url =  $('#new_request').attr('action');
+           alert('url = ' + url);
+          $.ajax({
+                    url: url,
+	                type: "POST",
+                    dataType: 'json',
+                    contentType: false, //'multipart/form-data',
+                    processData: false,
+                    data: formData
+                    }).done(function(h) {
+			            alert('test');
+			        //  alert(h.redirect_url)
+                       // _incall($this, 'jsonp_callback', [h]);
+                        alert(h.redirect_url);
+                        window.location = h.redirect_url;
+                    }).fail(function(error){
+                     //   alert('error');
+                       // fo.attr('disabled', false);
+                        $('.loading-wrap').remove();
+                        console.error("POST ERROR");
+                        console.error(error);
+                    }).always(function() {
+                   //     alert( "ajax complete" );
+                    });
+
+              return true;
+        });
+    });
+<% end %>
 
     <%# list_types = ['bam','track', 'userfile', 'txt', 'file'] %>
     <% list_types = ['bam','track', 'userfile', 'txt'] %>
     <%= javascript_tag do  %>
         <% @info_content['in'].select{|e| list_types.include?(e['type'])}.each do |form_el| %>
             <% field_name = form_el['id'] %>
-            <%= raw (form_el['multiple']) ? (0..1).to_a.map{|e| 'bs_init_file_field("' + form_el['id'] +"Multi:#{e}:" + field_name + '", "text");'}.join("\n") : ("bs_init_file_field('" + field_name + "', 'text');" ) %> 
+            <% if @service %>
+                <%= raw (form_el['multiple']) ? (0..1).to_a.map{|e| 'bs_init_triple_file_field("' + form_el['id'] +"Multi:#{e}:" + field_name + '", "text");'}.join("\n") : ("bs_init_triple_file_field('" + field_name + "', 'text');" ) %>
+            <% else %> 
+                <%= raw (form_el['multiple']) ? (0..1).to_a.map{|e| 'bs_init_file_field("' + form_el['id'] +"Multi:#{e}:" + field_name + '", "text");'}.join("\n") : ("bs_init_file_field('" + field_name + "', 'text');" ) %>
+            <% end %> 
         <% end %>
     <% end %>
 

@@ -1,14 +1,13 @@
 class RequestsController < ApplicationController
-#    before_action :set_plugin, only: [:create]
-    before_action :set_request, only: [:show, :edit, :update, :destroy]
+  # before_action :set_plugin, only: [:create]
+  before_action :set_request, only: [:show, :edit, :update, :destroy]
   protect_from_forgery except: [:fetch, :create]
   # GET /requests
   # GET /requests.json
   def index
-  #  @requests = Request.all
+    # @requests = Request.all
     @requests = Request.where(:user_id => 1) 
     @user_requests_sorted = @requests.sort {|a,b| b.id <=> a.id}
-    # @requests = Request.all
   end
 
   # GET /requests/1
@@ -17,53 +16,51 @@ class RequestsController < ApplicationController
     if !@request
         page_not_found
     else
-    val = {}
-    val[:parameters] = JSON.parse(@request.parameters)
-    results = Result.where(:request_id => @request.id)
-    val[:results] = []
-    results.each do |r|
-        res = {}
-        res[:fname] = r.fname
-        res[:id] = r.id
-        res[:is_file] = r.is_file
-        val[:results].push(res)
+        respond_to do |format|
+            # format.html { redirect_to @request, notice: 'test' }
+            format.html #{ render :show, status: :ok, location: @request }
+            format.json { render json: request_info.to_json, status: :ok, location: @request }
+        end
     end
-    val[:plugin_id] = @request.plugin_id
-    val[:status] = @request.status.status
-    respond_to do |format|
-
-    #    format.html { redirect_to @request, notice: 'test' }
-        format.html #{ render :show, status: :created, location: @request }
-        format.json { render json: val, status: :ok, location: @request }
-    end
-    end
-       # format.json { render :show, status: :ok, location: @request }
   end
 
+# method called from HTSStation
   def fetch
     @plugin = Plugin.find_by_key(params[:oid])
     @info_content = @plugin.info_content
     @service = Service.find_by_shared_key(params[:shared_key]) if params[:shared_key]
+    a = JSON.parse(params[:bs_private])
+    #app/controller/new_bs_job_controller.rb bs_fetch L207 
+    bs_private = a['prefill']['track']
+    @files_from_hts = []
+    if bs_private
+        bs_private.each do |bsp|
+            t = JSON.parse(bsp[0])
+            #file = [t['n'], t['p'] +'/'+ t['n']]
+            file = [t['p'] + '/' + t['n'], t['p'] +'/'+ t['n']]
+            @files_from_hts.push(file)
+        end
+    end
+#    logger.debug('BS_FILES:'+ @files_from_hts.to_json)
+    # could create service - bioscript with service.id = 2
     @request = Request.new(:plugin_id => @plugin.id, :user_id => 1, :service_id => (@service) ? @service.id : nil)
-  
     render :partial => 'new'
   end
 
   # GET /requests/new
   def new
-    
-   # @plugin = Plugin.where({:id =>params[:plugin_id]}).first
+    # @plugin = Plugin.where({:id =>params[:plugin_id]}).first
     h = {}
+    logger.debug('NEW is called');
     h[:id] = params[:plugin_id] if params[:plugin_id]
     h[:key] = params[:plugin_key] if params[:plugin_key]
     @plugin = Plugin.where(h).first 
-    if @plugin
-      @info_content = @plugin.info_content
-      @request = Request.new(:plugin_id => @plugin.id, :user_id => 1)      
-      render
+    if !@plugin
+        page_not_found
     else
-     # render :text => 'ERROR'
-     page_not_found
+        @info_content = @plugin.info_content
+        @request = Request.new(:plugin_id => @plugin.id, :user_id => 1)      
+        render
     end    
   end
 
@@ -72,17 +69,36 @@ class RequestsController < ApplicationController
   def edit
   end
 
+  def create_test
+    require 'digest'
+    @service = Service.find(params[:request][:service_id]) if params[:request][:service_id] and !params[:request][:service_id].empty?
+    @request = Request.new(request_params)
+    @plugin = Plugin.find(request_params[:plugin_id])
+    @info_content = @plugin.info_content
+    @h_in = @plugin.hash_in
+    @param_h = {}
+    JSON.parse(params[:list_fields]).map{|e| @param_h[e] = params[e]}
+    @request.key = create_key
+    @request.save
+   # render json: {:redirect_url => 'test' }, status: :ok
+    render json: {:redirect_url => request_path(@request)}
+  end
+
 
   # POST /requests
   # POST /requests.json
   def create
     require 'digest'
     # request_params = {"user_id"=>"1", "plugin_id"=>"106"}
-    #logger.debug('SERVICE_ID ' + params[:service_id])
+
+    # params = {"controller":"requests","action":"create"}
+
     # if post comes from htsstation I have bs_private with files for select
-    @service = Service.find(params[:request][:service_id]) if params[:request][:service_id]
-    #logger.debug('SERVICE ' + @service.to_json)
+    @service = Service.find(params[:request][:service_id]) if params[:request][:service_id] and !params[:request][:service_id].empty?
+    # @bs_private = params[:prefill][:track] if @service and if params[:prefill]
+    logger.debug('SERVICE ' + @service.to_json) if @service
     @request = Request.new(request_params)
+    logger.debug('REQUEST ' + @request.to_json)
     @plugin = Plugin.find(request_params[:plugin_id])
     @info_content = @plugin.info_content
     @h_in = @plugin.hash_in  
@@ -90,53 +106,59 @@ class RequestsController < ApplicationController
     @param_h = {}
     JSON.parse(params[:list_fields]).map{|e| @param_h[e] = params[e]}
 
-#    list_file_fields = param_h.keys.select{|k| param_h[k] and param_h[k].respond_to?("original_filename")}
-#    list_file_fields.map{|k| param_h[k] = params[k].original_filename}
-    
     # replace files with just name to save in database
     @param_h.each do |k, v|
         if v and v.respond_to?("original_filename")
             @param_h[k] = params[k].original_filename
         end
     end
+    logger.debug('CREATE:' + @param_h.to_json)
 
     @request.parameters = @param_h.to_json
-   # create the key 
-   rnd = Array.new(6){[*'0'..'9', *'a'..'z'].sample}.join
-    while(Request.find_by_key(rnd)) do
-      rnd = Array.new(6){[*'0'..'9', *'a'..'z'].sample}.join
-    end 
-    @request.key = rnd
-    respond_to do |format|
-      if @request.save
-        create_file_links
-        #rewrite the parameters in case of multiple
-        @request.update_attribute(:parameters, rewrite_multiple.to_json)
-       # @request.update_attribute(:parameters, @tmp_h.to_json)
-        
-        @request.delay.run create_arg_line
-        @request.update_attributes(:status_id => 2)
+    # create random key for new request
+    @request.key = create_key
 
-        # callback_service_pending
-        if @service     
-          
-            h = {
-            :callback => 'callback',
-            :plugin_id => @plugin.key,
-            :validation => 'success',
-           # :app => {:user_id => 1},
-            :task_id => @request.key} 
-            logger.debug('H_JSON:' + h.to_json)
-            format.html {render json: {:key => @request.key } }
+  #  respond_to do |format|
+        if !@request.save
+         #   format.html { render :new }
+         #   format.json { render json: @request.errors, status: :unprocessable_entity }
+            render json: @request.errors, status: :unprocessable_entity 
         else
-            format.html { redirect_to @request, notice: 'Request was successfully created.' }
-            format.json { render :show, status: :created, location: @request }
+            create_file_links
+            # rewrite the parameters in case of multiple file upload
+            @request.update_attribute(:parameters, rewrite_multiple.to_json)
+            # run delayed_job to execute the python script
+            @request.delay.run create_arg_line
+            # request status is pending
+            @request.update_attributes(:status_id => 2)
+
+#            if !@service     
+#                format.html { redirect_to @request, notice: 'Request was successfully created.' }
+#                format.json { render :show, status: :created, location: @request }
+#            else
+#                h = {
+#                    :callback => 'callback',
+#                    :plugin_id => @plugin.key,
+#                    :validation => 'success',
+#                    # :app => {:user_id => 1},
+#                    :task_id => @request.key} 
+#                format.html {render json: {:key => @request.key } }
+#                # callback_service_pending
+#                # service_callback @service.id
+#            end
+
+#          format.html { redirect_to @request, notice: 'Request was successfully updated.' }
+#          format.json { 
+ #         format.all {
+  
+        redirect_url = @service ? (@service.server_url + @service.redirect_path) : request_path(@request)
+        render json: {:redirect_url => redirect_url}
+          # { render status: :500 }
+#} 
+ #       }
+
         end
-      else
-        format.html { render :new }
-        format.json { render json: @request.errors, status: :unprocessable_entity }
-      end
-    end
+#    end
   end
 
   # PATCH/PUT /requests/1
@@ -166,15 +188,58 @@ class RequestsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_request
-      @request = Request.find_by_key(params[:key])
-    #  @request = Request.find(params[:id])
+        @request = Request.find_by_key(params[:key])
+        #  @request = Request.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def request_params
-      params.require(:request).permit(:user_id, :plugin_id, :parameters, :key, :service_id) #, :service_id)
+      params.require(:request).permit(:user_id, :plugin_id, :parameters, :key, :service_id) #, :service_id) :format ??
     end
 
+    def create_key
+        # create the key for request
+        rnd = Array.new(6){[*'0'..'9', *'a'..'z'].sample}.join
+        while(Request.find_by_key(rnd)) do
+            rnd = Array.new(6){[*'0'..'9', *'a'..'z'].sample}.join
+        end 
+        return rnd
+    end
+
+    def service_callback_bp service_id
+        @service = Service.find(service_id)
+        hts_server = @service.callback_url #APP_CONFIG[:hts_server]
+        # in table Services we store whole url for callback function?
+        hts_url = hts_server #+ 'new_bs_job/hts_callback'
+        res = Net::HTTP.post_form(URI.parse(hts_url), request_info.to_json)
+        response =  res.body.gsub(/\n/, '.:;:.')
+    end
+
+# request data in json format for hts_callback mainly
+    def request_info_bp #request_key
+        set_request
+        # @request = Request.find_by_key(request_key) 
+        val = {
+            :key => @request.key,
+            :parameters => JSON.parse(@request.parameters),
+            :plugin_id => @request.plugin_id,
+            :status => @request.status.status,
+            :error => @request.error,
+            :results => []
+        }
+        results = Result.where(:request_id => @request.id)
+        results.each do |r|
+            res = {
+                :fname => r.fname,
+                :id => r.id,
+                :is_file => r.is_file
+            }
+            val[:results].push(res)
+        end
+        return val
+    end
+
+# rewrite parameters for multiple fields
     def rewrite_multiple
         @tmp_h = {}
         @param_h.each do |k, v|

@@ -7,7 +7,7 @@
     <th></th>
     <th></th>
     <th>
-        <%= image_tag("plus_icon.png", alt: "undo", :style=>"display: none", :onclick=>"twd_grow_undo(this); return false;", :id => multiname + ':undo') %>
+        <%= image_tag("redo-icon.png", alt: "undo", :style=>"display: none", :onclick=>"twd_grow_undo(this); return false;", :id => multiname + ':undo') %>
     </th>
 </tr>
 <% multiname0 = multiname + ':0:' %>
@@ -20,11 +20,18 @@
             <%= label_tag(@var['id'], 'Url') %>
             <%= radio_button_tag( @var['id'], 'file', false, :name => name) %>
             <%= label_tag(@var['id'], 'File Upoad') %>
+            <% if @service %>
+                <%= radio_button_tag( @var['id'], 'select', false, :name => name) %>
+                <%= label_tag(@var['id'], 'Select') %>
+            <% end %>
             <%= text_field_tag 'text', '' %>
             <%= file_field_tag 'file', :style => 'display: none; ' %>
+            <% if @service %>
+                <%= select_tag( @var['id'], options_for_select(@files_from_hts), :style => 'display: none;') %>
+            <% end %>
     </td>
     <td>
-    <%= image_tag("plus-icon.png", alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;", :name => multiname0 + 'del', :id => multiname0 + 'del') %>
+    <%= image_tag(image_path("undo-icon.png"), alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;", :name => multiname0 + 'del', :id => multiname0 + 'del') %>
     </td>
 </tr>
 
@@ -38,13 +45,20 @@
             <%= label_tag(@var['id'], 'Url') %>
             <%= radio_button_tag( @var['id'], 'file', false, :name => name) %>
             <%= label_tag(@var['id'], 'File Upoad') %>
+            <% if @service %>
+                <%= radio_button_tag( @var['id'], 'select', false, :name => name) %>
+                <%= label_tag(@var['id'], 'Select') %>
+            <% end %>
             <%= text_field_tag @var['id'], '', required: @var['required'] %>
             <%= file_field_tag @var['id'], :style => 'display: none; ' %>
+            <% if @service %>
+                <%= select_tag( @var['id'], options_for_select(@files_from_hts), :style => 'display: none;') %>
+            <% end %>
         </div>
 
    </td>
     <td>
-    <%= image_tag("plus-icon.png", alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;", :name => multiname1 + 'del', :id => multiname1 + 'del') %>
+    <%= image_tag(image_path("undo-icon.png"), alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;", :name => multiname1 + 'del', :id => multiname1 + 'del') %>
     </td>
 </tr>
 
@@ -55,9 +69,9 @@
 
 <%= javascript_tag do%>
     var btn = document.getElementById("<%=@var['id']%>_file");
-$("#<%=@var['id']%>_file").change(function(){
-    alert('test file');
-    var val = <%= @var['required'] %>;
-});
+    $("#<%=@var['id']%>_file").change(function(){
+        alert('test file');
+        var val = <%= @var['required'] %>;
+    });
 <% end %>
  

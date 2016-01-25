@@ -20,7 +20,7 @@ bs_init_file_field = function(compound_id, select){
         // second Multi are not required
         if (num == 0 || num > 1) {
         
-        } else
+        } else // if (num == 1)
             // check if the field was required before
             if ($root.find('input:not(:radio):not(:'+ val + ')').attr('name', '').attr('required')) {
                 $root.find('input:' + val + '').attr('name', compound_id).attr('required',true);
@@ -55,6 +55,41 @@ bs_init_triple_file_field = function(compound_id, select){
 
     $root.find(':radio').change(function(){
         var val = $(this).val();
+        // make radio file/URL/select field required only if it is present and for 1 in case of Multi
+        var row_id = compound_id.substring(0, compound_id.lastIndexOf(':'));
+        var num = parseInt(row_id.substr(row_id.lastIndexOf(':')+1)) ;
+
+        if (val == 'select'){
+            $root.find('input:not(:radio)').attr('name', '').hide();
+            $root.find('select').attr('name', compound_id).show();
+            if (num == 1) {
+                // check if either input file or text has required = TRUE
+                if ($root.find('input:file').attr('name', compound_id).attr('required') || $root.find('input:text').attr('name', compound_id).attr('required')) {
+                    $root.find('select').attr('name', compound_id).attr('required', true);
+                   // 2 input file/text have required=FALSE
+                    $root.find('input:text').attr('name', '').attr('required', false);
+                    $root.find('input:file').attr('name', '').attr('required', false);
+                }
+            }
+        } else {
+            $root.find('input:' + val).attr('name', compound_id).show();
+            $root.find('select').attr('name', '').hide();
+            $root.find('input:not(:radio):not(:' + val + ')').attr('name', '').hide();
+            if (num == 1) {
+                // check if the field was required before
+                if ($root.find('select').attr('name', compound_id).attr('required') ||
+                    $root.find('input:' + val).attr('name', compound_id).attr('required') ||
+                    $root.find('input:not(:radio):not(:'+ val + ')').attr('name', '').attr('required')
+                    ) {
+                    // the one of input:file/text not pressed has required=FALSE
+                    $root.find('input:not(:radio):not(:'+ val + ')').attr('name', '').attr('required', false)
+                    // and after the one pressed has required=TRUE
+                    $root.find('input:' + val).attr('name', compound_id).attr('required',true);
+                    $root.find('select').attr('name', '').attr('required', false);
+                }
+            }
+        }
+        /*
         if (val == 'select'){
             $root.find('input:not(:radio)').attr('name', '').hide();
             $root.find('select').attr('name', compound_id).show();
@@ -63,6 +98,8 @@ bs_init_triple_file_field = function(compound_id, select){
             $root.find('select').attr('name', '').hide();
             $root.find('input:not(:radio):not(:' + val + ')').attr('name', '').hide();
         }
+        */
+        
     });
     $root.find('input:not(:radio), select').change(function(){
         $(selector).bind('change', function(){eval($(selector).attr("onchange"));});

@@ -7,7 +7,7 @@
     <th></th>
     <th></th>
     <th>
-        <%= image_tag("plus_icon.png", alt: "undo", :style=>"display: none", :onclick=>"twd_grow_undo(this); return false;", :id => multiname + ':undo') %>
+        <%= image_tag("redo-icon.png", alt: "undo", :style=>"display: none", :onclick=>"twd_grow_undo(this); return false;", :id => multiname + ':undo') %>
     </th>
 </tr>
 <% multiname0 = multiname + ':0:' %> 
@@ -24,7 +24,7 @@
             <%= file_field_tag 'file', :style => 'display: none; ' %>
     </td>
     <td>
-        <%= image_tag("plus-icon.png", alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;",:name => multiname0 +'del', :id => multiname0 + 'del') %>
+        <%= image_tag("undo-icon.png", alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;",:name => multiname0 +'del', :id => multiname0 + 'del') %>
     </td>
 </tr>
 
@@ -42,7 +42,7 @@
         </div>
     </td>
     <td> 
-        <%= image_tag("plus-icon.png", alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;",:name=> multiname1 + 'del', :id=> multiname1 + 'del') %>
+        <%= image_tag("undo-icon.png", alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;",:name=> multiname1 + 'del', :id=> multiname1 + 'del') %>
     </td>
 </tr>
 </tbody></table>

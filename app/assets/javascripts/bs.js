@@ -118,7 +118,11 @@
          * hack the submit button of the BioScript
          * form to perform a JSONP query instead
          */
+
+/*
         hack_submit : function(){
+
+            alert('hack_submit');
             var $this = $(this);
             var data = $this.data(bs_namespace);
             var bs_url = data.bsurl;
@@ -126,7 +130,8 @@
             var fsizemax = data.fsizemax;
             $(fselector).children('form').submit(function(e){
                 e.preventDefault();
-                /* fetch form id from form */
+*/  
+              /* fetch form id from form */
                 //var fid = jQuery.parseJSON($(fselector).find('input#pp').val())['id'];
 
 //    $(':file').change(function(){
@@ -136,14 +141,16 @@
 //        type = file.type;
 //        //your validation
 //    });
+  /*
             var waitdiv = $('<div class="loading-wrap"><span class="triangle1"></span><span class="triangle2"></span><span class="triangle3"></span></div>');
             waitdiv.css('left', $(this).find('input').width() + 'px');
             waitdiv.css('top', -$(this).find('input').height() + 'px');
             $(this).append(waitdiv);
-
+*/
 
 
             /* build form data objet to upload files if any */
+  /*
             var formData = new FormData();
             var files = $(':file');
             for(var i = 0; i < files.length; i++) {
@@ -162,20 +169,23 @@
                     }
                 }
             }
+*/
             /* get data from form */
+  /*
             var pdata = $(this).serializeArray();
             $.each(pdata, function(i, v){
                 formData.append(v.name, v.value);
             });
+    */
             /* disable the form button and show waiting stuff */
+/*
             var fo = $(this).find('#submit');
             fo.attr('disabled', true);
             fo.addClass('waiting');
-
+*/
             /* submit query */
-            $.ajax({
-                   /* url: bs_url + 'plugins/validate',
-                   */
+ /*
+          $.ajax({
                     url: bs_url + 'requests',
                     type : 'POST',
                     data : formData,
@@ -194,7 +204,7 @@
                     return true;
                 });
         },
-
+*/
         /**
          * After form submit, a json is sent back from
          * BioScript server
