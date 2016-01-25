@@ -73,19 +73,11 @@
 <% end %>
 
 <%= javascript_tag do %>
-/*
-$(document).ready 
-  $("#new_request").on("ajax:success", (e, data, status, xhr) 
-    $("#new_request").append xhr.responseText).on "ajax:error", (e, xhr, status, error) 
-    $("#new_request").append "<p>ERROR</p>"
-*/
     $(document).ready(function(){
         $('#submit_link').click(function(event){
             $('#new_request').validate();
-            alert('ha-ha!');
-          //  return true;
             // this values come from begining of bs.js
-            alert('1');
+            // bs_url diferent for BS and HTS
             var bs_url = '<%= APP_CONFIG[:bioscript_server] %>';
             var fselector = 'div.bs_form'; //data.fselector;
             var fsizemax = 255; //data.fsizemax;
@@ -119,17 +111,24 @@ $(document).ready
             // pdata - all the parameters
             alert('4');
             //breaks here if submit in HTSStation
+            for (i = 0; i < pdata.length; i++) {
+                formData.append(pdata[i].name, pdata[i].value);
+            //    alert(pdata[i].name + '/' + pdata[i].value);
+            }
+            /*
             $.each(pdata, function(i, v){
-                formData.append(v.name, v.value);
-                alert('formData:'+v.name + '/' + v.value);
+               alert('formData:'+v.name + '/' + v.value);
+               formData.append(v.name, v.value);
             });
-   //         formData.append('format', 'json');
+        */
+   //       formData.append('format', 'json');
             $(this).addClass('hidden');
             alert('5');
-           // url = bs_url + 'requests';
             //url = bs_url + 'request/new';
             /* submit query */
-           var url =  $('#new_request').attr('action');
+            // why url = /bioscript/requests  works for BS? 
+            // var url =  $('#new_request').attr('action');
+            var url = 'http://bbcf-serv03.epfl.ch/bioscript/requests';
            alert('url = ' + url);
           $.ajax({
                     url: url,
@@ -137,23 +136,22 @@ $(document).ready
                     dataType: 'json',
                     contentType: false, //'multipart/form-data',
                     processData: false,
-                    data: formData
-                    }).done(function(h) {
+                    data: formData 
+                }).done(function(h) {
 			            alert('test');
 			        //  alert(h.redirect_url)
                        // _incall($this, 'jsonp_callback', [h]);
                         alert(h.redirect_url);
                         window.location = h.redirect_url;
                     }).fail(function(error){
-                     //   alert('error');
+                        alert('error');
                        // fo.attr('disabled', false);
                         $('.loading-wrap').remove();
                         console.error("POST ERROR");
                         console.error(error);
                     }).always(function() {
-                   //     alert( "ajax complete" );
+                       alert( "ajax complete" );
                     });
-
               return true;
         });
     });
