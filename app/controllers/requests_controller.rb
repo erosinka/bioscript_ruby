@@ -289,6 +289,7 @@ class RequestsController < ApplicationController
                     logger.debug('URL:' + filepath + ';')
                 #   download_cmd = "wget -O #{dir} '#{url}'" #validate: no \ no ', dir contains the name of the file. 
                 #   curl '#{url}' > file
+                #   curl -k #{url} -o #{filepath}
                     download_cmd = "wget -O #{filepath} '#{url}'"
                     `#{download_cmd}`
                     logger.debug('URL2:' + download_cmd + ';')

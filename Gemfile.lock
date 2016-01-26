@@ -97,6 +97,7 @@ GEM
       mini_portile (~> 0.6.0)
     pg (0.14.0)
     rack (1.6.4)
+    rack-cors (0.4.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.3)
@@ -178,6 +179,7 @@ DEPENDENCIES
   jquery-rails
   jquery-validation-rails
   pg (= 0.14.0)
+  rack-cors
   rails (= 4.2.3)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)

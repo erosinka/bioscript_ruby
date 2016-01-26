@@ -76,6 +76,7 @@
     $(document).ready(function(){
         $('#submit_link').click(function(event){
             $('#new_request').validate();
+    
             // this values come from begining of bs.js
             // bs_url diferent for BS and HTS
             var bs_url = '<%= APP_CONFIG[:bioscript_server] %>';
@@ -110,11 +111,11 @@
             var pdata = $('#new_request').serializeArray();
             // pdata - all the parameters
             alert('4');
-            //breaks here if submit in HTSStation
             for (i = 0; i < pdata.length; i++) {
                 formData.append(pdata[i].name, pdata[i].value);
             //    alert(pdata[i].name + '/' + pdata[i].value);
             }
+            //breaks here if submit in HTSStation
             /*
             $.each(pdata, function(i, v){
                alert('formData:'+v.name + '/' + v.value);
@@ -130,7 +131,7 @@
             // var url =  $('#new_request').attr('action');
             var url = 'http://bbcf-serv03.epfl.ch/bioscript/requests';
            alert('url = ' + url);
-          $.ajax({
+          jQuery.ajax({
                     url: url,
 	                type: "POST",
                     dataType: 'json',
