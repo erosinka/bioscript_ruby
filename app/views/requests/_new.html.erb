@@ -51,34 +51,19 @@
 	    <%= hidden_field_tag 'request[format]', 'json' %>
 	        <%= f.hidden_field :service_id %>
             <%= hidden_field_tag :list_fields, @list_fields.to_json %>   
-            <%#= button_to "submit", requests_path(:plugin_id =>  @plugin.id) %>
-            <%# button_to "submit" %>
+
             <span id='submit_link'>Submit</span>
         <% end %>
 
    </div>
 
-<%= javascript_tag do %>
-    $(document).ready(function(){
-        var list_fields = JSON.parse($('#list_fields').val());
-        var info_content = <%= raw @info_content['in'].to_json %> ;
-
-        $('#submit_link2').click(function(event){
-            var h_validate = {rules: {}, messages: {}}
-            $('#new_request').validate();
-            alert('ha-ha!222');
-            $('#new_request').submit();
-        });
-    });
-<% end %>
 
 <%= javascript_tag do %>
     $(document).ready(function(){
         $('#submit_link').click(function(event){
-            $('#new_request').validate();
-    
-            // this values come from begining of bs.js
-            // bs_url diferent for BS and HTS
+            var valid = $('#new_request').valid();
+            if (valid){
+
             var bs_url = '<%= APP_CONFIG[:bioscript_server] %>';
             var fselector = 'div.bs_form'; //data.fselector;
             var fsizemax = 255; //data.fsizemax;
@@ -86,9 +71,8 @@
             waitdiv.css('left', $(this).find('input').width() + 'px');
             waitdiv.css('top', -$(this).find('input').height() + 'px');
             $(this).append(waitdiv);
-            /* build form data objet to upload files if any */
+
             var formData = new FormData();
-            alert('2');
             var files = $(':file');
             for(var i = 0; i < files.length; i++) {
                 var fid = files[i].name;
@@ -96,7 +80,6 @@
                 for(var j=0;j<fs.length;j++){
                     var f = fs[j];
                     if(f){
-                        // file size max
                         if (f.size > fsizemax * 1000000 ){
                             alert('File is too big. You cannot upload files greater than '+ fsizemax + ' Mo.');
                             $('.loading-wrap').remove();
@@ -106,32 +89,14 @@
                     }
                 }
             }
-            alert('3');
-            /* get data from form */
+
             var pdata = $('#new_request').serializeArray();
-            // pdata - all the parameters
-            alert('4');
             for (i = 0; i < pdata.length; i++) {
                 formData.append(pdata[i].name, pdata[i].value);
-            //    alert(pdata[i].name + '/' + pdata[i].value);
             }
-            //breaks here if submit in HTSStation
-            /*
-            $.each(pdata, function(i, v){
-               alert('formData:'+v.name + '/' + v.value);
-               formData.append(v.name, v.value);
-            });
-        */
-   //       formData.append('format', 'json');
             $(this).addClass('hidden');
-            alert('5');
-            //url = bs_url + 'request/new';
-            /* submit query */
-            // why url = /bioscript/requests  works for BS? 
-            // var url =  $('#new_request').attr('action');
             var url = 'http://bbcf-serv03.epfl.ch/bioscript/requests';
-           alert('url = ' + url);
-          jQuery.ajax({
+            jQuery.ajax({
                     url: url,
 	                type: "POST",
                     dataType: 'json',
@@ -139,23 +104,18 @@
                     processData: false,
                     data: formData 
                 }).done(function(h) {
-			            alert('test');
-			        //  alert(h.redirect_url)
-                       // _incall($this, 'jsonp_callback', [h]);
-                        alert(h.redirect_url);
                         window.location = h.redirect_url;
-                    }).fail(function(error){
-                        alert('error');
-                       // fo.attr('disabled', false);
+                }).fail(function(error){
+                        alert('Something has gone wrong: ' + error);
                         $('.loading-wrap').remove();
                         console.error("POST ERROR");
                         console.error(error);
-                    }).always(function() {
-                       alert( "ajax complete" );
-                    });
-              return true;
-        });
+                }).always(function() {
+                      // alert( "ajax complete" );
+                });
+     }
     });
+ });
 <% end %>
 
     <%# list_types = ['bam','track', 'userfile', 'txt', 'file'] %>

@@ -1,5 +1,4 @@
 class RequestsController < ApplicationController
-  # before_action :set_plugin, only: [:create]
   before_action :set_request, only: [:show, :edit, :update, :destroy]
   protect_from_forgery except: [:fetch, :create]
   # GET /requests
@@ -8,6 +7,11 @@ class RequestsController < ApplicationController
     # @requests = Request.all
     @requests = Request.where(:user_id => 1) 
     @user_requests_sorted = @requests.sort {|a,b| b.id <=> a.id}
+  end
+
+  def dummy
+ 
+    
   end
 
   # GET /requests/1
@@ -19,31 +23,32 @@ class RequestsController < ApplicationController
         respond_to do |format|
             # format.html { redirect_to @request, notice: 'test' }
             format.html #{ render :show, status: :ok, location: @request }
-            format.json { render json: request_info.to_json, status: :ok, location: @request }
+            format.json { render json: @request.request_info.to_json, status: :ok, location: @request }
         end
     end
   end
 
 # method called from HTSStation
   def fetch
-    @plugin = Plugin.find_by_key(params[:oid])
+    @plugin = Plugin.find_by_key(params[:plugin_id])
     @info_content = @plugin.info_content
     @service = Service.find_by_shared_key(params[:shared_key]) if params[:shared_key]
     a = JSON.parse(params[:bs_private])
     #app/controller/new_bs_job_controller.rb bs_fetch L207 
-    bs_private = a['prefill']['track']
+    @bs_private = a['prefill']['track']
+    user_id = @service ? params[:user_id] : 1
     @files_from_hts = []
-    if bs_private
-        bs_private.each do |bsp|
+    if @bs_private
+        @bs_private.each do |bsp|
             t = JSON.parse(bsp[0])
+            val = [t['n'], t['p']]
             #file = [t['n'], t['p'] +'/'+ t['n']]
-            file = [t['p'] + '/' + t['n'], t['p'] +'/'+ t['n']]
+            file = [t['n'], bsp[0]]
             @files_from_hts.push(file)
         end
     end
-#    logger.debug('BS_FILES:'+ @files_from_hts.to_json)
     # could create service - bioscript with service.id = 2
-    @request = Request.new(:plugin_id => @plugin.id, :user_id => 1, :service_id => (@service) ? @service.id : nil)
+    @request = Request.new(:plugin_id => @plugin.id, :user_id => user_id, :service_id => (@service) ? @service.id : nil)
     render :partial => 'new'
   end
 
@@ -51,7 +56,6 @@ class RequestsController < ApplicationController
   def new
     # @plugin = Plugin.where({:id =>params[:plugin_id]}).first
     h = {}
-    logger.debug('NEW is called');
     h[:id] = params[:plugin_id] if params[:plugin_id]
     h[:key] = params[:plugin_key] if params[:plugin_key]
     @plugin = Plugin.where(h).first 
@@ -69,30 +73,11 @@ class RequestsController < ApplicationController
   def edit
   end
 
-  def create_test
-    require 'digest'
-    @service = Service.find(params[:request][:service_id]) if params[:request][:service_id] and !params[:request][:service_id].empty?
-    @request = Request.new(request_params)
-    @plugin = Plugin.find(request_params[:plugin_id])
-    @info_content = @plugin.info_content
-    @h_in = @plugin.hash_in
-    @param_h = {}
-    JSON.parse(params[:list_fields]).map{|e| @param_h[e] = params[e]}
-    @request.key = create_key
-    @request.save
-   # render json: {:redirect_url => 'test' }, status: :ok
-    render json: {:redirect_url => request_path(@request)}
-  end
-
 
   # POST /requests
   # POST /requests.json
   def create
     require 'digest'
-    # request_params = {"user_id"=>"1", "plugin_id"=>"106"}
-
-    # params = {"controller":"requests","action":"create"}
-
     # if post comes from htsstation I have bs_private with files for select
     @service = Service.find(params[:request][:service_id]) if params[:request][:service_id] and !params[:request][:service_id].empty?
     # @bs_private = params[:prefill][:track] if @service and if params[:prefill]
@@ -106,13 +91,13 @@ class RequestsController < ApplicationController
     @param_h = {}
     JSON.parse(params[:list_fields]).map{|e| @param_h[e] = params[e]}
 
+    logger.debug('CREATE:' + params.to_s)
     # replace files with just name to save in database
     @param_h.each do |k, v|
         if v and v.respond_to?("original_filename")
             @param_h[k] = params[k].original_filename
         end
     end
-    logger.debug('CREATE:' + @param_h.to_json)
 
     @request.parameters = @param_h.to_json
     # create random key for new request
@@ -131,32 +116,10 @@ class RequestsController < ApplicationController
             @request.delay.run create_arg_line
             # request status is pending
             @request.update_attributes(:status_id => 2)
-
-#            if !@service     
-#                format.html { redirect_to @request, notice: 'Request was successfully created.' }
-#                format.json { render :show, status: :created, location: @request }
-#            else
-#                h = {
-#                    :callback => 'callback',
-#                    :plugin_id => @plugin.key,
-#                    :validation => 'success',
-#                    # :app => {:user_id => 1},
-#                    :task_id => @request.key} 
-#                format.html {render json: {:key => @request.key } }
-#                # callback_service_pending
-#                # service_callback @service.id
-#            end
-
-#          format.html { redirect_to @request, notice: 'Request was successfully updated.' }
-#          format.json { 
- #         format.all {
-  
+            @request.service_callback if @service #@service.id
+#       format.html { redirect_to @request, notice: 'Request was successfully updated.' }
         redirect_url = @service ? (@service.server_url + @service.redirect_path) : request_path(@request)
         render json: {:redirect_url => redirect_url}
-          # { render status: :500 }
-#} 
- #       }
-
         end
 #    end
   end
@@ -198,7 +161,7 @@ class RequestsController < ApplicationController
     end
 
     def create_key
-        # create the key for request
+        # create unique key for request
         rnd = Array.new(6){[*'0'..'9', *'a'..'z'].sample}.join
         while(Request.find_by_key(rnd)) do
             rnd = Array.new(6){[*'0'..'9', *'a'..'z'].sample}.join
@@ -206,38 +169,6 @@ class RequestsController < ApplicationController
         return rnd
     end
 
-    def service_callback_bp service_id
-        @service = Service.find(service_id)
-        hts_server = @service.callback_url #APP_CONFIG[:hts_server]
-        # in table Services we store whole url for callback function?
-        hts_url = hts_server #+ 'new_bs_job/hts_callback'
-        res = Net::HTTP.post_form(URI.parse(hts_url), request_info.to_json)
-        response =  res.body.gsub(/\n/, '.:;:.')
-    end
-
-# request data in json format for hts_callback mainly
-    def request_info_bp #request_key
-        set_request
-        # @request = Request.find_by_key(request_key) 
-        val = {
-            :key => @request.key,
-            :parameters => JSON.parse(@request.parameters),
-            :plugin_id => @request.plugin_id,
-            :status => @request.status.status,
-            :error => @request.error,
-            :results => []
-        }
-        results = Result.where(:request_id => @request.id)
-        results.each do |r|
-            res = {
-                :fname => r.fname,
-                :id => r.id,
-                :is_file => r.is_file
-            }
-            val[:results].push(res)
-        end
-        return val
-    end
 
 # rewrite parameters for multiple fields
     def rewrite_multiple
@@ -280,8 +211,18 @@ class RequestsController < ApplicationController
                     end
                 # if URL
                 else
-                    original_filename = @param_h[k] #url.split('/').last
-                    url = @param_h[k]
+                    # "sampleMulti:1:sample_bs_group"=>"select"
+                    val = JSON.parse(@param_h[k])
+                    logger.debug('TEST:' + val.class.to_s + ' ' + val.to_s)
+                    if val.has_key?("n")
+                    # if @param_h[k].is_a? Array
+                       original_filename = val['n']
+                       url = val['p']
+                       logger.debug('HASH URL: ' + url)
+                    else 
+                        original_filename = @param_h[k] #url.split('/').last
+                        url = @param_h[k]
+                    end
                     file_end = original_filename.split('.').last
                     file_end.gsub!('&', '_')
                     filename = prefix_name + file_end.gsub("/", "_")

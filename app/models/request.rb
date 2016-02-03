@@ -11,13 +11,8 @@ class Request < ActiveRecord::Base
     # request is started
     self.update_attributes(:status_id => 1)
     # callback_service running
-    # service_callback self.service_id
+    service_callback if self.service_id
     
-    #    @service = Service.find(self.service_id)
-    #    hts_server = @service.url #APP_CONFIG[:hts_server]
-    #    hts_url = hts_server + 'new_bs_job/hts_callback'
-    ##   res = Net::HTTP.post_form(URI.parse(hts_url), {:request_key => self.key, :status => self.status.status})
-    #    res = Net::HTTP.post_form(URI.parse(hts_url), request_info.to_json)
     output_dir = APP_CONFIG[:data_path] + APP_CONFIG[:output_dir]
     #get the name of the plugin file
     n = self.plugin.name.match(/(.+?)Plugin/)
@@ -87,23 +82,16 @@ class Request < ActiveRecord::Base
     end 
     status_name = self.status.status
     # call_back_service finish
-    # service_callback self.service_id
-    
-    #   res = Net::HTTP.post_form(URI.parse(hts_url), request_info.to_json)
-    #   res = Net::HTTP.post_form(URI.parse(hts_url), {
-    #       :request_key => @request.key, 
-    #       :status => status_name, 
-    #       :error => error, 
-    #       :err_msg => err_msg,
-    #       :results => self.results
-    #       })
+    service_callback if self.service_id #self.service_id
   end
+
+
   def service_callback
     @service = Service.find(self.service_id)
     hts_server = @service.callback_url #APP_CONFIG[:hts_server]
     # in table Services we store whole url for callback function?
-    hts_url = hts_server #+ 'new_bs_job/hts_callback'
-    res = Net::HTTP.post_form(URI.parse(hts_url), request_info.to_json)
+    hts_url = @service.server_url + @service.callback_url
+    res = Net::HTTP.post_form(URI.parse(hts_url), request_info)
     response =  res.body.gsub(/\n/, '.:;:.')
   end
   
@@ -113,8 +101,10 @@ class Request < ActiveRecord::Base
     # @request = Request.find_by_key(request_key)
     val = {
       :key => @request.key,
+      :user_id => @request.user_id,
+      :task_id => @request.key,
       :parameters => JSON.parse(@request.parameters),
-      :plugin_id => @request.plugin_id,
+      :plugin_id => @request.plugin.key,
       :status => @request.status.status,
       :error => @request.error,
       :results => []

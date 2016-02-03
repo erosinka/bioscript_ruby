@@ -12,11 +12,17 @@ get 'operations', to: 'plugins#visual_index'
   resources :result_types
   resources :jobs
   resources :results
-  resources :plugins 
+  resources :plugins do
+    collection do
+        get 'ordered'
+
+    end 
+end
  
   resources :requests, param: :key do
     collection do
-        post 'fetch'
+        post 'fetch'        
+        get 'dummy'
         get 'ordered'
     end
   end

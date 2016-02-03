@@ -20,8 +20,16 @@
             <%= label_tag(@var['id'], 'Url') %>
             <%= radio_button_tag( @var['id'], 'file', false, :name => multiname0 + @var['id'] +'_bs_group') %>
             <%= label_tag(@var['id'], 'File Upoad') %>
+            <% if @bs_private %>
+                <%= radio_button_tag( @var['id'], 'select', false, :name => name) %>
+                <%= label_tag(@var['id'], 'Select') %>
+            <% end %>
             <%= text_field_tag 'text', '' %>
             <%= file_field_tag 'file', :style => 'display: none; ' %>
+            <% if @bs_private %>
+                <%= select_tag( @var['id'], options_for_select(@files_from_hts), :style => 'display: none;') %>
+            <% end %>
+
     </td>
     <td>
         <%= image_tag("undo-icon.png", alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;",:name => multiname0 +'del', :id => multiname0 + 'del') %>
@@ -37,8 +45,16 @@
         <%= label_tag(@var['id'], 'Url') %>
         <%= radio_button_tag(@var['id'], 'file', false, :name => multiname1 + @var['id'] +'_bs_group') %>
         <%= label_tag(@var['id'], 'File Upoad') %>
+        <% if @bs_private %>
+                <%= radio_button_tag( @var['id'], 'select', false, :name => name) %>
+                <%= label_tag(@var['id'], 'Select') %>
+        <% end %>
         <%= text_field_tag @var['id'],'',  required: @var['required'] %>
         <%= file_field_tag @var['id'],  :style => 'display: none; ' %>
+
+        <% if @bs_private %>
+                <%= select_tag( @var['id'], options_for_select(@files_from_hts), :style => 'display: none;') %>
+        <% end %>
         </div>
     </td>
     <td> 

@@ -20,13 +20,13 @@
             <%= label_tag(@var['id'], 'Url') %>
             <%= radio_button_tag( @var['id'], 'file', false, :name => name) %>
             <%= label_tag(@var['id'], 'File Upoad') %>
-            <% if @service %>
+            <% if @bs_private %>
                 <%= radio_button_tag( @var['id'], 'select', false, :name => name) %>
                 <%= label_tag(@var['id'], 'Select') %>
             <% end %>
             <%= text_field_tag 'text', '' %>
             <%= file_field_tag 'file', :style => 'display: none; ' %>
-            <% if @service %>
+            <% if @bs_private %>
                 <%= select_tag( @var['id'], options_for_select(@files_from_hts), :style => 'display: none;') %>
             <% end %>
     </td>
@@ -45,13 +45,13 @@
             <%= label_tag(@var['id'], 'Url') %>
             <%= radio_button_tag( @var['id'], 'file', false, :name => name) %>
             <%= label_tag(@var['id'], 'File Upoad') %>
-            <% if @service %>
+            <% if @bs_private %>
                 <%= radio_button_tag( @var['id'], 'select', false, :name => name) %>
                 <%= label_tag(@var['id'], 'Select') %>
             <% end %>
             <%= text_field_tag @var['id'], '', required: @var['required'] %>
             <%= file_field_tag @var['id'], :style => 'display: none; ' %>
-            <% if @service %>
+            <% if @bs_private %>
                 <%= select_tag( @var['id'], options_for_select(@files_from_hts), :style => 'display: none;') %>
             <% end %>
         </div>
@@ -67,11 +67,4 @@
 </td>
 </tr>
 
-<%= javascript_tag do%>
-    var btn = document.getElementById("<%=@var['id']%>_file");
-    $("#<%=@var['id']%>_file").change(function(){
-        alert('test file');
-        var val = <%= @var['required'] %>;
-    });
-<% end %>
  

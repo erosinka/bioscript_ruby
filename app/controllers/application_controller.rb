@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-    before_filter :get_plugin_ordered
+#    before_filter :get_plugin_ordered_bp
     protect_from_forgery with: :exception
     helper_method :admin?
 
@@ -30,7 +30,8 @@ class ApplicationController < ActionController::Base
     end
    end
 
-    def get_plugin_ordered
+    def get_plugin_ordered_bp
+        return {:child => 1}
        @plugins = (admin?) ? Plugin.all : Plugin.where(:deprecated => false)
         plugins_ordered = {}
         plugins_ordered[:plugins] = {}

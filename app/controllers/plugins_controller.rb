@@ -1,12 +1,46 @@
 require 'json'
 class PluginsController < ApplicationController
   before_action :set_plugin, only: [:build_form, :show, :edit, :update, :destroy]
+before_filter :get_plugin_ordered
+
 
     def ordered
         respond_to do |format|
            format.html {redirect_to plugins_path}
            format.json { render json: @plugins_ordered} 
+           #format.json { render 1} 
         end 
+    end
+
+def get_plugin_ordered
+       # return {:child => 1}
+       @plugins = (admin?) ? Plugin.all : Plugin.where(:deprecated => false)
+        plugins_ordered = {}
+        plugins_ordered[:plugins] = {}
+        plugins_ordered[:plugins][:key] = 'Operations'
+        plugins_ordered[:plugins][:childs] = []
+        path_list = {}
+        @plugins.each do |p|
+            h = {}
+            info = JSON.parse(p.info)
+            h[:key] = info['path'][1]
+            h[:id] = p.key
+            h[:info] = info
+            operation = info['path'][0]
+            path_list[operation] ||=[]
+            path_list[operation].push(h)
+        end
+        path_list.each do |k, v|
+            child2 = {}
+            child2[:key] = k
+            child2[:childs] = []
+            v.each do |p|
+                child2[:childs].push(p)
+            end
+            plugins_ordered[:plugins][:childs].push(child2)
+        end
+        @plugins_ordered = plugins_ordered
+
     end
 
     def validate
@@ -37,8 +71,7 @@ class PluginsController < ApplicationController
    @sorted_plugin_ids = @h_plugin_infos.keys.sort{|a, b| @h_plugin_infos[a]['title'] <=> @h_plugin_infos[b]['title']}
     # @plugins_sorted_by_title = @h_plugin_infos.sort_by{|k, v| v[:title]}
 
-    plugins_json = {}
-    plugins_json[:plugins] = []
+    plugins_json = []
     @plugins.each do |p|
         # add desc_as_html, html_doc, html_src_code 
         line = {}
@@ -46,14 +79,14 @@ class PluginsController < ApplicationController
         info = JSON.parse(p.info)
         line[:key] = info['title']
         line[:info] = info
-        plugins_json[:plugins].push(line)
+        plugins_json.push(line)
     end
 
     respond_to do |format|
       format.html
-      format.json { render json: @plugins }
+    #  format.json { render json: @plugins }
    #   format.json { render json: @plugins_ordered }
-     # format.json { render json: plugins_json }
+      format.json { render json: plugins_json }
     end
   end
 
