@@ -5,33 +5,41 @@
 
 	table tr td {
 		padding: 5px;
-		vertical-align: top;
-		text-align: center;
+		vertical-align: center;
+		text-align: left;
 	}
 
 	.list_result {
-		width: 10%;
+		width: auto;
 	}
 
+	.list_path {
+		width: auto;
+	}
 	.list_file_name {
-		width: 10%;
+		width: 15%;
 	}
 
+	.list_request_id {
+		width: 15%;
+	}
 	.list_result_type_id {
 		width: 10%;
 	}
 
 	.list_actions {
+		width: 10%;
 		font-size: x-small;
 		text-align: right;
 		padding-left: lem;
+		padding-right: lem;
 	}
 	.list_line_even {
-		background: AntiqueWhite;
+		background:WhiteSmoke; 
 	}
 
 	.list_line_odd {
-		background: BurlyWood;
+		background: Lavender;
 	}
 }
 

@@ -9,10 +9,6 @@ class RequestsController < ApplicationController
     @user_requests_sorted = @requests.sort {|a,b| b.id <=> a.id}
   end
 
-  def dummy
- 
-    
-  end
 
   # GET /requests/1
   # GET /requests/1.json
@@ -41,8 +37,6 @@ class RequestsController < ApplicationController
     if @bs_private
         @bs_private.each do |bsp|
             t = JSON.parse(bsp[0])
-            val = [t['n'], t['p']]
-            #file = [t['n'], t['p'] +'/'+ t['n']]
             file = [t['n'], bsp[0]]
             @files_from_hts.push(file)
         end
@@ -80,7 +74,6 @@ class RequestsController < ApplicationController
     require 'digest'
     # if post comes from htsstation I have bs_private with files for select
     @service = Service.find(params[:request][:service_id]) if params[:request][:service_id] and !params[:request][:service_id].empty?
-    # @bs_private = params[:prefill][:track] if @service and if params[:prefill]
     logger.debug('SERVICE ' + @service.to_json) if @service
     @request = Request.new(request_params)
     logger.debug('REQUEST ' + @request.to_json)
@@ -91,14 +84,13 @@ class RequestsController < ApplicationController
     @param_h = {}
     JSON.parse(params[:list_fields]).map{|e| @param_h[e] = params[e]}
 
-    logger.debug('CREATE:' + params.to_s)
     # replace files with just name to save in database
     @param_h.each do |k, v|
         if v and v.respond_to?("original_filename")
             @param_h[k] = params[k].original_filename
         end
     end
-
+    logger.debug('PARAM_H:' + @param_h.to_json)
     @request.parameters = @param_h.to_json
     # create random key for new request
     @request.key = create_key
@@ -192,7 +184,7 @@ class RequestsController < ApplicationController
         keys = @param_h.keys
         @list_file_fields = []
         logger.debug('PARAMS:' + params.to_s)
-        logger.debug('PARAMS_H:' + @param_h.to_s)
+        logger.debug('PARAM_H:' + @param_h.to_s)
         #param_h.each do |k, v|
         keys.each do |k|
             key = k.split(':').last
@@ -201,39 +193,49 @@ class RequestsController < ApplicationController
             # if parameter type is_file and value exists
             if h_param_types[line['type']] and !@param_h[k].blank?
                 prefix_name = @request.key.to_s + "_" + k + '.' # + param_h[k].split('.').last
-                if params[k].respond_to?("original_filename")
-                    original_filename = params[k].original_filename
+                type = params[k + '_bs_group']
+                logger.debug('type: ' + type);
+                if type == 'file'
+                    original_filename = '';
+                    if params[k].respond_to?("original_filename")
+                        original_filename = params[k].original_filename
+                    else
+                        logger.debug('No original_filename for arg ' + k + ' of type file \n');
+                    end
                     filename = prefix_name + original_filename.split('.').last
                     filepath = dir + filename
                     logger.debug('FILE:' + filepath + ';')
-                    File.open(dir + filename, 'wb+') do |f|
+                    File.open(filepath, 'wb+') do |f|
                         f.write(params[k].read)
                     end
-                # if URL
-                else
-                    # "sampleMulti:1:sample_bs_group"=>"select"
-                    val = JSON.parse(@param_h[k])
-                    logger.debug('TEST:' + val.class.to_s + ' ' + val.to_s)
-                    if val.has_key?("n")
-                    # if @param_h[k].is_a? Array
-                       original_filename = val['n']
-                       url = val['p']
-                       logger.debug('HASH URL: ' + url)
-                    else 
-                        original_filename = @param_h[k] #url.split('/').last
-                        url = @param_h[k]
-                    end
+                #elsif @param_h[k].match(/^(ftp)|(http.?)\:\/\//)
+                elsif type == 'text'
+                    original_filename = @param_h[k] 
+                    url = @param_h[k]
                     file_end = original_filename.split('.').last
                     file_end.gsub!('&', '_')
                     filename = prefix_name + file_end.gsub("/", "_")
                     filepath = dir + filename
-                    logger.debug('URL:' + filepath + ';')
-                #   download_cmd = "wget -O #{dir} '#{url}'" #validate: no \ no ', dir contains the name of the file. 
-                #   curl '#{url}' > file
-                #   curl -k #{url} -o #{filepath}
                     download_cmd = "wget -O #{filepath} '#{url}'"
                     `#{download_cmd}`
-                    logger.debug('URL2:' + download_cmd + ';')
+                elsif type == 'select'
+                    val = JSON.parse(@param_h[k])
+                    logger.debug('TEST:' + val.class.to_s + ' ' + val.to_s)
+                    if val.has_key?("n")
+                        original_filename = val['n']
+                        url = val['p']
+                        logger.debug('HASH URL: ' + url)
+                        file_end = original_filename.split('.').last
+                        file_end.gsub!('&', '_')
+                        filename = prefix_name + file_end.gsub("/", "_")
+                        filepath = dir + filename
+                        download_cmd = "wget -O #{filepath} '#{url}'"
+                        `#{download_cmd}`
+                    else
+                        logger.debug('No proper keys in hash ' + k + '\n');
+                    end 
+                else
+                    logger.debug('Cannot create file links. Type of arg is not file or text or select')
                 end
                 @list_file_fields.push(key)
                 @param_h[k + '_original_filename'] = original_filename
@@ -244,6 +246,22 @@ class RequestsController < ApplicationController
                 #@list_file_fields.push(k)
             end
         end
+    end
+
+    def upload original_filename
+
+     file_end = original_filename.split('.').last
+     file_end.gsub!('&', '_')
+    logger.debug('PREFIX_NAME:' + @prefix_name.to_s);
+     filename = @prefix_name + file_end.gsub("/", "_")
+     filepath = @dir + filename
+     logger.debug('URL:' + filepath + ';')
+ #   download_cmd = "wget -O #{dir} '#{url}'" #validate: no \ no ', dir contains the name of the file. 
+ #   curl '#{url}' > file
+ #   curl -k #{url} -o #{filepath}
+     download_cmd = "wget -O #{filepath} '#{url}'"
+     `#{download_cmd}`
+     logger.debug('URL2:' + download_cmd + ';')
     end
 
     def create_arg_line

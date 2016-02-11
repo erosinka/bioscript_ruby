@@ -1,7 +1,9 @@
 development:
   output_dir: tmp/
   bioscript_server: http://bbcf-serv03.epfl.ch/bioscript/
+  bs_server: http://bbcf-serv03.epfl.ch/
   data_url: data/
+  image_url: images/
   plugin_path: /srv/bsPlugins/
   data_path: /data/epfl/bbcf/bioscript/
   input_dir: input/

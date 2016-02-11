@@ -49,17 +49,20 @@ bs_init_triple_file_field = function(compound_id, select){
         $root.find('input:' + select + '').attr('name', compound_id).show();
         $root.find('input:not(:radio):not(:' + select + ')').attr('name', '').hide();
     } else {
+      //  $root.find('select').attr('id', compound_id).prop("selectedIndex", -1);
         $root.find('input:not(:radio)').attr('name', '').hide();
     }
     $root.find('input:radio.bsradio_' + select).attr('checked', 'checked');
 
     $root.find(':radio').change(function(){
+    alert(compound_id + ' ' + select);
         var val = $(this).val();
         // make radio file/URL/select field required only if it is present and for 1 in case of Multi
         var row_id = compound_id.substring(0, compound_id.lastIndexOf(':'));
         var num = parseInt(row_id.substr(row_id.lastIndexOf(':')+1)) ;
-
         if (val == 'select'){
+            //$root.find('select').attr('id', compound_id).prop("selectedIndex", -1);
+            $root.find('select').prop("selectedIndex", -1);
             $root.find('input:not(:radio)').attr('name', '').hide();
             $root.find('select').attr('name', compound_id).show();
             if (num == 1) {
@@ -72,6 +75,8 @@ bs_init_triple_file_field = function(compound_id, select){
                 }
             }
         } else {
+            $root.find('select').prop("selectedIndex", -1);
+           // alert("select value: " + $root.find('select').attr('id', compound_id).prop("selectedIndex"));
             $root.find('input:' + val).attr('name', compound_id).show();
             $root.find('select').attr('name', '').hide();
             $root.find('input:not(:radio):not(:' + val + ')').attr('name', '').hide();

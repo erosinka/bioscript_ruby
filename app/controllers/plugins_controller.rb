@@ -1,18 +1,16 @@
 require 'json'
 class PluginsController < ApplicationController
   before_action :set_plugin, only: [:build_form, :show, :edit, :update, :destroy]
-before_filter :get_plugin_ordered
 
+def ordered
+    respond_to do |format|
+       format.html {redirect_to plugins_path}
+       format.json { render json: @plugins_ordered} 
+       #format.json { render 1} 
+    end 
+end
 
-    def ordered
-        respond_to do |format|
-           format.html {redirect_to plugins_path}
-           format.json { render json: @plugins_ordered} 
-           #format.json { render 1} 
-        end 
-    end
-
-def get_plugin_ordered
+def get_plugin_ordered_bp
        # return {:child => 1}
        @plugins = (admin?) ? Plugin.all : Plugin.where(:deprecated => false)
         plugins_ordered = {}
@@ -30,10 +28,12 @@ def get_plugin_ordered
             path_list[operation] ||=[]
             path_list[operation].push(h)
         end
+        Hash[path_list.sort]
         path_list.each do |k, v|
             child2 = {}
             child2[:key] = k
             child2[:childs] = []
+            v = v.sort_by {|k| k[:key]}
             v.each do |p|
                 child2[:childs].push(p)
             end

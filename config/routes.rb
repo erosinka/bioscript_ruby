@@ -22,8 +22,6 @@ end
   resources :requests, param: :key do
     collection do
         post 'fetch'        
-        get 'dummy'
-        get 'ordered'
     end
   end
   #  member do

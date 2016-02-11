@@ -7,7 +7,7 @@
     <th></th>
     <th></th>
     <th>
-        <%= image_tag("redo-icon.png", alt: "undo", :style=>"display: none", :onclick=>"twd_grow_undo(this); return false;", :id => multiname + ':undo') %>
+        <%= image_tag(image_url( "redo-icon.png"), alt: "undo", :style=>"display: none", :onclick=>"twd_grow_undo(this); return false;", :id => multiname + ':undo') %>
     </th>
 </tr>
 <% multiname0 = multiname + ':0:' %>
@@ -24,21 +24,21 @@
                 <%= radio_button_tag( @var['id'], 'select', false, :name => name) %>
                 <%= label_tag(@var['id'], 'Select') %>
             <% end %>
-            <%= text_field_tag 'text', '' %>
-            <%= file_field_tag 'file', :style => 'display: none; ' %>
+            <%= text_field_tag multiname0 + 'text', '' %>
+            <%= file_field_tag multiname0 + 'file', :style => 'display: none; ' %>
             <% if @bs_private %>
-                <%= select_tag( @var['id'], options_for_select(@files_from_hts), :style => 'display: none;') %>
+                <%= select_tag( multiname0 + 'select', options_for_select(@files_from_hts), :style => 'display: none;') %>
             <% end %>
     </td>
     <td>
-    <%= image_tag(image_path("undo-icon.png"), alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;", :name => multiname0 + 'del', :id => multiname0 + 'del') %>
+    <%= image_tag( image_url("undo-icon.png"), :alt => "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;", :name => multiname0 + 'del', :id => multiname0 + 'del') %>
     </td>
 </tr>
 
 <% multiname1 = multiname + ':1:' %>
 <tr id=<%= multiname %>:1>
     <td> 
-        <div id=<%= multiname1 %><%=@var['id']%> name=""   type="text" onchange="twd_grow_add(this);" ></div>
+        <div id=<%= multiname1 %><%=@var['id']%> name=""   type="text" onchange= "twd_grow_add(this); " ></div>
         <div id=<%= multiname1 %><%=@var['id']%>:bs_container>
             <% name = multiname1 + @var['id'] +'_bs_group'%>
             <%= radio_button_tag( @var['id'], 'text', true, :name => name) %>
@@ -49,16 +49,16 @@
                 <%= radio_button_tag( @var['id'], 'select', false, :name => name) %>
                 <%= label_tag(@var['id'], 'Select') %>
             <% end %>
-            <%= text_field_tag @var['id'], '', required: @var['required'] %>
-            <%= file_field_tag @var['id'], :style => 'display: none; ' %>
+            <%= text_field_tag  multiname1 + 'text', '', required: @var['required'] %>
+            <%= file_field_tag  multiname1 + 'file', :style => 'display: none; ' %>
             <% if @bs_private %>
-                <%= select_tag( @var['id'], options_for_select(@files_from_hts), :style => 'display: none;') %>
+                <%= select_tag( multiname1 + 'select', options_for_select(@files_from_hts), :style => 'display: none;') %>
             <% end %>
         </div>
 
    </td>
     <td>
-    <%= image_tag(image_path("undo-icon.png"), alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;", :name => multiname1 + 'del', :id => multiname1 + 'del') %>
+    <%= image_tag( image_url("undo-icon.png"), alt: "delete file", :style=>"display: none", :onclick=>"twd_grow_del(this); return false;", :name => multiname1 + 'del', :id => multiname1 + 'del') %>
     </td>
 </tr>
 

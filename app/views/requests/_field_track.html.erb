@@ -8,18 +8,18 @@
 <%= radio_button_tag( @var['id'] + '_bs_group', 'file', false ) %>
 <%= label_tag(@var['id'], 'File Upoad') %>
 <% if @bs_private %>
-    <%= radio_button_tag( @var['id'], 'select', false, :name => name) %>
+    <%= radio_button_tag( @var['id'] + '_bs_group', 'select', false) %>
     <%= label_tag(@var['id'], 'Select') %>
 <% end %>
 <%= text_field_tag @var['id'], '', required: @var['required'] %>
 <%#= url_field_tag( @var['id'], @var['value']) %>
 <%= file_field_tag @var['id'],  :style=>'Display: none;'%>
-<%= label_tag(@var['id'], @var['help_text']) %>
 
 <% if @bs_private %>
     <%= select_tag( @var['id'], options_for_select(@files_from_hts), :style => 'display: none;') %>
 <% end %>
 
+<%= label_tag(@var['id'], @var['help_text']) %>
 </div>
 </td>
 </tr>

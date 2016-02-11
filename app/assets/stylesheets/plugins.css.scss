@@ -35,6 +35,7 @@
 		}
 	}
 
+
 #list_plugins_filter {
     border: 0px solid black;
     padding: 1em;
@@ -49,4 +50,9 @@ table.dataTable tr.odd { background-color: Lavender; }
 table.dataTable tr.even { background-color: whiteSmoke; }
 }
 
+
+.dataTables_wrapper {
+    position: relative;
+    clear: none;
+}
 

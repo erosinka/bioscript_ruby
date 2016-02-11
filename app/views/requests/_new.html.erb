@@ -1,8 +1,6 @@
 <%= render :partial => 'build_form_js' %>
 <%= render :partial => 'hiding_js' %>
-<%#= render :partial => 'bs_js' %>
 
-<%#= params %>
   <% if @request.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@request.errors.count, "error") %> prohibited this request from being saved:</h2>
@@ -14,6 +12,7 @@
       </ul>
     </div>
   <% end %>
+
 <div class='bs_container'>
     <div class='bs_title'><b><%= @info_content['title'] %></b></div>
     <div class='bs_desc'><p><%= raw @info_content['description'] %></p></div>
@@ -22,7 +21,6 @@
         by <%= @info_content['meta']['author']%> (
         <a href="mailto:webmaster-bbcf@epfl.ch?subject=[BioScript]" >contact</a>,  
         <a href="https://github.com/bbcf/bsPlugins/tree/master/bsPlugins">code</a> 
-
         )
     </p>
     </div>
@@ -51,19 +49,37 @@
 	    <%= hidden_field_tag 'request[format]', 'json' %>
 	        <%= f.hidden_field :service_id %>
             <%= hidden_field_tag :list_fields, @list_fields.to_json %>   
+	        <%= hidden_field_tag :pressed,  false %>
 
-            <span id='submit_link'>Submit</span>
         <% end %>
-
+        <span id='submit_link' class='button'>Submit</span>
    </div>
 
 
+
+<%= javascript_tag do %>
+// resets form only if submit was pressed to reset/avoid red error messages
+// because of the bug with JQuery validation plugin
+// error message for required file upload field  does not disappear after adding file
+
+$('#new_request').on('change', function(){
+    var val = document.getElementById('pressed').value;
+    if (val == 'true') {
+        $(this).valid();
+    }
+});
+<% end %>
+
 <%= javascript_tag do %>
     $(document).ready(function(){
+    var validator = $('#new_request').validate();
         $('#submit_link').click(function(event){
+            $('#pressed').val(true);
             var valid = $('#new_request').valid();
-            if (valid){
-
+            if (!valid){
+               // validator.resetForm();
+            } else {
+            alert('valid!');
             var bs_url = '<%= APP_CONFIG[:bioscript_server] %>';
             var fselector = 'div.bs_form'; //data.fselector;
             var fsizemax = 255; //data.fsizemax;
@@ -73,6 +89,7 @@
             $(this).append(waitdiv);
 
             var formData = new FormData();
+
             var files = $(':file');
             for(var i = 0; i < files.length; i++) {
                 var fid = files[i].name;
@@ -94,6 +111,7 @@
             for (i = 0; i < pdata.length; i++) {
                 formData.append(pdata[i].name, pdata[i].value);
             }
+
             $(this).addClass('hidden');
             var url = 'http://bbcf-serv03.epfl.ch/bioscript/requests';
             jQuery.ajax({
@@ -104,6 +122,7 @@
                     processData: false,
                     data: formData 
                 }).done(function(h) {
+                        alert('done');
                         window.location = h.redirect_url;
                 }).fail(function(error){
                         alert('Something has gone wrong: ' + error);
@@ -111,7 +130,7 @@
                         console.error("POST ERROR");
                         console.error(error);
                 }).always(function() {
-                      // alert( "ajax complete" );
+                       alert( "ajax complete" );
                 });
      }
     });

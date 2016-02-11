@@ -10,18 +10,14 @@
 
 <%= javascript_tag do %>
     $(document).ready(function(){
-  //  window.onload = function(){
         var options = {
             operation_list : <%= raw @plugins_ordered.to_json %>, 
             show_plugin : function(plugin_key){
                 window.location =  '<%= new_request_path() %>?plugin_key=' + plugin_key
-              //  window.location = ${serv|se,n} + 'requests/' + 'new'+ '?plugin_id=' + plugin_id;
-               // window.location =   '/bioscript/requests/' + 'new'+ '?plugin_key=' + plugin_key;
             },
             'root_name' : 'Operations'
         }
         $('#bs_operations').bioscript(options).bioscript('operation_list');
-  //  };
     });
 <% end %>
 
