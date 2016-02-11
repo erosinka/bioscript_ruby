@@ -5,18 +5,23 @@
 <table>
 	<tr>
 		<th>file</th>
+		<th>request_key</th>
 		<th>path</th>
 		<th>file_name</th>
-		<th>request_id</th>
 	</tr>
     <% @results.each do |result| %>
       <% rt = result.result_type %>
       <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
-	<td class="list_file">
+	    <td class="list_file">
 		<%#= rt.result_type if rt %>
         <% link_dir = APP_CONFIG[:bioscript_server] + APP_CONFIG[:data_url] %>
-        <%= link_to "file", '//bbcf-serv03.epfl.ch/bioscript/data/to' %>
+        <% file_link = result.path ? result.path + result.fname : '/'%>
+        <% link =  '//bbcf-serv03.epfl.ch/bioscript' + file_link %>
+        <%= link_to "file", link %>
         <%#= link_to "file", link_dir + 'tmpcgyc43/6672_BamMulti\:1\:sample_density_fwd.sql' %>
+	</td>
+	<td class="list_request_id">
+		<%= result.request.key %>
 	</td>
 	<td class="list_path">
 		<dd><%#= truncate(strip_tags(result.result), length: 80) %></dd>
@@ -24,9 +29,6 @@
 	</td>
 	<td class="list_file_name">
 		<%= result.fname %>
-	</td>
-	<td class="list_request_id">
-		<%= result.request_id %>
 	</td>
 	<td class="list_actions">
         <%= link_to 'Show', result %><br/>

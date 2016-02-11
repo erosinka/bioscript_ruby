@@ -12,7 +12,7 @@
 </head>
 <body class="<%= controller.controller_name %>">
     <div id="banner">
-        <%= image_tag("bbcf_logo.png") %>
+        <%= image_tag(image_url("bbcf_logo.png")) %>
         <%= @page_title || "Bioscript" %>
     </div>
     <div id="columns">
@@ -24,6 +24,7 @@
                 <li><a href="mailto:webmaster-bbcf@epfl.ch?subject=[BioScript]" >Contact</a></li>
                 <li><%= link_to 'Operations', operations_path %></li>
             </ul>
+            <div id="bs_operations"></div>
         </div>
         <div id="main">
             <%= yield %>
@@ -34,5 +35,18 @@
         <a href="https:///github.com/bbcf/bs">GitHub</a>.
     </div>
 </body>
+<%= javascript_tag do %>
+    $(document).ready(function(){
+        var options = {
+            operation_list : <%= raw @plugins_ordered.to_json %>,
+            show_plugin : function(plugin_key){
+                window.location =  '<%= new_request_path() %>?plugin_key=' + plugin_key
+            },
+            'root_name' : 'Operations'
+        }
+        $('#bs_operations').bioscript(options).bioscript('operation_list');
+    });
+<% end %>
+
 </html>
 
