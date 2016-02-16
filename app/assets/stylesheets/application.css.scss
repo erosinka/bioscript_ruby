@@ -19,30 +19,40 @@
 /* START_HIGHLIGHT */
 
 
-html, body {
-//    min-height: 100%;
+html {
+    min-height: 100%;
     height: 100%;
-  //  overflow-x: hidden;
 }
 
 body {
-    background: green;
-   // background-size: 100%;
+    overflow: auto;
+    background: LightSteelBlue;
     margin: 0;
+    height: 100%;
     display: flex;
     flex-direction: column;
 }
-#banner {
+
+header {
   background: LightSteelBlue;
-  padding: 10px;
   border-bottom: 2px solid;
-  font: small-caps 40px/40px "Times New Roman", serif;
+  font: small-caps 18px/18px "Times New Roman", serif;
   color: RoyalBlue;
   text-align: center;
-
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+  //padding: 1px;
+  top: 0;
   img {
     float: left;
+    display: inline-block;
+    margin: 0 auto;
   }
+  h1 {
+        font: 10%, sans-serif;
+        color: #226;
+    }
 }
 
 #notice {
@@ -53,19 +63,28 @@ body {
 }
 
 #columns {
-    //background: LightSteelBlue;
-    background: Green;
-    height: 100%;
-    width: auto; 
+    background: LightSteelblue;
+    //background: whiteSmoke;
+    margin-top: 73px;
+    //margin-bottom: 90px;
+    min-height: 80vh;
+    height: calc( 100% - 75px ); 
+    
     #side {
-        height: 100%;
-        width: 10%; 
-        font: small-caps 10px/10px "Times New Roman";
+        //margin-top: 90px;
+        min-height: 80vh; //900px;
+        height: calc( 100% - 60px ); 
+        width: 170px;
+        position: fixed;
+        margin: 0;
+        //padding-right: 5px; 
+        font: small-caps 15px/15px "Times New Roman";
         float: left; 
         background: LightSteelBlue;
-        ul {
+        #menu {
             li {
                 list-style: none;
+                margin-bottom: 10px;
                 a {
                     color: #226;
                 }
@@ -74,21 +93,26 @@ body {
     }
     
     #main {
-        margin-left: 14.5em;
-    height: 100%;
-        padding: 2em 0.5em;
+        margin-left: 170px;
+        //min-height: 80vh; //900px;
+        //min-height: calc(100% - 60px);
+        min-height: calc( 100vh - 80px ); 
+        padding: 1em .25em;
         background: whiteSmoke;
         width: auto; 
     }
 }
-#footer {
-        padding-bottom: 20px;
-        padding-top: 20px;
+footer {
+        bottom: 0;
+        padding-bottom: 15px;
+        padding-top: 15px;
+        clear: both;
         font: 15px/15px "Times New Roman", serif;
         color: #226;
         text-align: center;
         width: 100%;
         background: LightsteelBlue;
+        position: fixed;
     } 
 /* end of columns*/
 

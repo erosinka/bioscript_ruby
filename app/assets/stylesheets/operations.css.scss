@@ -3,8 +3,8 @@
 #bs_operations {
   margin: 15px;
   width: 100px;
-  height: 10px; }
-
+  height: 10px; 
+}
 #bs_menubar {
   width: 150px;
   padding: 0;
@@ -30,11 +30,11 @@
 /* links */
 #bs_menubar a {
   float: left;
-  padding: 15px 30px;
+  padding: 15px 25px;
   background: LightSteelBlue;
-  color: Black;
+  color: #226;
   text-transform: uppercase;
-  font: bold 12px Arial, Helvetica;
+  font: bold 14px "Times New Roman", Helvetica;
   text-decoration: none; }
 
 /* submenus */
@@ -44,7 +44,7 @@
   opacity: 0;
   visibility: hidden;
 //  display: none;
-  position: absolute;
+  position:  absolute;
   padding: 0;
   top: 38px;
   left: 0;
@@ -63,7 +63,8 @@
   visibility: visible;
 //  display: block;
   opacity: 1;
-  margin: 0; }
+  margin: 0; 
+}
 
 #bs_menubar ul ul {
   top: 0;

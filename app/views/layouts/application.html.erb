@@ -11,13 +11,13 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 </head>
 <body class="<%= controller.controller_name %>">
-    <div id="banner">
-        <%= image_tag(image_url("bbcf_logo.png")) %>
-        <%= @page_title || "Bioscript" %>
-    </div>
+    <header>
+        <h1><%= image_tag(image_url("bbcf_logo.png")) %>
+        <%= @page_title || "Bioscript" %></h1>
+    </header>
     <div id="columns">
         <div id="side">
-            <ul>
+            <ul id="menu">
                 <li><%= link_to  'Home', plugins_path%></li>
                 <li><a href="http://www..../faq">Questions</a></li>
                 <li><a href="http://www..../news">News</a></li>
@@ -26,14 +26,14 @@
             </ul>
             <div id="bs_operations"></div>
         </div>
-        <div id="main">
+        <div id="main" class="fill">
             <%= yield %>
         </div>
     </div>
-    <div id="footer">
+    <footer>
         Bioscript is a <a href="http://bbcf.epfl.ch">BBCF</a> application hosted on
         <a href="https:///github.com/bbcf/bs">GitHub</a>.
-    </div>
+    </footer>
 </body>
 <%= javascript_tag do %>
     $(document).ready(function(){
