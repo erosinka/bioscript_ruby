@@ -74,12 +74,9 @@ $('#new_request').on('change', function(){
     $(document).ready(function(){
     var validator = $('#new_request').validate();
         $('#submit_link').click(function(event){
-            $('#pressed').val(true);
-            var valid = $('#new_request').valid();
-            if (!valid){
-               // validator.resetForm();
-            } else {
-            alert('valid!');
+          $('#pressed').val(true);
+          var valid = $('#new_request').valid();
+          if (valid) {
             var bs_url = '<%= APP_CONFIG[:bioscript_server] %>';
             var fselector = 'div.bs_form'; //data.fselector;
             var fsizemax = 255; //data.fsizemax;
@@ -122,15 +119,13 @@ $('#new_request').on('change', function(){
                     processData: false,
                     data: formData 
                 }).done(function(h) {
-                        alert('done');
+                        //alert('done');
                         window.location = h.redirect_url;
                 }).fail(function(error){
                         alert('Something has gone wrong: ' + error);
                         $('.loading-wrap').remove();
                         console.error("POST ERROR");
                         console.error(error);
-                }).always(function() {
-                       alert( "ajax complete" );
                 });
      }
     });

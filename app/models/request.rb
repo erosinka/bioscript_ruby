@@ -17,8 +17,13 @@ class Request < ActiveRecord::Base
     #get the name of the plugin file
     n = self.plugin.name.match(/(.+?)Plugin/)
     script = "import os\nos.chdir('#{output_dir}')\nfrom bsPlugins import #{n[1]}\nplugin = #{n[1]}.#{self.plugin.name}()\nplugin(#{arg_line})"
+    logger.debug('SCRIPT_NAME ' + self.key.to_s);
     #script_name = sefl.id.to_s +'.py'
-    script_name = 'script.py'
+    script_dir =  APP_CONFIG[:script_dir]
+    #logger.debug('SCRIPT_DIR ' + script_dir);
+    script_name = APP_CONFIG[:data_path] + script_dir + self.key.to_s + '_script.py'
+    #logger.debug('SCRIPT_NAME: ' + script_name);
+    #script_name = APP_CONFIG[:data_path] +  self.key.to_s + '_script.py'
     File.open(script_name, 'w') do |f|
       f.write(script)
     end

@@ -6,7 +6,7 @@
 <%= radio_button_tag( @var['id'] + '_bs_group', 'text', true) %>
 <%= label_tag(@var['id'], 'Url') %>
 <%= radio_button_tag( @var['id'] + '_bs_group', 'file', false ) %>
-<%= label_tag(@var['id'], 'File Upoad') %>
+<%= label_tag(@var['id'], 'File Upload') %>
 <% if @bs_private %>
     <%= radio_button_tag( @var['id'] + '_bs_group', 'select', false) %>
     <%= label_tag(@var['id'], 'Select') %>

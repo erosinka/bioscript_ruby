@@ -74,7 +74,6 @@ class RequestsController < ApplicationController
     require 'digest'
     # if post comes from htsstation I have bs_private with files for select
     @service = Service.find(params[:request][:service_id]) if params[:request][:service_id] and !params[:request][:service_id].empty?
-    logger.debug('SERVICE ' + @service.to_json) if @service
     @request = Request.new(request_params)
     logger.debug('REQUEST ' + @request.to_json)
     @plugin = Plugin.find(request_params[:plugin_id])
@@ -252,16 +251,14 @@ class RequestsController < ApplicationController
 
      file_end = original_filename.split('.').last
      file_end.gsub!('&', '_')
-    logger.debug('PREFIX_NAME:' + @prefix_name.to_s);
+     logger.debug('PREFIX_NAME:' + @prefix_name.to_s);
      filename = @prefix_name + file_end.gsub("/", "_")
      filepath = @dir + filename
      logger.debug('URL:' + filepath + ';')
- #   download_cmd = "wget -O #{dir} '#{url}'" #validate: no \ no ', dir contains the name of the file. 
  #   curl '#{url}' > file
  #   curl -k #{url} -o #{filepath}
      download_cmd = "wget -O #{filepath} '#{url}'"
      `#{download_cmd}`
-     logger.debug('URL2:' + download_cmd + ';')
     end
 
     def create_arg_line

@@ -93,10 +93,9 @@ header {
     }
     
     #main {
+        font: sans-serif;
         margin-left: 170px;
-        //min-height: 80vh; //900px;
-        //min-height: calc(100% - 60px);
-        min-height: calc( 100vh - 80px ); 
+        min-height: calc( 100vh - 150px ); 
         padding: 1em .25em;
         background: whiteSmoke;
         width: auto; 
