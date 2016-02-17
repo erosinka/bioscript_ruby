@@ -3,20 +3,18 @@
 <% end %>
 
 <div class='bs_container'>
-    <td class="title">
-        <dt><b><%= raw @info_content['title'] %></b></dt>
-    </td>
-    <td class="group">
-        <dt><%= raw @info_content['path'][0] %></dt>
-    </td>
-    <td class="description">
-        <dd><%= raw @info_content['description'] %></dd>
-    </td>
+    <div class="bs_title">
+        <b><%= raw @info_content['title'] %></b>
+    </div>
+    <div class="bs_path">
+        <p><%= raw @info_content['path'][0] %></p>
+    </div>
+    <div class="bs_desc">
+        <%= raw @info_content['description'] %>
+        <p><%= @info_content['meta']['version'] %></p>
+    </div>
 
-    <td class="version">
-        <dd><%= @info_content['meta']['version'] %></dd>
-    </td>
 </div>
-<%= link_to 'Edit', edit_plugin_path(@plugin) %> |
-<%= link_to 'Back', plugins_path %> |
-<%= link_to 'New request', new_request_path(:plugin_id => @plugin.id) %>
+<%#= link_to 'Edit', edit_plugin_path(@plugin) %> 
+<%#= link_to 'Back', plugins_path %> 
+<%#= link_to 'New request', new_request_path(:plugin_id => @plugin.id) %>
