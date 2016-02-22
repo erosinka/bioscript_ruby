@@ -10,38 +10,6 @@ def ordered
     end 
 end
 
-def get_plugin_ordered_bp
-       # return {:child => 1}
-       @plugins = (admin?) ? Plugin.all : Plugin.where(:deprecated => false)
-        plugins_ordered = {}
-        plugins_ordered[:plugins] = {}
-        plugins_ordered[:plugins][:key] = 'Operations'
-        plugins_ordered[:plugins][:childs] = []
-        path_list = {}
-        @plugins.each do |p|
-            h = {}
-            info = JSON.parse(p.info)
-            h[:key] = info['path'][1]
-            h[:id] = p.key
-            h[:info] = info
-            operation = info['path'][0]
-            path_list[operation] ||=[]
-            path_list[operation].push(h)
-        end
-        Hash[path_list.sort]
-        path_list.each do |k, v|
-            child2 = {}
-            child2[:key] = k
-            child2[:childs] = []
-            v = v.sort_by {|k| k[:key]}
-            v.each do |p|
-                child2[:childs].push(p)
-            end
-            plugins_ordered[:plugins][:childs].push(child2)
-        end
-        @plugins_ordered = plugins_ordered
-
-    end
 
     def validate
         h = {}

@@ -27,7 +27,8 @@
     <% if @request.error %>
         <% lines = @request.error.split('\n') %>
         <% text = lines.join('<br/>')%>
-        <p id='link' style="cursor:pointer" onclick="showError()"> <%= lines[lines.length - 1 ] %><strong>  Full traceback</strong></br></br>
+        <p> <span id='link' style="cursor:pointer" onclick="showError()"> <%= lines[lines.length - 1 ] %><strong>  Full traceback</strong></br></br> </span>
+        <a href="mailto:elena.rosinskaya@epfl.ch?subject=[Bug BioScript]&body=<% @request.error %>" >Report a bug</a></br></br>
         <span id='err' hidden><%=  raw text %></span>
     </p>
     <% end %>
@@ -57,7 +58,7 @@
                 <td>
                 <% if v.is_a?(Array) %>
                     <% v.each do |vv| %>
-                        <%= vv %>
+                        <%= vv %></br>
                     <% end %> 
                 <% else %>
                     <%= v %>
@@ -72,11 +73,10 @@
     <h2><%= p.info_content['title'] %></h2>
     <table class = 'job_params'>
     <tbody>
-    <tr><td><%= p.info_content['description'] %></td></tr>
+    <tr><td><%= p.info_content['description'] %></td></tr></br>
     <% address = p.info_content['meta']['contact'] %>
     <tr><td><b>Author: </b><%= p.info_content['meta']['author'] %></td></tr>
     <tr><td><b>Version: </b><%= p.info_content['meta']['version'] %></td><tr>
-    <tr><td><b>Contact: </b><a href="mailto:"+ address + "?subject=[BioScript]" >webmaster-bbcf@epfl.ch </a></td></tr>
     <tr><td><b>Contact: </b><a href="mailto:webmaster-bbcf@epfl.ch?subject=[BioScript]" >webmaster-bbcf@epfl.ch </a></td></tr>
     </tbody>
     </table>

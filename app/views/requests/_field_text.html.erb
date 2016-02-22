@@ -8,7 +8,7 @@
         <%#= select_tag('form['+ @var['id'] + ']', options_for_select(@var['options'])) %>
     <%# else %>
         <% #before ext_field_tag %>
-        <%= text_field @var['id'],  @var['value'], :placeholder => @var['placeholder'], :required => @var['required'] %>
+        <%= text_field_tag @var['id'], '', :value => @var['value'], :placeholder => @var['placeholder'], :required => @var['required'] %>
         <%#= text_field_tag @var['id'], '', placeholder: @var['placeholder'], required: @var['required'] %>
     <%# end %>
 

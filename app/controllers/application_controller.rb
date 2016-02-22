@@ -27,12 +27,12 @@ class ApplicationController < ActionController::Base
             format.html {render file: "#{Rails.root}/public/404.html", layout: false, status: 404}
           #  format.html { render template: 'errors/not_found_error', layout: 'layouts/application', status: 404 }
             format.all  { render nothing: true, status: 404 }
-    end
+        end
    end
 
     def order_plugins 
     
-@plugins = (admin?) ? Plugin.all : Plugin.where(:deprecated => false)
+        @plugins = (admin?) ? Plugin.all : Plugin.where(:deprecated => false)
         plugins_ordered = {}
         plugins_ordered[:plugins] = {}
         plugins_ordered[:plugins][:key] = 'Operations'

@@ -278,6 +278,7 @@ class RequestsController < ApplicationController
                     test = @h_in[k]['type']
                     if test == 'int' or test == 'float'
                         arg_line =  arg_line + k + " = " + v.to_s + ", "
+                    # if not a numeric field then value is in quotes
                     else
                         arg_line =  arg_line + k + " = '" + v.to_s + "', "
                     end
@@ -301,6 +302,8 @@ class RequestsController < ApplicationController
             end
             end
          end
+        # cut last coma and space
+        arg_line = arg_line.chop.chop
         logger.debug('ARG_LINE:' + arg_line + ';')
         return arg_line
     end
