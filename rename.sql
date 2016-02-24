@@ -71,6 +71,7 @@ values
 
 --not good to change column type as text is not convertible;
 --alter table plugin_requests rename status to status_id;
+alter table requests add  column delayed_job_id integer;
 alter table requests add column status_id integer;
 alter table requests add foreign key (status_id) references statuses;
 --before rename statuses;

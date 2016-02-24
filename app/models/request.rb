@@ -2,12 +2,32 @@ class Request < ActiveRecord::Base
   belongs_to :plugin
   has_many :results
   belongs_to :status
-  
+ 
   def to_param
     key
   end
-  
+ 
+  NewRequestRun = Struct.new(:request, :argline) do
+    def perform  
+      request.run argline 
+    end
+
+    def error(job, exception)   
+        lines = job.last_error.split("\n")
+        lines = lines.join("\\n")
+        request.update_attributes(:error => lines, :status_id => 5)
+    end
+  end
+
+
+  def run_job arg_line
+   # logger.debug('RUN TEST before: ' + @@al + '//' + arg_line)
+    job = Delayed::Job.enqueue NewRequestRun.new(self, arg_line)
+    self.update_attributes(:delayed_job_id => job.id)
+  end
+ 
   def run arg_line
+    logger.debug('RUN RUN RUN: ' + arg_line.to_s)
     # request is started
     self.update_attributes(:status_id => 1)
     # callback_service running
@@ -37,12 +57,12 @@ class Request < ActiveRecord::Base
       # line_start[0] = 'density_fwd (track):'
       line_start.push(out['id'] + ' (' + out['type'] + '):')
     end
-    value_error = 'ValueError'
+    error_word = 'Error' # NameError or ValueError
     error = false
     err_msg = ''
     lines = output.split("\n")
     lines.each do |line|
-      if line.include?(value_error)
+      if line.include?(error_word)
         error = true
         break
       end
@@ -72,8 +92,6 @@ class Request < ActiveRecord::Base
             file_name = tab.pop
             folder_name = tab.pop 
             path = tab.join('/') + '/' + folder_name
-            logger.debug('PATH: ' + path)
-            logger.debug(' fname: ' + file_name)
             `chmod 755 #{path}`
         end
         break if error
@@ -82,7 +100,7 @@ class Request < ActiveRecord::Base
     
     if error
       err_msg += lines.join("\\n")
-      logger.debug('ERROR: ' + err_msg)
+      logger.debug('Plugin output ERROR: ' + err_msg)
       self.update_attributes(:error => err_msg, :status_id => 5)
     else
       new_result = Result.new(:request_id => self.id, :fname => file_name, :path => folder_name, :is_file => true)
@@ -130,4 +148,5 @@ class Request < ActiveRecord::Base
     end
     return val
   end
+
 end

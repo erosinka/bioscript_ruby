@@ -75,7 +75,7 @@ class RequestsController < ApplicationController
     # if post comes from htsstation I have bs_private with files for select
     @service = Service.find(params[:request][:service_id]) if params[:request][:service_id] and !params[:request][:service_id].empty?
     @request = Request.new(request_params)
-    logger.debug('REQUEST ' + @request.to_json)
+    logger.debug('CREATE REQUEST: ' + @request.to_json)
     @plugin = Plugin.find(request_params[:plugin_id])
     @info_content = @plugin.info_content
     @h_in = @plugin.hash_in  
@@ -89,7 +89,7 @@ class RequestsController < ApplicationController
             @param_h[k] = params[k].original_filename
         end
     end
-    logger.debug('PARAM_H:' + @param_h.to_json)
+    logger.debug('CREATE PARAM_H:' + @param_h.to_json)
     @request.parameters = @param_h.to_json
     # create random key for new request
     @request.key = create_key
@@ -104,9 +104,11 @@ class RequestsController < ApplicationController
             # rewrite the parameters in case of multiple file upload
             @request.update_attribute(:parameters, rewrite_multiple.to_json)
             # run delayed_job to execute the python script
-            @request.delay.run create_arg_line
+           #  @request.delay.run create_arg_line
+            @request.run_job create_arg_line
             # request status is pending
             @request.update_attributes(:status_id => 2)
+            logger.debug('CALLBACK')
             @request.service_callback if @service #@service.id
 #       format.html { redirect_to @request, notice: 'Request was successfully updated.' }
         redirect_url = @service ? (@service.server_url + @service.redirect_path) : request_path(@request)
@@ -182,13 +184,10 @@ class RequestsController < ApplicationController
         link_dir = APP_CONFIG[:data_path] + APP_CONFIG[:request_input_dir]
         keys = @param_h.keys
         @list_file_fields = []
-        logger.debug('PARAMS:' + params.to_s)
-        logger.debug('PARAM_H:' + @param_h.to_s)
         #param_h.each do |k, v|
         keys.each do |k|
             key = k.split(':').last
             line = @h_in[key]
-            logger.debug('K:' + k + ';')
             # if parameter type is_file and value exists
             if h_param_types[line['type']] and !@param_h[k].blank?
                 prefix_name = @request.key.to_s + "_" + k + '.' # + param_h[k].split('.').last
@@ -203,7 +202,7 @@ class RequestsController < ApplicationController
                     end
                     filename = prefix_name + original_filename.split('.').last
                     filepath = dir + filename
-                    logger.debug('FILE:' + filepath + ';')
+                    #logger.debug('FILE:' + filepath + ';')
                     File.open(filepath, 'wb+') do |f|
                         f.write(params[k].read)
                     end
@@ -219,7 +218,7 @@ class RequestsController < ApplicationController
                     `#{download_cmd}`
                 elsif type == 'select'
                     val = JSON.parse(@param_h[k])
-                    logger.debug('TEST:' + val.class.to_s + ' ' + val.to_s)
+                    logger.debug('SELECT option from HTS:' + val.class.to_s + ' ' + val.to_s)
                     if val.has_key?("n")
                         original_filename = val['n']
                         url = val['p']
@@ -231,10 +230,10 @@ class RequestsController < ApplicationController
                         download_cmd = "wget -O #{filepath} '#{url}'"
                         `#{download_cmd}`
                     else
-                        logger.debug('No proper keys in hash ' + k + '\n');
+                        logger.debug('ERROR: no proper keys in hash ' + k + '\n');
                     end 
                 else
-                    logger.debug('Cannot create file links. Type of arg is not file or text or select')
+                    logger.debug('ERROR: cannot create file links. Type of arg is not file or text or select')
                 end
                 @list_file_fields.push(key)
                 @param_h[k + '_original_filename'] = original_filename
@@ -251,10 +250,10 @@ class RequestsController < ApplicationController
 
      file_end = original_filename.split('.').last
      file_end.gsub!('&', '_')
-     logger.debug('PREFIX_NAME:' + @prefix_name.to_s);
+   #  logger.debug('PREFIX_NAME:' + @prefix_name.to_s);
      filename = @prefix_name + file_end.gsub("/", "_")
      filepath = @dir + filename
-     logger.debug('URL:' + filepath + ';')
+   #  logger.debug('URL:' + filepath + ';')
  #   curl '#{url}' > file
  #   curl -k #{url} -o #{filepath}
      download_cmd = "wget -O #{filepath} '#{url}'"
@@ -263,7 +262,6 @@ class RequestsController < ApplicationController
 
     def create_arg_line
         arg_line = ''
-        logger.debug('LIST:' + @list_file_fields.to_s + ';')
         link_dir = APP_CONFIG[:data_path] + APP_CONFIG[:request_input_dir]
         @tmp_h.each do |k, v|
             if (!k.include?('original_filename') and !v.to_s.blank?)
@@ -304,7 +302,7 @@ class RequestsController < ApplicationController
          end
         # cut last coma and space
         arg_line = arg_line.chop.chop
-        logger.debug('ARG_LINE:' + arg_line + ';')
+        logger.debug('PLUGIN ARG_LINE:' + arg_line + ';')
         return arg_line
     end
 end

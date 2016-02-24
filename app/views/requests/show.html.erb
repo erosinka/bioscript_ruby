@@ -25,9 +25,11 @@
     <p><b>File(s) will be deleted in <%= days_diff %> days.</b> Files are kept in Bioscript only for 30 days.</p>
     <% end %>
     <% if @request.error %>
-        <% lines = @request.error.split('\n') %>
+        <% text = @request.error.gsub('<', '&lt;')  %>
+        <% text = text.gsub('>', '&gt;')  %>
+        <% lines = text.split('\n') %>
         <% text = lines.join('<br/>')%>
-        <p> <span id='link' style="cursor:pointer" onclick="showError()"> <%= lines[lines.length - 1 ] %><strong>  Full traceback</strong></br></br> </span>
+        <p> <span id='link' style="cursor:pointer" onclick="showError()"> <%= raw lines[lines.length - 1 ] %><strong>  Full traceback</strong></br></br> </span>
         <a href="mailto:elena.rosinskaya@epfl.ch?subject=[Bug BioScript]&body=<% @request.error %>" >Report a bug</a></br></br>
         <span id='err' hidden><%=  raw text %></span>
     </p>
@@ -53,7 +55,7 @@
             <% end %>
 
             <% edit_params.each do |k, v|%>
-                <tr><td><%= k + ': ' %></td> 
+                <tr><td><%= k + ':   ' %></td> 
                 
                 <td>
                 <% if v.is_a?(Array) %>
