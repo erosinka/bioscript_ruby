@@ -1,11 +1,15 @@
 Rails.application.routes.draw do
 
+  resources :home 
+  
   resources :services
  # get ':controller(/:action(/:key))', controller: /requests\/[^\/]+/
  # get ':requests(/:action(/:key))', controller: /requests\/[^\/]+/
-get 'ajax/:action', to: 'ajax#:action', :defaults => { :format => 'json' }
+    get 'ajax/:action', to: 'ajax#:action', :defaults => { :format => 'json' }
 
-get 'operations', to: 'plugins#visual_index'
+    get 'operations', to: 'plugins#index'
+#get 'operations', to: 'plugins#visual_index'
+  #get 'home', to: '/home'
   resources :statuses
   resources :param_types
   
@@ -35,7 +39,7 @@ end
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'home#index'
   ## root 'plugins#index'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

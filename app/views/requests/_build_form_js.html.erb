@@ -55,7 +55,6 @@ bs_init_triple_file_field = function(compound_id, select){
     $root.find('input:radio.bsradio_' + select).attr('checked', 'checked');
 
     $root.find(':radio').change(function(){
-    alert(compound_id + ' ' + select);
         var val = $(this).val();
         // make radio file/URL/select field required only if it is present and for 1 in case of Multi
         var row_id = compound_id.substring(0, compound_id.lastIndexOf(':'));

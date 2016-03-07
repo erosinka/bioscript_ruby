@@ -9,5 +9,5 @@ development:
   input_dir: input/
   request_input_dir: request_input/
   script_dir: script/
-  
+  home: http://bbcf-serv03.epfl.ch/bioscript/home 
 

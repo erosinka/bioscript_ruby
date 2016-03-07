@@ -170,7 +170,7 @@ function twd_grow_del(ctrl)
     id_suffix = firstDiv.id.substring(firstDiv.id.lastIndexOf(':'), firstDiv.id.length);
     var list_fields = JSON.parse(document.getElementById('list_fields').value);
     var index = list_fields.indexOf(parent_id + id_suffix);
-    alert('twd_grow_del: ' + index);
+   // alert('twd_grow_del: ' + index);
     if (index > -1) {
         list_fields.splice(index, 1);
     }

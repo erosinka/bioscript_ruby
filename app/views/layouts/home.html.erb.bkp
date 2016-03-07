@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+</head>
+<body>
+     <div id="bs_container">
+    BioScripts is a python library providing bioinformatics scripts through a simple and consistent interface. It can be used on the command line or via a web service. Each script consists of a plugin running the algorithm and an html form managing its inputs.
+
+Simple and straightforward, with the complexity hidden for end-users, it allows quick installation and access to multiple tools. End-users may ignore where and how the operations are launched: on a dedicated machine with adapted CPU and RAM. 
+    </div>
+</body>
+<%#= render :partial => 'bs_js' %>
+
+
+</html>
