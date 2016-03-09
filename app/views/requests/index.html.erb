@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Requests</h1>
+<h2>Listing Requests</h2>
 <div id='content'>
 <% @user_requests_sorted.each do |request| %>
     <% request_id = request.id %>
@@ -10,7 +10,7 @@
         <% status = 'finished'%>
     <% end %>
     <p>
-       Request <i><%=  request.plugin.info_content['title'] %> </i><%= link_to request.id, request %> is <b><%= status %></b> at <%= request.created_at %> 
+       Request <b><%=  request.plugin.info_content['title'] %> </b><%= link_to request.id, request %> is <%= status %> at <%= request.created_at %> 
     </p>
 <% end %>
 </div>

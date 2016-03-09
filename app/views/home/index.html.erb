@@ -1,8 +1,6 @@
-<!DOCTYPE HTML>
-<html lang="en">
-<head>
-</head>
-<body>
+<% if notice %>
+<p id="notice"><%= notice %></p>
+<% end %>
      <div id='data' class="bs_container">
     BioScripts is a python library providing bioinformatics scripts through a simple and consistent interface. It can be used on the command line or via a web service. Each script consists of a plugin running the algorithm and an html form managing its inputs.</br></br>
 
@@ -22,7 +20,6 @@ Simple and straightforward, with the complexity hidden for end-users, it allows 
 
     If you have questions use <a href="mailto:webmaster-bbcf@epfl.ch?Subject=[BS] A question about Bioscript"> this email</a>.
     </div>
-</body>
 <%#= render :partial => 'bs_js' %>
 
 

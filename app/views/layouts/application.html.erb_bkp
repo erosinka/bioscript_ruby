@@ -11,34 +11,29 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 </head>
 <body class="<%= controller.controller_name %>">
-<table width="100%" style="height:100%" bgcolor="LightsteelBlue">
-    <tr style="border-bottom: 2px solid RoyalBlue; height: 30px">
-    <td>
-        <%= image_tag(image_url("bbcf_logo.png")) %>
-        </td>
-        <td class="head">
-        <h1><%= @page_title || "Bioscript" %></h1>
-    </td></tr>
-    <tr>
-        <td width="200px" valign="top" bgcolor="LightSteelBlue" >
-            <ul class="menu">
+    <header>
+        <h1><%= image_tag(image_url("bbcf_logo.png")) %>
+        <%= @page_title || "Bioscript" %></h1>
+    </header>
+    <div id="columns">
+        <div id="side">
+            <ul id="menu">
                 <li><%= link_to  'Home', APP_CONFIG[:home] %></li>
                 <li><a href="http://www..../faq">Questions</a></li>
                 <li><a href="http://www..../news">News</a></li>
                 <li><a href="mailto:webmaster-bbcf@epfl.ch?subject=[BioScript]" >Contact</a></li>
                 <li><%= link_to 'Operations', operations_path %></li>
             </ul>
-            <p id="bs_operations"></p>
-        </td>
-        <td bgcolor="WhiteSmoke" valign="top">
+            <div id="bs_operations"></div>
+        </div>
+        <div id="main" class="fill">
             <%= yield %>
-        </td>
-    </tr>
-     <tr width="100%"><td class="footer">
+        </div>
+    </div>
+    <footer>
         Bioscript is a <a href="http://bbcf.epfl.ch">BBCF</a> application hosted on
         <a href="https:///github.com/bbcf/bs">GitHub</a>.
-    </td></tr>
-</table>
+    </footer>
 </body>
 <%= javascript_tag do %>
     $(document).ready(function(){

@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
-  resources :home 
+  resources :home do
+    collection do
+        get 'stats'
+    end
+  end 
   
   resources :services
  # get ':controller(/:action(/:key))', controller: /requests\/[^\/]+/
@@ -40,6 +44,7 @@ end
 
   # You can have the root of your site routed with "root"
   root 'home#index'
+  match 'stats', to: 'home#stats', via: [:get]
   ## root 'plugins#index'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

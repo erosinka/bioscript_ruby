@@ -33,6 +33,37 @@ body {
     flex-direction: column;
 }
 
+.head {
+    background: LightSteelBlue none repeat scroll 0 0;
+    color: RoyalBlue;
+    font: small-caps 18px/18px "Times New Roman",serif;
+    text-align: center;
+}
+
+.menu {
+    font: small-caps 15px/15px "Times New Roman";
+    li {
+        list-style: none;
+        margin-bottom: 10px;
+        a {
+            color: #226;
+        }
+    }
+}
+
+.footer {
+        bottom: 0;
+        padding-bottom: 15px;
+        padding-top: 15px;
+        clear: both;
+        font: 15px/15px "Times New Roman", serif;
+        color: #226;
+        text-align: center;
+        width: 100%;
+        background: LightsteelBlue;
+        position: fixed;
+    } 
+
 header {
   background: LightSteelBlue;
   border-bottom: 2px solid;
@@ -71,17 +102,16 @@ header {
     height: calc( 100% - 75px ); 
     
     #side {
-        //margin-top: 90px;
         min-height: 80vh; //900px;
         height: calc( 100% - 60px ); 
         width: 170px;
         position: fixed;
         margin: 0;
-        //padding-right: 5px; 
-        font: small-caps 15px/15px "Times New Roman";
+        //font: small-caps 15px/15px "Times New Roman";
         float: left; 
         background: LightSteelBlue;
         #menu {
+            font: small-caps 15px/15px "Times New Roman";
             li {
                 list-style: none;
                 margin-bottom: 10px;
@@ -101,7 +131,7 @@ header {
         width: auto; 
     }
 }
-footer {
+#footer {
         bottom: 0;
         padding-bottom: 15px;
         padding-top: 15px;
