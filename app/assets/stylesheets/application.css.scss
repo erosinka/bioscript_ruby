@@ -51,6 +51,13 @@ body {
     }
 }
 
+tr.border {
+  border-bottom: 2px solid RoyalBlue;
+}
+table {
+    border-collapse: collapse;
+}
+
 .footer {
         bottom: 0;
         padding-bottom: 15px;
