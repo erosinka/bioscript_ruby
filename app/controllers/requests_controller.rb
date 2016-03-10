@@ -4,8 +4,10 @@ class RequestsController < ApplicationController
   # GET /requests
   # GET /requests.json
   def index
+#    @by_month = Request.all.count(:group => created_at.month)
     # @requests = Request.all
-    @requests = Request.where(:user_id => 1) 
+    @requests = Request.where(:user_id => 1)
+    #@by_month = @requests.group_by{ |r| r.created_at.month}#@requests.select("created_at.month, count(*)").group("created_at.month")
     @user_requests_sorted = @requests.sort {|a,b| b.id <=> a.id}
   end
 
