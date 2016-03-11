@@ -18,10 +18,11 @@
     <div class='bs_path'><%= raw @info_content['path'][0] %></div>
     <div class='bs_desc'><p><%= raw @info_content['description'] %></p></div>
     <div class='bs_desc'>
-    <p> 
+    <p>
+    <% ref = "https://github.com/bbcf/bsPlugins/tree/master/bsPlugins/" + @request.plugin.filename + ".py" %> 
         by <%= @info_content['meta']['author']%> (
-        <a href="mailto:webmaster-bbcf@epfl.ch?subject=[BioScript]" >contact</a>,  
-        <a href="https://github.com/bbcf/bsPlugins/tree/master/bsPlugins">code</a> 
+        <a href="mailto:webmaster-bbcf@epfl.ch?subject=[BioScript]" >contact</a>, 
+        <a href=<%= ref %>>code</a> 
         )
     </p>
     </div>
@@ -145,7 +146,6 @@ $('#new_request').on('change', function(){
             <% end %> 
         <% end %>
     <% end %>
-
 
     <%= javascript_tag do%>
         <% @info_content['in'].each do |form_el| %>

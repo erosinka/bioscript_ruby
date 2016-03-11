@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151015131725) do
+ActiveRecord::Schema.define(version: 20160310130503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,37 +59,64 @@ ActiveRecord::Schema.define(version: 20151015131725) do
     t.integer "task_id"
   end
 
+  create_table "param_types", force: :cascade do |t|
+    t.text    "name"
+    t.boolean "is_file"
+  end
+
   create_table "plugins", force: :cascade do |t|
     t.text    "key"
     t.boolean "deprecated"
     t.string  "info"
-    t.string  "info_dup"
-    t.string  "name"
+    t.text    "info_bkp"
+    t.text    "name"
   end
 
   add_index "plugins", ["key"], name: "plugins_key_key", unique: true, using: :btree
 
   create_table "requests", force: :cascade do |t|
-    t.integer  "plugin_id",  null: false
-    t.integer  "user_id",    null: false
+    t.integer  "plugin_id",      null: false
+    t.integer  "user_id",        null: false
     t.string   "parameters"
     t.datetime "created_at"
     t.text     "error"
+    t.integer  "delayed_job_id"
     t.integer  "status_id"
+    t.text     "key"
+    t.integer  "service_id"
   end
+
+  add_index "requests", ["key"], name: "request_key_index", unique: true, using: :btree
+  add_index "requests", ["key"], name: "requests_key_key", unique: true, using: :btree
 
   create_table "result_types", force: :cascade do |t|
     t.string "result_type", limit: 40, null: false
   end
 
   create_table "results", force: :cascade do |t|
-    t.integer "job_id",         null: false
     t.text    "result"
     t.boolean "is_file"
     t.text    "path"
     t.text    "fname"
     t.integer "result_type_id"
+    t.integer "request_id"
+    t.integer "job_id"
   end
+
+  create_table "services", force: :cascade do |t|
+    t.text "shared_key",    null: false
+    t.text "name"
+    t.text "contact"
+    t.inet "remote"
+    t.text "file_root"
+    t.text "url_root"
+    t.text "result_root"
+    t.text "callback_url",  null: false
+    t.text "server_url"
+    t.text "redirect_path"
+  end
+
+  add_index "services", ["shared_key"], name: "services_shared_key_key", unique: true, using: :btree
 
   create_table "statuses", force: :cascade do |t|
     t.string "status", limit: 40, null: false
@@ -119,9 +146,10 @@ ActiveRecord::Schema.define(version: 20151015131725) do
   add_foreign_key "jobs", "requests", name: "jl_job_request_id_fkey", on_delete: :cascade
   add_foreign_key "jobs", "tasks", name: "jobs_task_id_fkey"
   add_foreign_key "requests", "plugins", name: "jl_plugin_request_plugin_id_fkey", on_delete: :cascade
-  add_foreign_key "requests", "statuses", name: "plugin_requests_status_id_fkey"
+  add_foreign_key "requests", "services", name: "requests_service_id_fkey"
+  add_foreign_key "requests", "statuses", name: "requests_status_id_fkey"
   add_foreign_key "requests", "users", name: "jl_plugin_request_user_id_fkey", on_delete: :cascade
-  add_foreign_key "results", "jobs", name: "jl_result_job_id_fkey", on_delete: :cascade
+  add_foreign_key "results", "requests", name: "results_request_id_fkey"
   add_foreign_key "results", "result_types", name: "results_result_type_id_fkey"
   add_foreign_key "tasks", "statuses", name: "tasks_status_id_fkey"
 end

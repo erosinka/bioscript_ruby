@@ -38,6 +38,7 @@ alter table users rename _email to email;
 alter table users rename _created to created_at;
 alter table requests rename date_done to created_at;
 alter table plugins rename generated_id to key;
+alter table plugins add column name text;
 alter table tasks rename date_done to created_at;
 alter table tasks rename task_id to key; 
 
@@ -124,19 +125,47 @@ alter table results drop column job_id;
 alter table results rename column job_id_new to job_id;
 
 create table param_types (
-id serial not null primary key,
---id serial,
+id serial,
 name text,
 is_file bool,
 primary key (id)
 );
+
+COPY param_types (id, name, is_file) FROM stdin;
+1       bam     t
+2       track   t
+3       list    f
+4       int     f
+5       text    f
+6       boolean f
+7       assembly        f
+8       userfile        t
+9       float   f
+10      listing f
+11      radio   f
+12      txt     t
+\.
+
+bam TRUE
+track   TRUE
+list    FALSE
+int     FALSE
+text    FALSE
+boolean FALSE
+assembly    FALSE
+userfile         TRUE
+float        FALSE
+listing FALSE
+radio   FALSE
+txt     TRUE
 
 
 alter table requests add column key text unique;
 CREATE UNIQUE INDEX request_key_index ON requests (key);
 
 create table services (id serial not null primary key, shared_key text unique not null, name text, contact text, remote inet, file_root text, url_root text, result_root text, callback_url text not null);
-insert into services values (default, 'eb09841e907cb0f8d204fb39705f8caaa3337013', 'HTSStation', 'bbcf.epfl@gmail.com', '128.178.198.130', '/data/epfl/bbcf/htsstation/data', 'http://htsstation.epfl.ch/data', '/data/epfl/bbcf/htsstation/bs', 'http://htsstation.epfl.ch/new_bs_jobs/bs_callback' );
+insert into services values (default, 'eb09841e907cb0f8d204fb39705f8caaa3337013', 'HTSStation', 'bbcf.epfl@gmail.com', '128.178.198.130', '/data/epfl/bbcf/htsstation/data','http://htsstation.epfl.ch/data', '/data/epfl/bbcf/htsstation/bs', '/new_bs_jobs/bs_callbacki', 'http://htsstation.epfl.ch', '/new_bs_jobs');
+
 
 update statuses set status = upper(status);
 

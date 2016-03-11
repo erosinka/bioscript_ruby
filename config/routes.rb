@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :old_plugins
   resources :home do
     collection do
         get 'stats'

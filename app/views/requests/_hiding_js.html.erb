@@ -15,21 +15,19 @@ var twd_required_store = {};
 var twd_mapping_store = {};
 function twd_hiding_init(ctrl_id, mapping)
 {
-
- //   alert('hiding: ' + ctrl_id)
     twd_mapping_store[ctrl_id] = mapping;
     
     //for first initialization of the mapping
     my_ctrl = document.getElementById(ctrl_id);
     twd_hiding_onchange(my_ctrl, true);
+//    twd_hiding_onchange(ctrl_id, true);
 }
 
 function twd_hiding_onchange(ctrl, first)
 {
-    var is_vis = document.getElementById(ctrl.id+':container').style.display != 'none';
+   var is_vis = document.getElementById(ctrl.id+':container').style.display != 'none';
     var mapping = twd_mapping_store[ctrl.id];
     var parent_id = ctrl.id.substring(0, ctrl.id.lastIndexOf(':')+1);
-//    alert('begin: ' + ctrl.id)
     // Determine the selected value(s)
     var values = [];
     if(ctrl.tagName == 'INPUT' || ctrl.tagName == 'SELECT' || ctrl.tagName == 'TEXTAREA')
@@ -38,6 +36,7 @@ function twd_hiding_onchange(ctrl, first)
         for(var i=0;; i++)
         {
             var cb = document.getElementById(ctrl.id+":"+i);
+            //var cb = document.getElementById(parent_id+i);
             if(!cb) break;
             if(cb.checked)
                 values[values.length] = cb.value;
@@ -51,7 +50,6 @@ function twd_hiding_onchange(ctrl, first)
         {
             var match = 0;
             for(b in values) {
-//                alert('cycle: ' + a + ' ' + b)
                 if(a == values[b])
                     match = 1;
             }
@@ -66,10 +64,9 @@ function twd_hiding_onchange(ctrl, first)
         for(var j=0;j<l.length;j++)
         {
 		    var b = l[j];
-         //   alert('begin: ' + b + ' ' + visible[b]);
             var display = visible[b] ? '' : 'none';
+        //    alert("a = " + a + "; b = " + b + "; parent_id=" + parent_id)
 		    var x = document.getElementById(parent_id+b+':container');
-    //        alert('parent:'+  parent_id +', b: ' + b) 
            //here
 		    var field = document.getElementById(parent_id+b);
             if (first) {

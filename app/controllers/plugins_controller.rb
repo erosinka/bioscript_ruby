@@ -26,7 +26,7 @@ end
   # GET /plugins
   # GET /plugins.json
   def index
-    @plugins = (admin?) ? Plugin.all : Plugin.where(:deprecated => false)
+    @plugins = Plugin.all
 #   @plugins.reject!{|e| e.deprecated == true} if !admin?
 
     @h_plugins = {}
@@ -47,7 +47,7 @@ end
         info = JSON.parse(p.info)
         line[:key] = info['title']
         line[:info] = info
-        plugins_json.push(line)
+      plugins_json.push(line)
     end
 
     respond_to do |format|
@@ -126,7 +126,7 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def plugin_params
-      params[:plugin]
+      params.require(:plugin).permit(:name, :key, :info_path, :info, :filename) #, :service_id) :format ??                 
     end
 
 end

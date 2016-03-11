@@ -1,9 +1,8 @@
 <%# not working without this line. Look MotifSearch. Probably need ul id = @var['id']%>
-<div id = <%= @var['id']%> >
 <tr id=<%= @var['id'] %>:container >
-
 <th><%= label_tag(@var['id'], @var['label']) %></th>
 <td>
+<div id = <%= @var['id']%>> 
     <% i = 0%>
 <%# options can be either [(0 : val0), (1 : val1)] or [val0, val1]%>
     <% @var['options'].each do |opt| %>
@@ -20,6 +19,6 @@
     <% end %>
 
 <%= label_tag(@var['id'], @var['help_text']) %>
-
+</div>
 </td>
 </tr>

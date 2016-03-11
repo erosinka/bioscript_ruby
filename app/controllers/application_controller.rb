@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
 
     def order_plugins 
     
-        @plugins = (admin?) ? Plugin.all : Plugin.where(:deprecated => false)
+        @plugins = Plugin.all
         plugins_ordered = {}
         plugins_ordered[:plugins] = {}
         plugins_ordered[:plugins][:key] = 'Operations'

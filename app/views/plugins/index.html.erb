@@ -11,6 +11,7 @@
         <th>ID</th>
     <% end %>
         <th>Title </th>
+	<th>Class name</th>
         <th>Section </th>
         <th>Description </th>
         <th>Link</th>
@@ -30,6 +31,9 @@
     <% end %>
     <td class="title">
         <dd><%= raw @h_plugin_infos[plugin_id]['title'] %></dd>
+    </td>
+        <td class="title">
+        <dd><%= raw @h_plugins[plugin_id]['name'] %></dd>
     </td>
     <td class="group">
         <dd><%= raw @h_plugin_infos[plugin_id]['path'][0] %></dd>
