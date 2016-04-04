@@ -62,7 +62,7 @@ class Request < ActiveRecord::Base
     err_msg = ''
     lines = output.split("\n")
     lines.each do |line|
-      if line.include?(error_word)
+      if line.include?(error_word) or line.include?('error')
         error = true
         break
       end

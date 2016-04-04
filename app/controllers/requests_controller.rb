@@ -5,8 +5,8 @@ class RequestsController < ApplicationController
   # GET /requests.json
   def index
 #    @by_month = Request.all.count(:group => created_at.month)
-    # @requests = Request.all
-    @requests = Request.where(:user_id => 1)
+     @requests = Request.all
+    #@requests = Request.where(:user_id => 1)
     #@by_month = @requests.group_by{ |r| r.created_at.month}#@requests.select("created_at.month, count(*)").group("created_at.month")
     @user_requests_sorted = @requests.sort {|a,b| b.id <=> a.id}
   end
@@ -34,14 +34,19 @@ class RequestsController < ApplicationController
     a = JSON.parse(params[:bs_private])
     #app/controller/new_bs_job_controller.rb bs_fetch L207 
     @bs_private = a['prefill']['track']
-    user_id = @service ? params[:user_id] : 1
-    @files_from_hts = []
+    if @service
+        logger.debug('Service is')
+    end
+    #user_id = @service ? params[:user_id] : 1
+    user_id = params[:user_id]
+    @files_from_hts_1 = []
     if @bs_private
         @bs_private.each do |bsp|
             t = JSON.parse(bsp[0])
             file = [t['n'], bsp[0]]
-            @files_from_hts.push(file)
+            @files_from_hts_1.push(file)
         end
+        @files_from_hts = @files_from_hts_1.sort {|a,b| a[0] <=> b[0]}
     end
     # could create service - bioscript with service.id = 2
     @request = Request.new(:plugin_id => @plugin.id, :user_id => user_id, :service_id => (@service) ? @service.id : nil)

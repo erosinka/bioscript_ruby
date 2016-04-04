@@ -172,3 +172,6 @@ update statuses set status = upper(status);
 alter table requests add column service_id int references services(id);
 alter table services add column server_url text;
 alter table services add column redirect_path text;
+
+alter table requests drop constraint jl_plugin_request_user_id_fkey;
+alter table requests alter column user_id drop not null;
