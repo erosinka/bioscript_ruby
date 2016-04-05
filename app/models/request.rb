@@ -27,7 +27,7 @@ class Request < ActiveRecord::Base
   end
  
   def run arg_line
-    logger.debug('RUN RUN RUN: ' + arg_line.to_s)
+    logger.debug('request RUN: ' + arg_line.to_s)
     # request is started
     self.update_attributes(:status_id => 1)
     # callback_service running
@@ -62,7 +62,7 @@ class Request < ActiveRecord::Base
     err_msg = ''
     lines = output.split("\n")
     lines.each do |line|
-      if line.include?(error_word) or line.include?('error')
+      if line.include?(error_word) or line.include?('error') or line.include?('Traceback') or line.include?('Exception')
         error = true
         break
       end
@@ -115,6 +115,7 @@ class Request < ActiveRecord::Base
 
 
   def service_callback
+    logger.debug('CALLBACK')
     @service = Service.find(self.service_id)
     hts_server = @service.callback_url #APP_CONFIG[:hts_server]
     # in table Services we store whole url for callback function?

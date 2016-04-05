@@ -7,7 +7,12 @@
         <% else %>
             <% status = 'finished' %>
         <% end %>
-        Request <b><%= @request.key %></b> is <%= status %>
+        <% if @request.status_id == 5 %>
+            <% color = 'red' %>
+        <% else %>
+            <% color = 'green' %>
+        <% end %>
+        Request <b><%= @request.key %></b> is <font color = <%= color %> ><%= status %> </font>. Created at <%= @request.created_at %> </br></br>
         <span><%= link_to 'Submit another job', new_request_path(:plugin_id => @request.plugin_id) %></span>
     </p>
     <% res = Result.where(:request_id => @request.id)%>
@@ -30,7 +35,7 @@
         <% lines = text.split('\n') %>
         <% text = lines.join('<br/>')%>
         <p> <span id='link' style="cursor:pointer" onclick="showError()"> <%= raw lines[lines.length - 1 ] %><strong>  Full traceback</strong></br></br> </span>
-        <a href="mailto:elena.rosinskaya@epfl.ch?subject=[Bug BioScript]&body=<% @request.error %>" >Report a bug</a></br></br>
+        <a href="mailto:elena.rosinskaya@epfl.ch?subject=[Bug BioScript]&body=<% @request.error %>" ><b><font color="red">Report a bug</font></b></a></br></br>
         <span id='err' hidden><%=  raw text %></span>
     </p>
     <% end %>

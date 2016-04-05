@@ -9,8 +9,13 @@
     <% else %>
         <% status = 'finished'%>
     <% end %>
+    <% if request.status_id == 5 %>
+        <% color = 'red' %>
+    <% else %>
+        <% color = 'green' %>
+    <% end %>
     <p>
-       Request <b><%=  request.plugin.info_content['title'] %> </b><%= link_to request.key, request %> is <%= status %> at <%= request.created_at %> 
+       Request <b><%=  request.plugin.info_content['title'] %> </b><%= link_to request.key, request %> is <font color = <%= color %> ><%= status %> </font> at <%= request.created_at %> 
     </p>
 <% end %>
 </div>
