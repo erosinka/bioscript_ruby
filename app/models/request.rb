@@ -42,7 +42,7 @@ class Request < ActiveRecord::Base
     File.open(script_name, 'w') do |f|
       f.write(script)
     end
-    output = `python #{script_name} 2>&1`
+    output = `python #{script_name} 2>&1; echo $?`
     logger.debug('DELAYED_JOB.RUN OUTPUT: ' + output)
     parse_res output
   end
@@ -61,6 +61,10 @@ class Request < ActiveRecord::Base
     error = false
     err_msg = ''
     lines = output.split("\n")
+    logger.debug('Plugin EXIT code = ' + lines.last)
+    if lines.last != '0'
+        error = true
+    else
     lines.each do |line|
       if line.include?(error_word) or line.include?('error') or line.include?('Traceback') or line.include?('Exception')
         error = true
@@ -97,6 +101,7 @@ class Request < ActiveRecord::Base
         break if error
       end
     end
+    end
     
     if error
       err_msg += lines.join("\\n")
@@ -114,20 +119,24 @@ class Request < ActiveRecord::Base
   end
 
 
-  def service_callback
-    logger.debug('CALLBACK')
+  def service_callback(selected_files = nil)
     @service = Service.find(self.service_id)
     hts_server = @service.callback_url #APP_CONFIG[:hts_server]
     # in table Services we store whole url for callback function?
     hts_url = @service.server_url + @service.callback_url
-    res = Net::HTTP.post_form(URI.parse(hts_url), request_info)
-    response =  res.body.gsub(/\n/, '.:;:.')
+    tmp = request_info(selected_files)
+    logger.debug('CALLBACK check: ' + tmp.to_json)
+    res = Net::HTTP.post_form(URI.parse(hts_url), tmp )
+    #browser = Mechanize.new
+    #res = browser.post(hts_url, :body=> tmp )
+     response =  res.body.gsub(/\n/, '.:;:.')
+    # response =  res.body.gsub(/\n/, '.:;:.')
   end
   
   # request data in json format for hts_callback mainly
-  def request_info #request_key
+  def request_info(selected_files=nil)
+    #logger.debug('SELECTED + ' + selected_files.to_s)
     @request = self
-    # @request = Request.find_by_key(request_key)
     val = {
       :key => @request.key,
       :user_id => @request.user_id,
@@ -136,6 +145,7 @@ class Request < ActiveRecord::Base
       :plugin_id => @request.plugin.key,
       :status => @request.status.status,
       :error => @request.error,
+      :selected => selected_files,
       :results => []
     }
     results = Result.where(:request_id => @request.id)
@@ -149,5 +159,7 @@ class Request < ActiveRecord::Base
     end
     return val
   end
+
+
 
 end

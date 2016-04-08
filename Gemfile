@@ -52,3 +52,4 @@ group :development, :test do
 end
 gem 'jquery-datatables-rails'
 gem 'ajax-datatables-rails'
+gem 'mechanize'

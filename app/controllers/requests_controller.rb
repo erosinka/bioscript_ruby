@@ -117,7 +117,7 @@ class RequestsController < ApplicationController
             @request.run_job create_arg_line
             # request status is pending
             @request.update_attributes(:status_id => 2)
-            @request.service_callback if @service #@service.id
+            @request.service_callback(@selected) if @service #@service.id
 #       format.html { redirect_to @request, notice: 'Request was successfully updated.' }
         redirect_url = @service ? (@service.server_url + @service.redirect_path) : request_path(@request)
         render json: {:redirect_url => redirect_url}
@@ -169,7 +169,10 @@ class RequestsController < ApplicationController
         end 
         return rnd
     end
-
+    
+    def selected_files
+        return @selected
+    end
 
 # rewrite parameters for multiple fields
     def rewrite_multiple
@@ -186,6 +189,7 @@ class RequestsController < ApplicationController
     end
 
     def create_file_links
+        @selected = []
         h_param_types={} #{'bam': true, 'list': false}
         ParamType.all.map{|pt| h_param_types[pt.name] = pt.is_file}
         dir = APP_CONFIG[:data_path] + APP_CONFIG[:input_dir]
@@ -233,6 +237,8 @@ class RequestsController < ApplicationController
                         file_path = file_dir + '/' + original_filename
                         download_cmd = "wget -O #{file_path} '#{url}'"
                         `#{download_cmd}`
+                        hash = { 'n' => val['n'], 'p' => val['p']}
+                        @selected.push(hash)
                     else
                         logger.debug('ERROR: no proper keys in hash ' + k + '\n');
                     end 
@@ -246,9 +252,9 @@ class RequestsController < ApplicationController
                 sha2 = Digest::SHA2.file(file_path).hexdigest
                 FileUtils.move file_path, (dir + sha2)
                 File.symlink (dir + sha2), (file_path) #
-                logger.debug('FINISH create_file_links')
             end
         end
+        # logger.debug('SELECTED from HTS: ' + @selected.to_s)
     end
 
 

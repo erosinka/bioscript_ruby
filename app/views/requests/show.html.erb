@@ -21,12 +21,17 @@
     <p>
         <b>File:</b>
         <% res.each do |r| %>
-            <%= link_to r.fname,  APP_CONFIG[:bioscript_server] + APP_CONFIG[:data_url] + r.path + '/' + r.fname %>
+            <% if r.fname %>
+                <%= link_to r.fname,  APP_CONFIG[:bioscript_server] + APP_CONFIG[:data_url] + r.path + '/' + r.fname %>
+            <% end %>
         <% end %>
     </p>
     <% created_date = @request.created_at.to_date %>
     <% now = Time.now.to_date %>
     <% days_diff = 29 - (now - created_date).to_i %>
+    <% if days_diff <= 0 %>
+        <% days_diff = 0 %>
+    <% end %>
     <p><b>File(s) will be deleted in <%= days_diff %> days.</b> Files are kept in Bioscript only for 30 days.</p>
     <% end %>
     <% if @request.error %>
@@ -34,7 +39,7 @@
         <% text = text.gsub('>', '&gt;')  %>
         <% lines = text.split('\n') %>
         <% text = lines.join('<br/>')%>
-        <p> <span id='link' style="cursor:pointer" onclick="showError()"> <%= raw lines[lines.length - 1 ] %><strong>  Full traceback</strong></br></br> </span>
+        <p> <span id='link' style="cursor:pointer" onclick="showError()"> <%= raw lines[lines.length - 2 ] %><strong>  Full traceback</strong></br></br> </span>
         <a href="mailto:elena.rosinskaya@epfl.ch?subject=[Bug BioScript]&body=<% @request.error %>" ><b><font color="red">Report a bug</font></b></a></br></br>
         <span id='err' hidden><%=  raw text %></span>
     </p>
