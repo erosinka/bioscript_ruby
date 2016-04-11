@@ -126,7 +126,7 @@ class Request < ActiveRecord::Base
     hts_url = @service.server_url + @service.callback_url
     tmp = request_info(selected_files)
     logger.debug('CALLBACK check: ' + tmp.to_json)
-    res = Net::HTTP.post_form(URI.parse(hts_url), tmp )
+    res = Net::HTTP.post_form(URI.parse(hts_url), tmp)
     #browser = Mechanize.new
     #res = browser.post(hts_url, :body=> tmp )
      response =  res.body.gsub(/\n/, '.:;:.')
@@ -145,7 +145,7 @@ class Request < ActiveRecord::Base
       :plugin_id => @request.plugin.key,
       :status => @request.status.status,
       :error => @request.error,
-      :selected => selected_files,
+      :selected => selected_files.to_json,
       :results => []
     }
     results = Result.where(:request_id => @request.id)
