@@ -16,7 +16,7 @@
 		<%#= rt.result_type if rt %>
         <% link_dir = APP_CONFIG[:bioscript_server] + APP_CONFIG[:data_url] %>
         <% file_link = result.path ? result.path + result.fname : '/'%>
-        <% link =  '//bbcf-serv03.epfl.ch/bioscript' + file_link %>
+        <% link =  '//bioscript.epfl.ch' + file_link %>
         <%= link_to "file", link %>
         <%#= link_to "file", link_dir + 'tmpcgyc43/6672_BamMulti\:1\:sample_density_fwd.sql' %>
 	</td>

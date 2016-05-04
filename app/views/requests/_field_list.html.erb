@@ -7,7 +7,6 @@
         <% o.reverse! %>
     <% end %>
 <% end %>
-
 <%= select_tag( @var['id'], options_for_select(@var['options']), :onchange=>"twd_hiding_onchange(this)") %>
 <%= label_tag(@var['id'], @var['help_text']) %>
 </td>

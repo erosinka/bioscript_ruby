@@ -211,7 +211,7 @@ class RequestsController < ApplicationController
                 if type == 'file'
                     original_filename = '';
                     if params[k].respond_to?("original_filename")
-                        original_filename = params[k].original_filename
+                        original_filename = params[k].original_filename.gsub("'", "_").gsub(' ', '_')
                     else
                         logger.debug('No original_filename for arg ' + k + ' of type file \n');
                     end
@@ -222,7 +222,7 @@ class RequestsController < ApplicationController
                     end
                 #elsif @param_h[k].match(/^(ftp)|(http.?)\:\/\//)
                 elsif type == 'text'
-                    original_filename = @param_h[k].gsub('&', '_') .gsub(':', '_').gsub('/', '_')
+                    original_filename = @param_h[k].gsub('&', '_').gsub(':', '_').gsub('/', '_')
                     url = @param_h[k]
                     file_path = file_dir + '/' + original_filename
                     download_cmd = "wget -O #{file_path} '#{url}'"
