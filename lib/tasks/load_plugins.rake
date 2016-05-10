@@ -13,16 +13,17 @@ namespace :bioscript do
     require 'csv'
     require 'json'
    
-    
-    dir_name = "/local/rvmuser/srv/bsPlugins/bsPlugins"
+    dir_name = "/mnt/common/epfl/lib/python2.7/site-packages/bsPlugins" 
+ #   dir_name = "/local/rvmuser/srv/bioscript/bsPlugins/bsPlugins"
     dir = Dir.new(dir_name)
     
     types = [] 
 
     h_present = {}
 
-    def create_key
-      # create unique key for request                                                                                                                                                                                                   
+    # create unique key for request
+
+   def create_key
       rnd = Array.new(6){[*'0'..'9', *'a'..'z'].sample}.join
       while(Request.find_by_key(rnd)) do
         rnd = Array.new(6){[*'0'..'9', *'a'..'z'].sample}.join
@@ -45,7 +46,8 @@ namespace :bioscript do
             plugin_names.push(n[1])
             h_present[n[1]]=1
           
-            cmd = "python -c 'import os\nimport json\nos.chdir(\"/srv/bsPlugins/bsPlugins\")\nimport #{filename}\nprint json.dumps(#{filename}.#{n[1]}.info)'"
+            cmd = "python -c 'import os\nimport json\nos.chdir(\"/mnt/common/epfl/lib/python2.7/site-packages/bsPlugins\")\nimport #{filename}\nprint json.dumps(#{filename}.#{n[1]}.info)'"
+            
             result =  `#{cmd}`
             
             hash = JSON.parse(result)
@@ -56,15 +58,11 @@ namespace :bioscript do
               end
             end
             
-            puts "Hell!! "
-#	    puts path.to_json
-#            l = JSON.parse(path)
             query = "info ~ E'path\":\s*..#{path.join(".,\\s*.").to_s}'"
-            puts query
             @plugins = Plugin.where(query).all
               
             if @plugins.empty?
-              puts "create!"
+              puts "create! #{n[1]}"
               h = {
                 :name => n[1],
                 :filename => filename,
@@ -75,9 +73,8 @@ namespace :bioscript do
               new_plugin = Plugin.new(h)
               new_plugin.save
             else
-              puts "update!"
               @plugins.each do |p|
-                puts [p.id, p.name].join(", ")
+                puts "update! " + [p.id, p.name].join(", ")
                 h = {
                   :name => n[1],
                   :filename => filename,
@@ -85,11 +82,7 @@ namespace :bioscript do
                   :info_path => path.to_json,
                   :info => JSON.generate(hash)
                 }
-                
                 p.update_attributes(h) 
-                
-                #                puts "#{p.id}  #{filename}"
-                #puts hash                                                                                                                                                                                                                    
                 
               end
             end
@@ -98,12 +91,10 @@ namespace :bioscript do
       end
     end
     
-#    exit
     ## find ones not in git and delete them without mercy
-    
     Plugin.all.each do |p|
-      puts "DESTROY!!! #{p.name}!!!! AHUUUUUUUUUUU "
       if !h_present[p.name]
+        puts "DESTROY! #{p.name} "
         Result.where(:request_id => p.requests.map{|e| e.id}).destroy_all
         p.requests.destroy_all
         p.destroy
