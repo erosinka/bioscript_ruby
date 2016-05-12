@@ -56,7 +56,9 @@ class Request < ActiveRecord::Base
     out_content.each do |out|
       # line_start[0] = 'density_fwd (track):'
       line_start.push(out['id'] + ' (' + out['type'] + '):')
+      #line_start.push(out['id'])
     end
+    results = []
     error_word = 'Error' # NameError or ValueError
     error = false
     err_msg = ''
@@ -72,7 +74,6 @@ class Request < ActiveRecord::Base
       end
       #example of line:
       #density_fwd (track): /data/epfl/bbcf/bioscript/tmp/tmp4dJJ7W/Density_average_fwd.sql
-      #check if all out parameters are present in the output 
       line_start.each do |ls|
         if line.include?(ls)
             # do not check this out parameter in next lines
@@ -97,6 +98,9 @@ class Request < ActiveRecord::Base
             folder_name = tab.pop 
             path = tab.join('/') + '/' + folder_name
             `chmod 755 #{path}`
+            last_result = {:fname => file_name, :path => folder_name}
+            results.push(last_result)
+            logger.debug('file = ' + file_name + '; path = ' + folder_name)
         end
         break if error
       end
@@ -108,12 +112,19 @@ class Request < ActiveRecord::Base
       logger.debug('Plugin output ERROR: ' + err_msg)
       self.update_attributes(:error => err_msg, :status_id => 5)
     else
-      new_result = Result.new(:request_id => self.id, :fname => file_name, :path => folder_name, :is_file => true)
+        logger.debug('EACH_begin: ')
+      results.each do |r|
+        logger.debug('EACH: ')
+        logger.debug( r[:fname])
+    #  new_result = Result.new(:request_id => self.id, :fname => file_name, :path => folder_name, :is_file => true)
+      new_result = Result.new(:request_id => self.id, :fname => r[:fname], :path => r[:path], :is_file => true)
       if !new_result.save
         render json: new_result.errors, status: :unprocessable_entity
-      else
-        self.update_attributes(:status_id => 4)
+        error = true
+        break
       end
+      end
+     self.update_attributes(:status_id => (error) ? 5 : 4) 
     end 
     service_callback if self.service_id 
   end
