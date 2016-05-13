@@ -22,7 +22,8 @@
         <b>File:</b>
         <% res.each do |r| %>
             <% if r.fname %>
-                <%= link_to r.fname,  APP_CONFIG[:bioscript_server] + APP_CONFIG[:data_url] + r.path + '/' + r.fname %>
+                 <%# raw URI.encode(r.fname) %>
+                <%= link_to r.fname,  APP_CONFIG[:bioscript_server] + APP_CONFIG[:data_url] + r.path + '/' + CGI.escape(r.fname) %>
             <% end %>
         <% end %>
     </p>
