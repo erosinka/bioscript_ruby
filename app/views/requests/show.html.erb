@@ -13,7 +13,7 @@
             <% color = 'green' %>
         <% end %>
         Request <b><%= @request.key %></b> is <font color = <%= color %> ><%= status %> </font>. Created at <%= @request.created_at %> </br></br>
-        <span><%= link_to 'Submit another job', new_request_path(:plugin_id => @request.plugin_id) %></span>
+        <span><%= link_to 'Submit another job', new_request_path(:plugin_id => @request.plugin_id, :parameters => @request.parameters) %></span>
     </p>
     <% res = Result.where(:request_id => @request.id)%>
     <% # if no files and entry in delayed_job - then failure. DEcide what to show here based on status_id  %>

@@ -1,8 +1,18 @@
 <tr id=<%= @var['id'] %>:container style="" >
 <th><%= label_tag(@var['id'], @var['label']) %></th>
+
+<% if @request.parameters %>
+    <% if @request.parameters[@var['id']] %>
+        <% t = JSON.parse(@request["parameters"]); %>
+        <% value = t[@var['id']] %>
+    <% end %>
+<% end %>
+<% value ? val = value : ( @var['value'] ? val = @var['value'] : val = 0)  %>
+
 <td>
-    <%= number_field_tag @var['id'], @var['value'], required: @var['required'],  step:'any'%>
-    <% @var['value'] ? val = @var['value'] : val = 0%>
+    <%#= number_field_tag @var['id'], @var['value'], required: @var['required'],  step:'any'%>
+    <%= number_field_tag @var['id'], val, required: @var['required'],  step:'any'%>
+    <% @var['value'] ? val = @var['value'] : val = 0 %>
     <% @var['required'] ? req = @var['required'] : req = false %>
     <//input type="number" name= <%= @var['id'] %> value= <%= val%> required= <%= req %>  />
     <%= label_tag(@var['id'], @var['help_text']) %>

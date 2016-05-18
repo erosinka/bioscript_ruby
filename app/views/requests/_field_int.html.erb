@@ -2,27 +2,31 @@
 <th><%= label_tag(@var['id'], @var['label']) %></th>
 
 <td>
-<%#= text_field_tag @var['id'], @var['value'] || params[@var['id']], required: @var['required'] %>
-<%#= number_field_tag @var['id'], @var['value'],  required: @var['required'] %>
-<% @var['value'] ? val = @var['value'] : val = 0 %>
-<%# even if req = false it is considered as existing value e.g. true%>
+<% if @request.parameters %>
+    <% if @request.parameters[@var['id']] %>
+        <% t = JSON.parse(@request["parameters"]); %>
+        <% value = t[@var['id']] %>
+    <% end %>
+<% end %>
+<% value ?  val = value : ( @var['value'] ? val = @var['value'] : val = 0 ) %>
 <% @var['required'] ? req = @var['required'] : req = false %>
-<%# could use this if there was MAXINT and MININT%>
-<% @var['min'] ? minv = @var['min'] : minv = "" %>
-<% @var['max'] ? maxv = @var['max'] : maxv = ""  %>
 
 <% if @var['max'] and @var['min'] %>
-    <%= number_field_tag @var['id'], @var['value'],  required: @var['required'], min: @var['min'], max: @var['max'] %>
+    <%#= number_field_tag @var['id'], @var['value'],  required: @var['required'], min: @var['min'], max: @var['max'] %>
+    <%= number_field_tag @var['id'], val,  required: @var['required'], min: @var['min'], max: @var['max'] %>
 <% end %>
 
 <% if @var['max'] and !@var['min'] %>
-    <%= number_field_tag @var['id'], @var['value'],  required: @var['required'], max: @var['max'] %>
+    <%#= number_field_tag @var['id'], @var['value'],  required: @var['required'], max: @var['max'] %>
+    <%= number_field_tag @var['id'], val,  required: @var['required'], max: @var['max'] %>
 <% end %>
 <% if !@var['max'] and @var['min'] %>
-    <%= number_field_tag @var['id'], @var['value'],  required: @var['required'], min: @var['min'] %>
+    <%#= number_field_tag @var['id'], @var['value'],  required: @var['required'], min: @var['min'] %>
+    <%= number_field_tag @var['id'], val,  required: @var['required'], min: @var['min'] %>
 <% end %>
 <% if !@var['max'] and !@var['min'] %>
-    <%= number_field_tag @var['id'], @var['value'],  required: @var['required'] %>
+    <%#= number_field_tag @var['id'], @var['value'],  required: @var['required'] %>
+    <%= number_field_tag @var['id'], val,  required: @var['required'] %>
 <% end %>
 <//input type="number" name=<%= @var['id'] %>  value=<%= val %> required= <%= req %>   />
 <%= label_tag(@var['id'], @var['help_text']) %>

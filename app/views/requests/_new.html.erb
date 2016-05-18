@@ -29,6 +29,7 @@
     <div class='bs_form'> 
         <%= form_for(@request, method: "post", remote: true, html: {multipart: true}) do |f|%>
             <% @form = f %>
+            <% @request.plugin_id  %> <% @request.parameters %>
             <table>
             <tbody>
             <% @list_fields = [] %>

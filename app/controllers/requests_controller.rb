@@ -64,12 +64,14 @@ class RequestsController < ApplicationController
     h = {}
     h[:id] = params[:plugin_id] if params[:plugin_id]
     h[:key] = params[:plugin_key] if params[:plugin_key]
+  #  h[:parameters] = params[:parameters] if params[:parameters]
+    logger.debug('TRY: ' + params[:parameters].to_s)
     @plugin = Plugin.where(h).first 
     if !@plugin
         page_not_found
     else
         @info_content = @plugin.info_content
-        @request = Request.new(:plugin_id => @plugin.id, :user_id => 1)      
+        @request = Request.new(:plugin_id => @plugin.id, :user_id => 1, :parameters => params[:parameters])      
         render
     end    
   end
@@ -225,7 +227,7 @@ class RequestsController < ApplicationController
                     end
                 #elsif @param_h[k].match(/^(ftp)|(http.?)\:\/\//)
                 elsif type == 'text'
-                    original_filename = @param_h[k]#.gsub('&', '_').gsub(':', '_').gsub('/', '_').gsub('?', '').gsub('\\', '') 
+                    original_filename = @param_h[k].gsub('&', '_').gsub(':', '_').gsub('/', '_').gsub('?', '').gsub('\\', '') 
                     url = @param_h[k]
                     file_path = file_dir + '/' + original_filename
                     download_cmd = "wget -O #{file_path} '#{url}'"
