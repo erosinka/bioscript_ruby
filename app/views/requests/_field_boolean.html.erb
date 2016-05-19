@@ -1,7 +1,15 @@
 <tr id=<%= @var['id'] %>:container style="">
 <th><%= label_tag(@var['id'], @var['label']) %></th>
+<% if @request.parameters %>
+    <% if @request.parameters[@var['id']] %>
+        <% t = JSON.parse(@request["parameters"]); %>
+        <% value = t[@var['id']] %>
+    <% end %>
+<% end %>
+<% value ?  val = true : ( @var['value'] ? val = @var['value'] : val = false ) %>
 <td>
-    <%= check_box_tag(@var['id'], 'on' ) %>
+    <%#= check_box_tag(@var['id'], 'on' ) %>
+    <%= check_box_tag(@var['id'], 'on', checked=val ) %>
     <//input type="checkbox" name = <%= @var['id'] %>/>    
     <%= label_tag(@var['id'], @var['help_text']) %>
 </td>

@@ -95,9 +95,9 @@ namespace :bioscript do
     Plugin.all.each do |p|
       if !h_present[p.name]
         puts "DESTROY! #{p.name} "
-        Result.where(:request_id => p.requests.map{|e| e.id}).destroy_all
-        p.requests.destroy_all
-        p.destroy
+#        Result.where(:request_id => p.requests.map{|e| e.id}).destroy_all
+#        p.requests.destroy_all
+#        p.destroy
       end
     end
     

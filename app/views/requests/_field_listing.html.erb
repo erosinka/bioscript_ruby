@@ -8,12 +8,20 @@
     <%# end %>
 <%# end %>
 
-<%# if @var['id'] == 'format'%>
-<%= select_tag( @var['id'], options_for_select(@var['options'])) %>
+<% val = @var['options'][0] %>
+<% if @request.parameters %>
+    <% if @request.parameters[@var['id']] %>
+        <% t = JSON.parse(@request["parameters"]); %>
+        <% value = t[@var['id']] %>
+        <% @var['options'].each do |opt|%>
+            <% (opt.class == Array) ? (check = (opt[1].to_s == value.to_s or opt[0].to_s == value.to_s)) : (check = (opt.to_s == value.to_s)) %>
+            <% if check %>
+                <% val = opt %>
+            <% end %>
+        <% end %>
+    <% end %>
+<% end %>
+<%= select_tag( @var['id'], options_for_select(@var['options'], val)) %>
 <%= label_tag(@var['id'], @var['help_text']) %>
-<%# else %>
-<%#= text_field_tag @var['id'], @var['value'] %>
-<%# end %>
-    <%# @list_fields.push(@var['id']) %>
 </td>
 </tr>

@@ -27,7 +27,7 @@
             <%= text_field_tag multiname0 +'text', '' %>
             <%= file_field_tag multiname0 +'file', :style => 'display: none; ' %>
             <% if @bs_private %>
-                <%= select_tag( multiname0 + 'sselect', options_for_select(@files_from_hts), :style => 'display: none;') %>
+                <%= select_tag( multiname0 + 'select', options_for_select(@files_from_hts), :style => 'display: none;') %>
             <% end %>
 
     </td>

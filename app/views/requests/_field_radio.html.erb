@@ -2,8 +2,15 @@
 <tr id=<%= @var['id'] %>:container >
 <th><%= label_tag(@var['id'], @var['label']) %></th>
 <td>
+<% if @request.parameters %>
+    <% if @request.parameters[@var['id']] %>
+        <% t = JSON.parse(@request["parameters"]); %>
+        <% saved_value = t[@var['id']] %>
+    <% end %>
+<% end %>
+<% saved_value ?  val = saved_value : ( @var['value'] ? val = @var['value'] : val = @var['options'][0] ) %>
 <div id = <%= @var['id']%>> 
-    <% i = 0%>
+    <% i = 0 %>
 <%# options can be either [(0 : val0), (1 : val1)] or [val0, val1]%>
     <% @var['options'].each do |opt| %>
         <% if opt.is_a?(Array) %>
@@ -13,7 +20,8 @@
             <% tag = opt %>
             <% value = opt %>
         <% end %>
-        <%=radio_button_tag(@var['id'], i, value == @var['value'], options = { :value=> value, :id => @var['id']+":" + i.to_s, :onclick => "twd_hiding_listitem_onchange(this);"} ) %>
+        <%#=radio_button_tag(@var['id'], i, value == @var['value'], options = { :value=> value, :id => @var['id']+":" + i.to_s, :onclick => "twd_hiding_listitem_onchange(this);"} ) %>
+        <%=radio_button_tag(@var['id'], i, value.to_s == val.to_s, options = { :value => value, :id => @var['id']+":" + i.to_s, :onclick => "twd_hiding_listitem_onchange(this);"} ) %>
         <%= label_tag(@var['id'] + ':' + i.to_s, tag, options = { :value => tag }) %>
         <% i = i + 1%>
     <% end %>

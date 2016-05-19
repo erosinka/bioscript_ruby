@@ -7,9 +7,9 @@
     <% if request.status_id %>
         <% status = request.status.status %>
     <% else %>
-        <% status = 'finished'%>
+        <% status = 'STOPPED'%>
     <% end %>
-    <% if request.status_id == 5 %>
+    <% if request.status_id == 5 or status == 'STOPPED' %>
         <% color = 'red' %>
     <% else %>
         <% color = 'green' %>
