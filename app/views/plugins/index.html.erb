@@ -44,10 +44,11 @@
     <td class="link">
         <%= link_to 'Show', plugin %><br/>
     </td>
-	<td class="list_actions">
+	<td class="list_actions"
 
     <%#= link_to 'Edit', edit_plugin_path(plugin) %>
-    <%= link_to 'New request', new_request_path(:plugin_id => plugin_id) %><br/>
+    <%#= link_to 'New request1', new_request_path(:plugin_id => plugin_id) %><br/>
+    <%= link_to 'New request', new_request_path(:plugin_key => plugin[:key]) %><br/>
     <%#= link_to 'Destroy', plugin, method: :delete, data: { confirm: 'Are you sure?' } %>
     <%#= button_to plugin_id, new_request_path(:plugin_id => plugin_id)  %>
 

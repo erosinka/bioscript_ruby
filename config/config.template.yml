@@ -4,8 +4,8 @@ development:
   bs_server: http://bioscript.epfl.ch/
   data_url: data/
   image_url: images/
-  plugin_path: /srv/bsPlugins/
-  data_path: /data/epfl/bbcf/bioscript/
+  plugin_path: /YOUR/PLUGINS/ABSOLUTE/PATH
+  data_path: /YOUR/DATA/ABSOLUTE/PATH
   input_dir: input/
   request_input_dir: request_input/
   script_dir: script/

@@ -17,7 +17,7 @@ class Request < ActiveRecord::Base
         lines = lines.join("\\n")
         request.update_attributes(:error => lines, :status_id => 5)
     end
-  end
+ end
 
 
   def run_job arg_line

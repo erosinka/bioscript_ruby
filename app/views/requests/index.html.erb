@@ -1,7 +1,17 @@
 <p id="notice"><%= notice %></p>
 
 <h2>Listing Requests</h2>
-<div id='content'>
+
+<table id ='list_requests' class='request_table'>
+<thead>
+  <tr>
+    <th>request id</th>
+    <th>plugin</th>
+    <th>status</th>
+    <th>created at</th>
+   </tr>
+</thead>
+<tbody>
 <% @user_requests_sorted.each do |request| %>
     <% request_id = request.id %>
     <% if request.status_id %>
@@ -14,10 +24,27 @@
     <% else %>
         <% color = 'green' %>
     <% end %>
-    <p>
-       Request <b><%=  request.plugin.info_content['title'] %> </b><%= link_to request.key, request %> is <font color = <%= color %> ><%= status %> </font> at <%= request.created_at %> 
-    </p>
+    <tr id="content">
+        <td><%= link_to request.key, request %> </td>
+        <td><%= request.plugin.info_content['title'] %></td >
+        <td><span style='color:<%= color %>' ><%= status %></span></td>
+        <td><%= display_date(request.created_at.localtime) %></td>
+    </tr>
 <% end %>
-</div>
+</tbody>
+</table>
+
+<script type="text/javascript">
+    //<![CDATA[
+$(document).ready(function() {
+    /* Build the DataTable with third column using our custom sort functions */
+    var oTable = $('#list_requests').dataTable( {
+      //  "pageLength": 50
+        "order": [[ 3, "desc" ]]
+    });
+});
+
+//]]>
+</script>
 
 

@@ -3,6 +3,13 @@
 <td>
 <div id=<%= @var['id'] %>:bs_container >
 
+<% if @request.parameters %>
+    <% if @request.parameters[@var['id']] %>
+        <% t = JSON.parse(@request["parameters"]); %>
+        <% value = t[@var['id']] %>
+    <% end %>
+<% end %>
+
 <% name = @var['id'] + '_bs_group' %>
 <%= radio_button_tag( @var['id'], 'text', true, :name => name, :onchange=>"testing(this)" ) %>
 <%= label_tag(@var['id'], 'Url') %>

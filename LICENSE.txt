@@ -1,0 +1,21 @@
+####################################################################################
+#   Copyright (c) The BIOINFORMATICS AND BIOSTATISTICS CORE FACILITY (BBCF), EPFL
+#                                                                                                     
+#   Created by the BBCF Group <webmaster.bbcf@epfl.ch>
+#   Written by Elena Rosinskaya elena.rosinskaya@epfl.ch
+#   For more information visit http://bbcf.epfl.ch
+#
+#    BioScript is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    BioScript is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with BioScript.  If not, see <http://www.gnu.org/licenses/>.
+#
+####################################################################################
